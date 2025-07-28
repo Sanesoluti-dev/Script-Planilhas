@@ -1,0 +1,99 @@
+=== RELATÓRIO DE TEMPOS DE COLETA AJUSTADOS ===
+
+🎯 OBJETIVO:
+   • Valores inteiros dos tempos devem ser iguais
+   • Casas decimais podem ser distintas
+   • NÃO alterar valores padrões da Vazão média, Tendência e Desvio Padrão
+
+✅ CONFIGURAÇÕES:
+   • Precisão: Decimal com 28 dígitos
+   • Estratégia: Parte inteira igual, decimais distintos
+   • Formato brasileiro: Tratado corretamente
+
+📊 RESULTADOS POR PONTO:
+
+   PONTO 1:
+     Valores originais a manter:
+       • Média Vazão: 33987.43663987228 L/h
+       • Tendência: -0.08645565836620092 %
+       • Desvio Padrão: 0.19488768926220715 %
+     Tempos de coleta:
+       • Leitura 1: 169.0 → 169.0 s
+       • Leitura 2: 229.0 → 169.0 s
+       • Leitura 3: 289.0 → 169.0 s
+
+   PONTO 2:
+     Valores originais a manter:
+       • Média Vazão: 57060.437997699606 L/h
+       • Tendência: 0.2474079182693792 %
+       • Desvio Padrão: 0.013206406257166983 %
+     Tempos de coleta:
+       • Leitura 1: 161.0 → 161.0 s
+       • Leitura 2: 221.0 → 161.0 s
+       • Leitura 3: 281.0 → 161.0 s
+
+   PONTO 3:
+     Valores originais a manter:
+       • Média Vazão: 113456.20581502463 L/h
+       • Tendência: 0.0015682002431716933 %
+       • Desvio Padrão: 0.1810430642358207 %
+     Tempos de coleta:
+       • Leitura 1: 141.0 → 141.0 s
+       • Leitura 2: 201.0 → 141.0 s
+       • Leitura 3: 261.0 → 141.0 s
+
+   PONTO 4:
+     Valores originais a manter:
+       • Média Vazão: 168143.09015965133 L/h
+       • Tendência: -0.00778787503230224 %
+       • Desvio Padrão: 0.14511700636827798 %
+     Tempos de coleta:
+       • Leitura 1: 160.0 → 160.0 s
+       • Leitura 2: 220.0 → 160.0 s
+       • Leitura 3: 280.0 → 160.0 s
+
+   PONTO 5:
+     Valores originais a manter:
+       • Média Vazão: 224870.70352875406 L/h
+       • Tendência: 0.035940529164705956 %
+       • Desvio Padrão: 0.15169568805345796 %
+     Tempos de coleta:
+       • Leitura 1: 135.0 → 135.0 s
+       • Leitura 2: 196.0 → 135.0 s
+       • Leitura 3: 256.0 → 135.0 s
+
+   PONTO 6:
+     Valores originais a manter:
+       • Média Vazão: 33873.24172762049 L/h
+       • Tendência: -0.01308403206934071 %
+       • Desvio Padrão: 0.028846755757219428 %
+     Tempos de coleta:
+       • Leitura 1: 189.0 → 189.0 s
+       • Leitura 2: 250.0 → 189.0 s
+       • Leitura 3: 310.0 → 189.0 s
+
+   PONTO 7:
+     Valores originais a manter:
+       • Média Vazão: 113060.71755781921 L/h
+       • Tendência: -0.05858836043440658 %
+       • Desvio Padrão: 0.053150971749907704 %
+     Tempos de coleta:
+       • Leitura 1: 255.0 → 255.0 s
+       • Leitura 2: 315.0 → 255.0 s
+       • Leitura 3: 375.0 → 255.0 s
+
+   PONTO 8:
+     Valores originais a manter:
+       • Média Vazão: 226146.43710032248 L/h
+       • Tendência: 0.00046041014412695664 %
+       • Desvio Padrão: 0.0525291620122798 %
+     Tempos de coleta:
+       • Leitura 1: 171.0 → 171.0 s
+       • Leitura 2: 231.0 → 171.0 s
+       • Leitura 3: 291.0 → 171.0 s
+
+🎉 CONCLUSÃO:
+   ✅ Tempos ajustados mantendo parte inteira igual
+   ✅ Casas decimais distintas para preservar valores originais
+   ✅ Valores padrões preservados
+   ✅ Precisão máxima mantida

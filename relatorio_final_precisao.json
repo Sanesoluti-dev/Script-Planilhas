@@ -1,0 +1,44 @@
+{
+  "dados_coleta": {
+    "linha_54": {
+      "pulsos_padrao": "7947",
+      "tempo_coleta": "169",
+      "volume_corrigido": "33858.49554066015",
+      "leitura_medidor": "1590.79",
+      "temperatura": "25.5"
+    },
+    "linha_55": {
+      "pulsos_padrao": "10816",
+      "tempo_coleta": "229",
+      "volume_corrigido": "34007.187500797714",
+      "leitura_medidor": "2161.56",
+      "temperatura": "25.5"
+    },
+    "linha_56": {
+      "pulsos_padrao": "13686",
+      "tempo_coleta": "289",
+      "volume_corrigido": "34096.62687815898",
+      "leitura_medidor": "2728.973",
+      "temperatura": "25.5"
+    }
+  },
+  "certificado": {
+    "vazao_padrao": "33957.90",
+    "volume_corrigido": "33987.44",
+    "vazao_medidor": "0.19488768926220715"
+  },
+  "medias_calculadas": {
+    "media_volume": "33987.43663987228133333333333",
+    "media_leitura": "2160.441",
+    "media_tempo": "229"
+  },
+  "comparacao": {
+    "identico_volume": true,
+    "identico_medidor": false,
+    "volume_corrigido_calc": "33987.44",
+    "vazao_medidor_calc": "2160.44"
+  },
+  "timestamp": "2025-07-28 08:17:14.942993",
+  "precisao": "Decimal com 28 dígitos",
+  "tempos_inteiros": true
+}
