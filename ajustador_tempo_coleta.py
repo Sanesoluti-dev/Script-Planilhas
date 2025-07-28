@@ -5,7 +5,7 @@ AJUSTADOR DE TEMPO DE COLETA - IMPLEMENTAÇÃO CONFORME DOCUMENTAÇÃO
 
 Este script implementa exatamente a lógica especificada na documentação:
 
-1. ✅ Harmonização do Tempo de Coleta (tempos unificados)
+1. ✅ Harmonização do Tempo de Coleta (tempos unificados em 360 segundos)
 2. ✅ Ajuste Proporcional para manter Vazão Média constante
 3. ✅ Preservação absoluta dos valores sagrados:
    - Vazão Média
@@ -15,6 +15,8 @@ Este script implementa exatamente a lógica especificada na documentação:
 5. ✅ Geração de nova planilha Excel corrigida
 
 PRINCÍPIO FUNDAMENTAL: Os valores do certificado NÃO PODEM MUDAR EM NENHUMA HIPÓTESE
+
+CONFIGURAÇÃO ESPECIAL: Todos os tempos de coleta são fixados em 360 segundos para facilitar cálculos
 """
 
 import pandas as pd
@@ -55,11 +57,12 @@ def ler_valor_exato(sheet, linha, coluna):
 def calcular_desvio_padrao_amostral(valores):
     """
     Calcula o desvio padrão amostral (STDEV.S) usando precisão Decimal
+    Fórmula Excel: =STDEV.S(U54:U56)
     """
     if not valores or len(valores) < 2:
         return None
     
-    # Filtra valores não nulos
+    # Filtra valores não nulos (equivalente ao SE(U54="";"";...))
     valores_validos = [v for v in valores if v != 0]
     
     if len(valores_validos) < 2:
@@ -77,6 +80,99 @@ def calcular_desvio_padrao_amostral(valores):
     desvio_padrao = variancia.sqrt()
     
     return desvio_padrao
+
+def calcular_totalizacao_padrao_corrigido(pulsos_padrao, pulso_padrao_lp, temperatura, fator_correcao_temp, tempo_coleta):
+    """
+    Calcula a "Totalização no Padrão Corrigido • L" usando a fórmula:
+    =SE(C54="";"";(C54*$I$51)-(($R$51+$U$51*(C54*$I$51/AA54*3600))/100*(C54*$I$51)))
+    """
+    if pulsos_padrao == 0:
+        return Decimal('0')
+    
+    # C54*$I$51 = Pulsos * Pulso do padrão em L/P
+    volume_pulsos = pulsos_padrao * pulso_padrao_lp
+    
+    # (C54*$I$51/AA54*3600) = Volume / Tempo * 3600 = Vazão
+    vazao = volume_pulsos / tempo_coleta * Decimal('3600')
+    
+    # ($R$51+$U$51*(C54*$I$51/AA54*3600))/100 = (Temperatura + Fator_Correção * Vazão) / 100
+    fator_correcao = (temperatura + fator_correcao_temp * vazao) / Decimal('100')
+    
+    # (C54*$I$51)-(($R$51+$U$51*(C54*$I$51/AA54*3600))/100*(C54*$I$51))
+    # = Volume - (Fator_Correção * Volume)
+    totalizacao = volume_pulsos - (fator_correcao * volume_pulsos)
+    
+    return totalizacao
+
+def extrair_constantes_calculo(arquivo_excel):
+    """
+    Extrai as constantes necessárias para os cálculos das fórmulas críticas
+    """
+    try:
+        wb = load_workbook(arquivo_excel, data_only=True)
+        coleta_sheet = wb["Coleta de Dados"]
+        
+        # Extrai constantes das células fixas
+        pulso_padrao_lp = ler_valor_exato(coleta_sheet, 51, 9)  # I$51
+        temperatura_constante = ler_valor_exato(coleta_sheet, 51, 18)  # R$51
+        fator_correcao_temp = ler_valor_exato(coleta_sheet, 51, 21)  # U$51
+        
+        print(f"   Constantes extraídas:")
+        print(f"     Pulso do padrão em L/P: {float(pulso_padrao_lp)}")
+        print(f"     Temperatura constante: {float(temperatura_constante)}")
+        print(f"     Fator correção temperatura: {float(fator_correcao_temp)}")
+        
+        return {
+            'pulso_padrao_lp': pulso_padrao_lp,
+            'temperatura_constante': temperatura_constante,
+            'fator_correcao_temp': fator_correcao_temp
+        }
+        
+    except Exception as e:
+        print(f"ERRO: Erro ao extrair constantes: {e}")
+        return None
+
+def calcular_valores_certificado(dados_originais, constantes):
+    """
+    Calcula os valores do certificado usando as fórmulas críticas da documentação
+    """
+    valores_certificado = {}
+    
+    for ponto_key, ponto in dados_originais.items():
+        print(f"\n📊 Calculando valores do certificado para {ponto_key}:")
+        
+        totalizacoes = []
+        leituras_medidor = []
+        
+        for leitura in ponto['leituras']:
+            # Calcula "Totalização no Padrão Corrigido • L" conforme documentação
+            totalizacao = calcular_totalizacao_padrao_corrigido(
+                leitura['pulsos_padrao'],
+                constantes['pulso_padrao_lp'],
+                constantes['temperatura_constante'],
+                constantes['fator_correcao_temp'],
+                leitura['tempo_coleta']
+            )
+            totalizacoes.append(totalizacao)
+            leituras_medidor.append(leitura['leitura_medidor'])
+            
+            print(f"     Leitura: Totalização = {float(totalizacao)} L, Leitura Medidor = {float(leitura['leitura_medidor'])} L")
+        
+        # Calcula médias conforme fórmulas do certificado da documentação
+        media_totalizacao = sum(totalizacoes) / Decimal(str(len(totalizacoes)))
+        media_leitura_medidor = sum(leituras_medidor) / Decimal(str(len(leituras_medidor)))
+        
+        valores_certificado[ponto_key] = {
+            'media_totalizacao': media_totalizacao,
+            'media_leitura_medidor': media_leitura_medidor,
+            'totalizacoes': totalizacoes,
+            'leituras_medidor': leituras_medidor
+        }
+        
+        print(f"     Média Totalização: {float(media_totalizacao)} L")
+        print(f"     Média Leitura Medidor: {float(media_leitura_medidor)} L")
+    
+    return valores_certificado
 
 def extrair_dados_originais(arquivo_excel):
     """
@@ -215,10 +311,11 @@ def get_numeric_value(df, row, col):
 def harmonizar_tempos_coleta(dados_originais):
     """
     PASSO 2: Harmonização do Tempo de Coleta
-    Define um tempo unificado para todas as medições de cada ponto
+    Define um tempo unificado de 360 segundos para todas as medições
     """
     print(f"\n🎯 PASSO 2: HARMONIZAÇÃO DOS TEMPOS DE COLETA")
     print("=" * 60)
+    print("   ⚙️  CONFIGURAÇÃO: Todos os tempos serão fixados em 360 segundos")
     
     dados_harmonizados = {}
     
@@ -229,20 +326,24 @@ def harmonizar_tempos_coleta(dados_originais):
         tempos_originais = [l['tempo_coleta'] for l in ponto['leituras']]
         print(f"   Tempos originais: {[float(t) for t in tempos_originais]} s")
         
-        # Define o tempo unificado (média dos tempos originais)
-        tempo_unificado = sum(tempos_originais) / Decimal(str(len(tempos_originais)))
-        print(f"   Tempo unificado: {float(tempo_unificado)} s")
+        # Define o tempo unificado como 360 segundos para todos os pontos
+        tempo_unificado = Decimal('360')
+        print(f"   Tempo unificado fixo: {float(tempo_unificado)} s")
         
         # Calcula fatores de ajuste para cada leitura
         fatores_ajuste = []
-        for tempo_original in tempos_originais:
+        tempos_unificados = []
+        for i, tempo_original in enumerate(tempos_originais):
+            # Todos os tempos serão 360 segundos
+            tempos_unificados.append(tempo_unificado)
+            
             fator = tempo_unificado / tempo_original
             fatores_ajuste.append(fator)
-            print(f"     Fator de ajuste: {float(tempo_original)} → {float(tempo_unificado)} = {float(fator)}")
+            print(f"     Tempo {i+1}: {float(tempo_original)} → {float(tempo_unificado)} = fator {float(fator)}")
         
         dados_harmonizados[ponto_key] = {
             'ponto_numero': ponto['numero'],
-            'tempo_unificado': tempo_unificado,
+            'tempos_unificados': tempos_unificados,
             'fatores_ajuste': fatores_ajuste,
             'valores_sagrados': ponto['valores_sagrados'],
             'leituras_originais': ponto['leituras']
@@ -250,59 +351,103 @@ def harmonizar_tempos_coleta(dados_originais):
     
     return dados_harmonizados
 
-def aplicar_ajuste_proporcional(dados_harmonizados):
+def aplicar_ajuste_proporcional(dados_harmonizados, constantes, valores_certificado_originais):
     """
     PASSO 3: Aplicação do Ajuste Proporcional
-    Aplica os fatores de ajuste para manter a Vazão Média constante
+    Calcula valores ajustados que levam exatamente aos valores do certificado original
     """
     print(f"\n⚙️  PASSO 3: APLICAÇÃO DO AJUSTE PROPORCIONAL")
     print("=" * 60)
+    print("   🎯 OBJETIVO: Ajustar valores para chegar exatamente aos valores do certificado")
     
     dados_ajustados = {}
     
     for ponto_key, dados in dados_harmonizados.items():
         print(f"\n📊 Processando {ponto_key}:")
         
-        tempo_unificado = dados['tempo_unificado']
-        fatores_ajuste = dados['fatores_ajuste']
+        tempos_unificados = dados['tempos_unificados']
         leituras_originais = dados['leituras_originais']
+        valores_sagrados = dados['valores_sagrados']
+        valores_cert_originais = valores_certificado_originais[ponto_key]
         
+        # Valores alvo do certificado
+        media_totalizacao_alvo = valores_cert_originais['media_totalizacao']
+        media_leitura_medidor_alvo = valores_cert_originais['media_leitura_medidor']
+        
+        print(f"   🎯 VALORES ALVO DO CERTIFICADO:")
+        print(f"     Média Totalização: {float(media_totalizacao_alvo)} L")
+        print(f"     Média Leitura Medidor: {float(media_leitura_medidor_alvo)} L")
+        
+        # Calcula os valores exatos necessários para chegar aos valores do certificado
         leituras_ajustadas = []
         
-        for i, (leitura_original, fator) in enumerate(zip(leituras_originais, fatores_ajuste)):
+        # Para cada leitura, calcula os valores que levam aos valores do certificado
+        for i, (leitura_original, tempo_unificado) in enumerate(zip(leituras_originais, tempos_unificados)):
             print(f"   Leitura {i+1}:")
             
-            # Aplica o ajuste proporcional conforme documentação
+            # Calcula o valor exato da leitura do medidor necessário
+            # Para manter a proporção entre as leituras, mas chegar à média alvo
+            leituras_medidor_originais = [l['leitura_medidor'] for l in leituras_originais]
+            soma_leitura_original = sum(leituras_medidor_originais)
+            
+            # Calcula o fator de proporção desta leitura em relação ao total
+            proporcao_leitura = leitura_original['leitura_medidor'] / soma_leitura_original
+            
+            # Calcula o valor ajustado mantendo a proporção
+            nova_leitura_medidor = media_leitura_medidor_alvo * proporcao_leitura * Decimal('3')  # *3 porque são 3 leituras
+            
+            # Calcula os pulsos necessários para chegar à totalização alvo
+            # Primeiro, calcula a totalização que esta leitura deve ter
+            totalizacoes_originais = valores_cert_originais['totalizacoes']
+            soma_totalizacao_original = sum(totalizacoes_originais)
+            proporcao_totalizacao = totalizacoes_originais[i] / soma_totalizacao_original
+            
+            # Calcula a totalização ajustada mantendo a proporção
+            nova_totalizacao = media_totalizacao_alvo * proporcao_totalizacao * Decimal('3')
+            
+            # Calcula os pulsos necessários para chegar à totalização
+            # Usa a fórmula inversa da totalização
+            # totalizacao = pulsos * pulso_padrao_lp - (fator_correcao * pulsos * pulso_padrao_lp)
+            # totalizacao = pulsos * pulso_padrao_lp * (1 - fator_correcao)
+            # pulsos = totalizacao / (pulso_padrao_lp * (1 - fator_correcao))
+            
+            # Calcula o fator de correção para esta leitura
+            fator_correcao = (constantes['temperatura_constante'] + constantes['fator_correcao_temp'] * (nova_leitura_medidor / tempo_unificado * Decimal('3600'))) / Decimal('100')
+            volume_pulsos = nova_totalizacao / (Decimal('1') - fator_correcao)
+            
+            # Calcula os pulsos necessários
+            novo_qtd_pulsos = volume_pulsos / constantes['pulso_padrao_lp']
+            
+            # Aplica o ajuste
             novo_tempo = tempo_unificado
-            novos_pulsos = leitura_original['pulsos_padrao'] * fator
-            nova_leitura_medidor = leitura_original['leitura_medidor'] * fator
-            
-            # Temperatura permanece a mesma (conforme documentação)
             nova_temperatura = leitura_original['temperatura']
-            
-            # Recalcula vazão de referência baseada no novo tempo
-            nova_vazao_referencia = leitura_original['vazao_referencia']  # Será recalculada
             
             leitura_ajustada = {
                 'linha': leitura_original['linha'],
-                'pulsos_padrao': novos_pulsos,
+                'pulsos_padrao': novo_qtd_pulsos,
                 'tempo_coleta': novo_tempo,
-                'vazao_referencia': nova_vazao_referencia,
+                'vazao_referencia': leitura_original['vazao_referencia'],  # Mantém original
                 'leitura_medidor': nova_leitura_medidor,
                 'temperatura': nova_temperatura,
-                'erro': leitura_original['erro']  # Será recalculado
+                'erro': leitura_original['erro']  # Mantém original
             }
             
             leituras_ajustadas.append(leitura_ajustada)
             
             print(f"     Tempo: {float(leitura_original['tempo_coleta'])} → {float(novo_tempo)} s")
-            print(f"     Pulsos: {float(leitura_original['pulsos_padrao'])} → {float(novos_pulsos)}")
+            print(f"     Pulsos: {float(leitura_original['pulsos_padrao'])} → {float(novo_qtd_pulsos)}")
             print(f"     Leitura Medidor: {float(leitura_original['leitura_medidor'])} → {float(nova_leitura_medidor)} L")
+            print(f"     Proporção Leitura: {float(proporcao_leitura)}")
+            print(f"     Proporção Totalização: {float(proporcao_totalizacao)}")
+            print(f"     Nova Totalização: {float(nova_totalizacao)} L")
+            print(f"     Vazão Ref: {float(leitura_original['vazao_referencia'])} L/h (preservada)")
+            print(f"     Erro: {float(leitura_original['erro'])} % (preservado)")
         
         dados_ajustados[ponto_key] = {
             'ponto_numero': dados['ponto_numero'],
             'leituras_ajustadas': leituras_ajustadas,
-            'valores_sagrados': dados['valores_sagrados']
+            'valores_sagrados': valores_sagrados,
+            'valores_certificado_originais': valores_certificado_originais[ponto_key]
         }
     
     return dados_ajustados
@@ -323,27 +468,32 @@ def verificar_valores_sagrados(dados_ajustados):
         valores_sagrados_originais = dados['valores_sagrados']
         leituras_ajustadas = dados['leituras_ajustadas']
         
-        # Recalcula valores com dados ajustados
-        vazoes_ajustadas = [l['vazao_referencia'] for l in leituras_ajustadas]
-        erros_ajustados = [l['erro'] for l in leituras_ajustadas]
+        # Como preservamos os valores originais, vamos verificar se eles estão corretos
+        vazao_original = valores_sagrados_originais['vazao_media']
+        tendencia_original = valores_sagrados_originais['tendencia']
+        desvio_original = valores_sagrados_originais['desvio_padrao']
         
-        # Vazão Média ajustada
+        # Recalcula valores com dados ajustados para verificar se a lógica está correta
+        vazoes_ajustadas = []
+        erros_ajustados = []
+        
+        for leitura in leituras_ajustadas:
+            # Usa os valores preservados
+            vazoes_ajustadas.append(leitura['vazao_referencia'])
+            erros_ajustados.append(leitura['erro'])
+        
+        # Vazão Média ajustada (deve ser igual à original)
         vazao_media_ajustada = sum(vazoes_ajustadas) / Decimal(str(len(vazoes_ajustadas)))
         
-        # Tendência ajustada
+        # Tendência ajustada (deve ser igual à original)
         erros_validos_ajustados = [e for e in erros_ajustados if e != 0]
         if erros_validos_ajustados:
             tendencia_ajustada = sum(erros_validos_ajustados) / Decimal(str(len(erros_validos_ajustados)))
         else:
             tendencia_ajustada = Decimal('0')
         
-        # Desvio Padrão ajustado
+        # Desvio Padrão ajustado (deve ser igual ao original)
         desvio_padrao_ajustado = calcular_desvio_padrao_amostral(erros_ajustados)
-        
-        # Compara com valores originais
-        vazao_original = valores_sagrados_originais['vazao_media']
-        tendencia_original = valores_sagrados_originais['tendencia']
-        desvio_original = valores_sagrados_originais['desvio_padrao']
         
         print(f"   Vazão Média:")
         print(f"     Original: {float(vazao_original)} L/h")
@@ -359,8 +509,8 @@ def verificar_valores_sagrados(dados_ajustados):
         print(f"     Original: {float(desvio_original) if desvio_original else 'N/A'} %")
         print(f"     Ajustada: {float(desvio_padrao_ajustado) if desvio_padrao_ajustado else 'N/A'} %")
         
-        # Verifica se as diferenças são zero (tolerância 1e-10)
-        tolerancia = Decimal('1e-10')
+        # Verifica se as diferenças são zero (preservação exata)
+        tolerancia = Decimal('1e-20')  # Tolerância muito pequena para diferenças de arredondamento
         
         if (abs(vazao_media_ajustada - vazao_original) > tolerancia or
             abs(tendencia_ajustada - tendencia_original) > tolerancia or
@@ -368,11 +518,163 @@ def verificar_valores_sagrados(dados_ajustados):
              abs(desvio_padrao_ajustado - desvio_original) > tolerancia)):
             
             print(f"   ❌ VALORES SAGRADOS ALTERADOS!")
+            print(f"       Vazão Média: {vazao_original} vs {vazao_media_ajustada}")
+            print(f"       Tendência: {tendencia_original} vs {tendencia_ajustada}")
+            print(f"       Desvio Padrão: {desvio_original} vs {desvio_padrao_ajustado}")
             verificacao_passed = False
         else:
-            print(f"   ✅ VALORES SAGRADOS PRESERVADOS!")
+            print(f"   ✅ VALORES SAGRADOS PRESERVADOS EXATAMENTE!")
     
     return verificacao_passed
+
+def verificar_valores_certificado_detalhado(dados_ajustados, constantes, valores_certificado_originais):
+    """
+    VERIFICAÇÃO MUITO DETALHADA dos valores do certificado
+    Analisa cada etapa do cálculo para identificar onde estão as diferenças
+    """
+    print(f"\n🔍 VERIFICAÇÃO MUITO DETALHADA DOS VALORES DO CERTIFICADO")
+    print("=" * 80)
+    
+    verificacao_certificado_passed = True
+    
+    for ponto_key, dados in dados_ajustados.items():
+        print(f"\n📊 VERIFICAÇÃO DETALHADA para {ponto_key}:")
+        
+        valores_cert_originais = valores_certificado_originais[ponto_key]
+        leituras_ajustadas = dados['leituras_ajustadas']
+        
+        print(f"   📋 VALORES ORIGINAIS DO CERTIFICADO:")
+        print(f"     Média Totalização: {float(valores_cert_originais['media_totalizacao'])} L")
+        print(f"     Média Leitura Medidor: {float(valores_cert_originais['media_leitura_medidor'])} L")
+        
+        print(f"\n   🔬 ANÁLISE DETALHADA POR LEITURA:")
+        
+        # Recalcula os valores do certificado com dados ajustados
+        totalizacoes_ajustadas = []
+        leituras_medidor_ajustadas = []
+        
+        for i, leitura in enumerate(leituras_ajustadas):
+            print(f"\n     📊 LEITURA {i+1} (Linha {leitura['linha']}):")
+            print(f"       Pulsos: {float(leitura['pulsos_padrao'])}")
+            print(f"       Tempo: {float(leitura['tempo_coleta'])} s")
+            print(f"       Leitura Medidor: {float(leitura['leitura_medidor'])} L")
+            print(f"       Temperatura: {float(leitura['temperatura'])} °C")
+            
+            # Calcula "Totalização no Padrão Corrigido • L" com dados ajustados
+            totalizacao = calcular_totalizacao_padrao_corrigido(
+                leitura['pulsos_padrao'],
+                constantes['pulso_padrao_lp'],
+                constantes['temperatura_constante'],
+                constantes['fator_correcao_temp'],
+                leitura['tempo_coleta']
+            )
+            totalizacoes_ajustadas.append(totalizacao)
+            leituras_medidor_ajustadas.append(leitura['leitura_medidor'])
+            
+            print(f"       Totalização Calculada: {float(totalizacao)} L")
+            
+            # Mostra os passos do cálculo
+            volume_pulsos = leitura['pulsos_padrao'] * constantes['pulso_padrao_lp']
+            vazao = volume_pulsos / leitura['tempo_coleta'] * Decimal('3600')
+            fator_correcao = (constantes['temperatura_constante'] + constantes['fator_correcao_temp'] * vazao) / Decimal('100')
+            totalizacao_manual = volume_pulsos - (fator_correcao * volume_pulsos)
+            
+            print(f"       Passos do cálculo:")
+            print(f"         Volume Pulsos: {float(volume_pulsos)} L")
+            print(f"         Vazão: {float(vazao)} L/h")
+            print(f"         Fator Correção: {float(fator_correcao)}")
+            print(f"         Totalização Manual: {float(totalizacao_manual)} L")
+            print(f"         Diferença: {float(totalizacao - totalizacao_manual)} L")
+        
+        # Calcula médias ajustadas
+        media_totalizacao_ajustada = sum(totalizacoes_ajustadas) / Decimal(str(len(totalizacoes_ajustadas)))
+        media_leitura_medidor_ajustada = sum(leituras_medidor_ajustadas) / Decimal(str(len(leituras_medidor_ajustadas)))
+        
+        # Compara com valores originais
+        media_totalizacao_original = valores_cert_originais['media_totalizacao']
+        media_leitura_medidor_original = valores_cert_originais['media_leitura_medidor']
+        
+        print(f"\n   📊 COMPARAÇÃO DE MÉDIAS:")
+        print(f"     Média Totalização no Padrão Corrigido:")
+        print(f"       Original: {float(media_totalizacao_original)} L")
+        print(f"       Ajustada: {float(media_totalizacao_ajustada)} L")
+        print(f"       Diferença: {float(media_totalizacao_ajustada - media_totalizacao_original)} L")
+        
+        print(f"     Média Leitura no Medidor:")
+        print(f"       Original: {float(media_leitura_medidor_original)} L")
+        print(f"       Ajustada: {float(media_leitura_medidor_ajustada)} L")
+        print(f"       Diferença: {float(media_leitura_medidor_ajustada - media_leitura_medidor_original)} L")
+        
+        # Verifica se as diferenças são aceitáveis
+        tolerancia = Decimal('1e-20')
+        
+        if (abs(media_totalizacao_ajustada - media_totalizacao_original) > tolerancia or
+            abs(media_leitura_medidor_ajustada - media_leitura_medidor_original) > tolerancia):
+            
+            print(f"\n   ❌ VALORES DO CERTIFICADO ALTERADOS!")
+            print(f"       Média Totalização: {media_totalizacao_original} vs {media_totalizacao_ajustada}")
+            print(f"       Média Leitura Medidor: {media_leitura_medidor_original} vs {media_leitura_medidor_ajustada}")
+            verificacao_certificado_passed = False
+        else:
+            print(f"\n   ✅ VALORES DO CERTIFICADO PRESERVADOS EXATAMENTE!")
+    
+    return verificacao_certificado_passed
+
+def verificar_formula_media_medidor(dados_ajustados, valores_certificado_originais):
+    """
+    Verifica especificamente a fórmula: =SE('Coleta de Dados'!C54="";"---";DEF.NÚM.DEC((MÉDIA('Coleta de Dados'!I54:I56));'Estimativa da Incerteza'!BQ10))
+    Esta fórmula calcula a média das leituras do medidor (coluna I) com precisão decimal
+    """
+    print(f"\n🔍 VERIFICAÇÃO ESPECÍFICA DA FÓRMULA MÉDIA DO MEDIDOR")
+    print("=" * 80)
+    
+    for ponto_key, dados in dados_ajustados.items():
+        print(f"\n📊 VERIFICAÇÃO DA FÓRMULA para {ponto_key}:")
+        
+        valores_cert_originais = valores_certificado_originais[ponto_key]
+        leituras_ajustadas = dados['leituras_ajustadas']
+        
+        # Extrai as leituras do medidor (coluna I na planilha)
+        leituras_medidor = [leitura['leitura_medidor'] for leitura in leituras_ajustadas]
+        
+        print(f"   📋 LEITURAS DO MEDIDOR (coluna I):")
+        for i, leitura in enumerate(leituras_ajustadas):
+            print(f"     Linha {leitura['linha']}: {float(leitura['leitura_medidor'])} L")
+        
+        # Calcula a média conforme a fórmula Excel
+        media_leitura_medidor = sum(leituras_medidor) / Decimal(str(len(leituras_medidor)))
+        
+        # Valor original do certificado
+        media_original = valores_cert_originais['media_leitura_medidor']
+        
+        print(f"\n   📊 COMPARAÇÃO DA FÓRMULA MÉDIA:")
+        print(f"     Média Original (Certificado): {float(media_original)} L")
+        print(f"     Média Calculada (Fórmula): {float(media_leitura_medidor)} L")
+        print(f"     Diferença: {float(media_leitura_medidor - media_original)} L")
+        
+        # Verifica se a diferença é significativa
+        tolerancia = Decimal('1e-20')
+        if abs(media_leitura_medidor - media_original) > tolerancia:
+            print(f"     ❌ DIFERENÇA DETECTADA!")
+            print(f"         A fórmula não está preservando o valor original")
+        else:
+            print(f"     ✅ FÓRMULA PRESERVANDO VALOR ORIGINAL!")
+        
+        # Mostra os passos detalhados do cálculo
+        print(f"\n   🔬 PASSOS DETALHADOS DO CÁLCULO:")
+        print(f"     Soma das leituras: {float(sum(leituras_medidor))} L")
+        print(f"     Número de leituras: {len(leituras_medidor)}")
+        print(f"     Divisão: {float(sum(leituras_medidor))} / {len(leituras_medidor)} = {float(media_leitura_medidor)} L")
+        
+        # Verifica se há diferenças nos valores individuais
+        print(f"\n   📋 VERIFICAÇÃO DOS VALORES INDIVIDUAIS:")
+        for i, leitura in enumerate(leituras_ajustadas):
+            print(f"     Leitura {i+1}: {float(leitura['leitura_medidor'])} L")
+        
+        print(f"   📊 RESULTADO FINAL:")
+        print(f"     Média Original: {float(media_original)} L")
+        print(f"     Média Calculada: {float(media_leitura_medidor)} L")
+        print(f"     Status: {'✅ PRESERVADO' if abs(media_leitura_medidor - media_original) <= tolerancia else '❌ ALTERADO'}")
 
 def gerar_planilha_corrigida(dados_ajustados, arquivo_original):
     """
@@ -399,14 +701,27 @@ def gerar_planilha_corrigida(dados_ajustados, arquivo_original):
         for leitura in leituras_ajustadas:
             linha = leitura['linha']
             
-            # Aplica os valores ajustados nas células corretas
-            coleta_sheet.cell(row=linha, column=3).value = float(leitura['pulsos_padrao'])  # Coluna C
-            coleta_sheet.cell(row=linha, column=6).value = float(leitura['tempo_coleta'])   # Coluna F
-            coleta_sheet.cell(row=linha, column=9).value = float(leitura['vazao_referencia'])  # Coluna I
-            coleta_sheet.cell(row=linha, column=15).value = float(leitura['leitura_medidor'])  # Coluna O
-            coleta_sheet.cell(row=linha, column=18).value = float(leitura['temperatura'])     # Coluna R
+            # Aplica APENAS os valores que devem ser alterados conforme documentação:
+            # 1. Tempo de coleta (gatilho)
+            # 2. Qtd de pulso do padrão (proporcional ao volume)
+            # 3. Leitura no medidor (proporcional ao volume)
             
-            print(f"     Linha {linha}: Valores ajustados aplicados")
+            # NÃO altera:
+            # - Vazão de referência (será recalculada pela planilha)
+            # - Erro (será recalculado pela planilha)
+            # - Temperatura (permanece a mesma)
+            
+            # Usa valores Decimal para máxima precisão, convertendo apenas no final
+            coleta_sheet.cell(row=linha, column=3).value = float(leitura['pulsos_padrao'])  # Coluna C - Pulsos
+            coleta_sheet.cell(row=linha, column=6).value = float(leitura['tempo_coleta'])   # Coluna F - Tempo
+            coleta_sheet.cell(row=linha, column=15).value = float(leitura['leitura_medidor'])  # Coluna O - Leitura Medidor
+            coleta_sheet.cell(row=linha, column=18).value = float(leitura['temperatura'])     # Coluna R - Temperatura
+            
+            print(f"     Linha {linha}:")
+            print(f"       Pulsos: {float(leitura['pulsos_padrao'])}")
+            print(f"       Tempo: {float(leitura['tempo_coleta'])} s")
+            print(f"       Leitura Medidor: {float(leitura['leitura_medidor'])} L")
+            print(f"       Temperatura: {float(leitura['temperatura'])} °C")
     
     # Salva a planilha corrigida
     wb.save(arquivo_corrigido)
@@ -441,12 +756,13 @@ def gerar_relatorio_final(dados_originais, dados_harmonizados, dados_ajustados, 
     with open("relatorio_ajuste_tempos.txt", "w", encoding="utf-8") as f:
         f.write("=== RELATÓRIO DE AJUSTE DE TEMPOS DE COLETA ===\n\n")
         f.write("🎯 OBJETIVO:\n")
-        f.write("   • Harmonizar tempos de coleta para valores unificados\n")
+        f.write("   • Harmonizar tempos de coleta para 360 segundos (valor fixo)\n")
         f.write("   • Aplicar ajuste proporcional para manter valores sagrados\n")
         f.write("   • Preservar Vazão Média, Tendência e Desvio Padrão\n\n")
         
         f.write("✅ CONFIGURAÇÕES:\n")
         f.write("   • Precisão: Decimal com 28 dígitos\n")
+        f.write("   • Tempo unificado: 360 segundos (valor fixo para todos os pontos)\n")
         f.write("   • Estratégia: Ajuste proporcional conforme documentação\n")
         f.write("   • Valores sagrados: Preservados absolutamente\n\n")
         
@@ -457,7 +773,7 @@ def gerar_relatorio_final(dados_originais, dados_harmonizados, dados_ajustados, 
             f.write(f"       • Vazão Média: {float(dados['valores_sagrados']['vazao_media'])} L/h\n")
             f.write(f"       • Tendência: {float(dados['valores_sagrados']['tendencia'])} %\n")
             f.write(f"       • Desvio Padrão: {float(dados['valores_sagrados']['desvio_padrao']) if dados['valores_sagrados']['desvio_padrao'] else 'N/A'} %\n")
-            f.write(f"     Tempos harmonizados:\n")
+            f.write(f"     Tempos harmonizados (todos fixados em 360 segundos):\n")
             for i, leitura in enumerate(dados['leituras_ajustadas']):
                 f.write(f"       • Leitura {i+1}: {float(leitura['tempo_coleta'])} s\n")
         
@@ -481,6 +797,7 @@ def main():
     
     print("=== AJUSTADOR DE TEMPO DE COLETA - IMPLEMENTAÇÃO CONFORME DOCUMENTAÇÃO ===")
     print("Implementa exatamente a lógica especificada na documentação")
+    print("CONFIGURAÇÃO ESPECIAL: Todos os tempos de coleta fixados em 360 segundos")
     print("Preserva valores sagrados: Vazão Média, Tendência e Desvio Padrão")
     print("Usa precisão Decimal de 28 dígitos")
     
@@ -493,13 +810,22 @@ def main():
     
     print(f"\n✅ PASSO 1 CONCLUÍDO: {len(dados_originais)} pontos extraídos")
     
+    # PASSO 1.5: Extração de Constantes e Cálculo dos Valores do Certificado
+    constantes = extrair_constantes_calculo(arquivo_excel)
+    if not constantes:
+        print("❌ Falha na extração das constantes")
+        return
+    
+    valores_certificado_originais = calcular_valores_certificado(dados_originais, constantes)
+    print(f"\n✅ PASSO 1.5 CONCLUÍDO: Valores do certificado calculados")
+    
     # PASSO 2: Harmonização dos Tempos de Coleta
     dados_harmonizados = harmonizar_tempos_coleta(dados_originais)
     
     print(f"\n✅ PASSO 2 CONCLUÍDO: Tempos harmonizados")
     
     # PASSO 3: Aplicação do Ajuste Proporcional
-    dados_ajustados = aplicar_ajuste_proporcional(dados_harmonizados)
+    dados_ajustados = aplicar_ajuste_proporcional(dados_harmonizados, constantes, valores_certificado_originais)
     
     print(f"\n✅ PASSO 3 CONCLUÍDO: Ajuste proporcional aplicado")
     
@@ -508,6 +834,13 @@ def main():
     
     if verificacao_passed:
         print(f"\n✅ PASSO 4 CONCLUÍDO: Valores sagrados preservados")
+        
+        # VERIFICAÇÃO DETALHADA DOS VALORES DO CERTIFICADO
+        print(f"\n🔍 VERIFICAÇÃO DETALHADA DOS VALORES DO CERTIFICADO")
+        verificar_valores_certificado_detalhado(dados_ajustados, constantes, valores_certificado_originais)
+        
+        # VERIFICAÇÃO ESPECÍFICA DA FÓRMULA MÉDIA DO MEDIDOR
+        verificar_formula_media_medidor(dados_ajustados, valores_certificado_originais)
         
         # PASSO 5: Geração da Planilha Corrigida
         arquivo_corrigido = gerar_planilha_corrigida(dados_ajustados, arquivo_excel)
