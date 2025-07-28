@@ -1,0 +1,293 @@
+{
+  "metadata": {
+    "arquivo": "SAN-038-25-09-1.xlsx",
+    "data_extracao": "2025-07-25T17:44:40.784921",
+    "total_pontos": 8,
+    "descricao": "Vazões de referência, tendências e desvios padrão extraídos da aba 'Coleta de Dados'",
+    "precisao": {
+      "decimal_precision": 28,
+      "metodo_leitura": "openpyxl com data_only=True",
+      "colunas": {
+        "vazao_referencia": "I (coluna 9)",
+        "erro": "U (coluna 21)",
+        "formula_erro": "=SE(O54=\"\";\"\";(O54-L54)/L54*100)",
+        "formula_tendencia": "=SE(U54=\"\";\"\";MÉDIA(U54:U56))",
+        "formula_desvio_padrao": "=SE(U54=\"\";\"\";STDEV.S(U54:U56))"
+      }
+    }
+  },
+  "pontos_dados": [
+    {
+      "numero": 1,
+      "vazoes_referencia": [
+        {
+          "linha": 54,
+          "vazao_referencia": "33858.49554066015"
+        },
+        {
+          "linha": 55,
+          "vazao_referencia": "34007.187500797714"
+        },
+        {
+          "linha": 56,
+          "vazao_referencia": "34096.62687815898"
+        }
+      ],
+      "erros": [
+        {
+          "linha": 54,
+          "erro": "0.09737911623699219"
+        },
+        {
+          "linha": 55,
+          "erro": "-0.06596844985024426"
+        },
+        {
+          "linha": 56,
+          "erro": "-0.2907776414853507"
+        }
+      ],
+      "tendencia": "-0.08645565836620092333333333333",
+      "desvio_padrao": "0.1948876892622071565141256911",
+      "media_vazao_referencia": "33987.43663987228133333333333"
+    },
+    {
+      "numero": 2,
+      "vazoes_referencia": [
+        {
+          "linha": 63,
+          "vazao_referencia": "56964.3802352797"
+        },
+        {
+          "linha": 64,
+          "vazao_referencia": "57072.39753146231"
+        },
+        {
+          "linha": 65,
+          "vazao_referencia": "57144.5362263568"
+        }
+      ],
+      "erros": [
+        {
+          "linha": 63,
+          "erro": "0.23530021899039066"
+        },
+        {
+          "linha": 64,
+          "erro": "0.2614905835037495"
+        },
+        {
+          "linha": 65,
+          "erro": "0.24543295231399745"
+        }
+      ],
+      "tendencia": "0.2474079182693792033333333333",
+      "desvio_padrao": "0.01320640625716698252847969010",
+      "media_vazao_referencia": "57060.43799769960333333333333"
+    },
+    {
+      "numero": 3,
+      "vazoes_referencia": [
+        {
+          "linha": 72,
+          "vazao_referencia": "113233.60947840175"
+        },
+        {
+          "linha": 73,
+          "vazao_referencia": "113479.1076686725"
+        },
+        {
+          "linha": 74,
+          "vazao_referencia": "113655.90029799966"
+        }
+      ],
+      "erros": [
+        {
+          "linha": 72,
+          "erro": "-0.15269130945381643"
+        },
+        {
+          "linha": 73,
+          "erro": "-0.04348876210349063"
+        },
+        {
+          "linha": 74,
+          "erro": "0.20088467228682214"
+        }
+      ],
+      "tendencia": "0.001568200243171693333333333333",
+      "desvio_padrao": "0.1810430642358207122274570937",
+      "media_vazao_referencia": "113456.2058150246366666666667"
+    },
+    {
+      "numero": 4,
+      "vazoes_referencia": [
+        {
+          "linha": 81,
+          "vazao_referencia": "167670.2740285996"
+        },
+        {
+          "linha": 82,
+          "vazao_referencia": "168212.88647352654"
+        },
+        {
+          "linha": 83,
+          "vazao_referencia": "168546.10997682787"
+        }
+      ],
+      "erros": [
+        {
+          "linha": 81,
+          "erro": "-0.17485716973083512"
+        },
+        {
+          "linha": 82,
+          "erro": "0.08691966871816274"
+        },
+        {
+          "linha": 83,
+          "erro": "0.06457387591576566"
+        }
+      ],
+      "tendencia": "-0.00778787503230224",
+      "desvio_padrao": "0.1451170063682779920463508164",
+      "media_vazao_referencia": "168143.0901596513366666666667"
+    },
+    {
+      "numero": 5,
+      "vazoes_referencia": [
+        {
+          "linha": 90,
+          "vazao_referencia": "225121.612937236"
+        },
+        {
+          "linha": 91,
+          "vazao_referencia": "224505.40524729533"
+        },
+        {
+          "linha": 92,
+          "vazao_referencia": "224985.09240173083"
+        }
+      ],
+      "erros": [
+        {
+          "linha": 90,
+          "erro": "-0.11799487340378591"
+        },
+        {
+          "linha": 91,
+          "erro": "0.040523835369146985"
+        },
+        {
+          "linha": 92,
+          "erro": "0.1852926255287568"
+        }
+      ],
+      "tendencia": "0.03594052916470595833333333333",
+      "desvio_padrao": "0.1516956880534579485514754851",
+      "media_vazao_referencia": "224870.7035287540533333333333"
+    },
+    {
+      "numero": 6,
+      "vazoes_referencia": [
+        {
+          "linha": 99,
+          "vazao_referencia": "33924.90054787937"
+        },
+        {
+          "linha": 100,
+          "vazao_referencia": "33820.140610375405"
+        },
+        {
+          "linha": 101,
+          "vazao_referencia": "33874.68402460668"
+        }
+      ],
+      "erros": [
+        {
+          "linha": 99,
+          "erro": "0.008483886975030634"
+        },
+        {
+          "linha": 100,
+          "erro": "-0.045851029798022205"
+        },
+        {
+          "linha": 101,
+          "erro": "-0.0018849533850305573"
+        }
+      ],
+      "tendencia": "-0.01308403206934070943333333333",
+      "desvio_padrao": "0.02884675575721942758283490288",
+      "media_vazao_referencia": "33873.241727620485"
+    },
+    {
+      "numero": 7,
+      "vazoes_referencia": [
+        {
+          "linha": 108,
+          "vazao_referencia": "112917.97690311285"
+        },
+        {
+          "linha": 109,
+          "vazao_referencia": "113105.00804392164"
+        },
+        {
+          "linha": 110,
+          "vazao_referencia": "113159.16772642314"
+        }
+      ],
+      "erros": [
+        {
+          "linha": 108,
+          "erro": "-0.08839446263853382"
+        },
+        {
+          "linha": 109,
+          "erro": "-0.09014736913932232"
+        },
+        {
+          "linha": 110,
+          "erro": "0.002776750474636409"
+        }
+      ],
+      "tendencia": "-0.058588360434406577",
+      "desvio_padrao": "0.05315097174990770111446574550",
+      "media_vazao_referencia": "113060.71755781921"
+    },
+    {
+      "numero": 8,
+      "vazoes_referencia": [
+        {
+          "linha": 117,
+          "vazao_referencia": "225878.32963112238"
+        },
+        {
+          "linha": 118,
+          "vazao_referencia": "226159.471664401"
+        },
+        {
+          "linha": 119,
+          "vazao_referencia": "226401.5100054441"
+        }
+      ],
+      "erros": [
+        {
+          "linha": 117,
+          "erro": "0.06107611906449712"
+        },
+        {
+          "linha": 118,
+          "erro": "-0.03174869016366877"
+        },
+        {
+          "linha": 119,
+          "erro": "-0.02794619846844748"
+        }
+      ],
+      "tendencia": "0.0004604101441269566666666666667",
+      "desvio_padrao": "0.05252916201227979768550705465",
+      "media_vazao_referencia": "226146.4371003224933333333333"
+    }
+  ]
+}
