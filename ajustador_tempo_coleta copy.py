@@ -308,170 +308,49 @@ def get_numeric_value(df, row, col):
     except:
         return Decimal('0')
 
-def encontrar_ajuste_global(leituras_ponto, constantes, valores_certificado_originais, ponto_key):
+def calcular_tempo_otimo(leitura, vazao_media_original, constantes, valores_certificado_originais, ponto_key, indice_leitura):
     """
-    Busca global única que ajusta o sistema como um todo coeso
-    Usa apenas a Qtd de Pulsos da primeira medição (C54) como variável mestre
+    Calcula o tempo ótimo com casas decimais específicas para preservar valores do certificado
     """
-    print(f"       🔍 INICIANDO BUSCA GLOBAL para {ponto_key}")
+    tempo_original = leitura['tempo_coleta']
+    vazao_referencia = leitura['vazao_referencia']
+    leitura_medidor_original = leitura['leitura_medidor']
     
-    # Extrai valores alvo do certificado original
+    # Calcula a média das leituras do medidor original
     valores_cert_originais = valores_certificado_originais[ponto_key]
+    media_leitura_medidor_original = valores_cert_originais['media_leitura_medidor']
     
-    # Calcula valores sagrados originais
-    vazoes_originais = [l['vazao_referencia'] for l in leituras_ponto]
-    erros_originais = [l['erro'] for l in leituras_ponto]
-    vazao_media_alvo = sum(vazoes_originais) / Decimal(str(len(vazoes_originais)))
+    # Tenta diferentes valores decimais para encontrar o tempo que preserva a média das leituras
+    melhor_tempo = Decimal('360')
+    menor_diferenca_media = Decimal('inf')
     
-    erros_validos = [e for e in erros_originais if e != 0]
-    if erros_validos:
-        tendencia_alvo = sum(erros_validos) / Decimal(str(len(erros_validos)))
-    else:
-        tendencia_alvo = Decimal('0')
-    
-    media_leitura_alvo = valores_cert_originais['media_leitura_medidor']
-    media_totalizacao_alvo = valores_cert_originais['media_totalizacao']
-    
-    print(f"       🎯 VALORES ALVO:")
-    print(f"         Vazão Média: {float(vazao_media_alvo)} L/h")
-    print(f"         Tendência: {float(tendencia_alvo)} %")
-    print(f"         Média Leitura: {float(media_leitura_alvo)} L")
-    print(f"         Média Totalização: {float(media_totalizacao_alvo)} L")
-    
-    # Calcula proporções originais fixas
-    pulsos_originais = [l['pulsos_padrao'] for l in leituras_ponto]
-    leituras_originais = [l['leitura_medidor'] for l in leituras_ponto]
-    
-    # Proporções dos pulsos (baseado na primeira leitura)
-    pulsos_base = pulsos_originais[0]
-    fatores_proporcao_pulsos = [p / pulsos_base for p in pulsos_originais]
-    
-    # Proporções das leituras (baseado na primeira leitura)
-    leitura_base = leituras_originais[0]
-    fatores_proporcao_leituras = [l / leitura_base for l in leituras_originais]
-    
-    print(f"       📊 PROPORÇÕES ORIGINAIS:")
-    print(f"         Pulsos: {[float(f) for f in fatores_proporcao_pulsos]}")
-    print(f"         Leituras: {[float(f) for f in fatores_proporcao_leituras]}")
-    
-    # FASE 1: Busca para encontrar a Tendência correta
-    print(f"       🔄 FASE 1: Buscando Tendência correta...")
-    
-    melhor_pulsos_c54 = pulsos_originais[0]
-    menor_erro_tendencia = Decimal('inf')
-    
-    # Busca em torno do valor original
-    for ajuste in range(-100, 101):
-        pulsos_c54_teste = pulsos_originais[0] + ajuste
+    # Testa valores de 359.99990 a 360.00010 com incrementos de 0.00001
+    for i in range(-10, 11):
+        tempo_teste = Decimal('360') + Decimal(str(i * 0.00001))
         
-        # Recalcula todos os pulsos mantendo as proporções
-        pulsos_ajustados = [pulsos_c54_teste * f for f in fatores_proporcao_pulsos]
+        # Calcula a nova leitura do medidor proporcionalmente ao tempo ajustado
+        fator_tempo = tempo_teste / tempo_original
+        nova_leitura_medidor = leitura_medidor_original * fator_tempo
         
-        # Recalcula todas as leituras mantendo as proporções
-        leituras_ajustadas = [leituras_originais[0] * f for f in fatores_proporcao_leituras]
+        # Calcula a diferença com a média original
+        diferenca_media = abs(nova_leitura_medidor - media_leitura_medidor_original)
         
-        # Calcula vazões ajustadas
-        vazoes_ajustadas = []
-        for i, leitura in enumerate(leituras_ponto):
-            volume = pulsos_ajustados[i] * constantes['pulso_padrao_lp']
-            vazao = (volume * Decimal('3600')) / leitura['tempo_coleta']
-            vazoes_ajustadas.append(vazao)
-        
-        # Calcula vazão média
-        vazao_media_ajustada = sum(vazoes_ajustadas) / Decimal(str(len(vazoes_ajustadas)))
-        
-        # Calcula erros (diferença entre vazão ajustada e leitura ajustada)
-        erros = []
-        for i in range(len(leituras_ponto)):
-            erro = ((vazoes_ajustadas[i] - leituras_ajustadas[i]) / vazoes_ajustadas[i]) * Decimal('100')
-            erros.append(erro)
-        
-        # Calcula tendência (média dos erros)
-        erros_validos = [e for e in erros if e != 0]
-        if erros_validos:
-            tendencia_ajustada = sum(erros_validos) / Decimal(str(len(erros_validos)))
-        else:
-            tendencia_ajustada = Decimal('0')
-        
-        # Calcula erro da tendência
-        erro_tendencia = abs(tendencia_ajustada - tendencia_alvo)
-        
-        if erro_tendencia < menor_erro_tendencia:
-            menor_erro_tendencia = erro_tendencia
-            melhor_pulsos_c54 = pulsos_c54_teste
-            
-            if erro_tendencia < Decimal('0.01'):
-                print(f"         Tendência encontrada: {float(tendencia_ajustada)} % (erro: {float(erro_tendencia)} %)")
-                print(f"         Pulsos C54: {int(melhor_pulsos_c54)}")
+        # Se esta é a menor diferença até agora, guarda o tempo
+        if diferenca_media < menor_diferenca_media:
+            menor_diferenca_media = diferenca_media
+            melhor_tempo = tempo_teste
     
-    print(f"       ✅ FASE 1 CONCLUÍDA:")
-    print(f"         Melhor Pulsos C54: {int(melhor_pulsos_c54)}")
-    print(f"         Erro Tendência: {float(menor_erro_tendencia)} %")
+    # Verifica se o tempo encontrado preserva a média das leituras
+    fator_tempo_final = melhor_tempo / tempo_original
+    nova_leitura_medidor_final = leitura_medidor_original * fator_tempo_final
     
-    # FASE 2: Escala final para cravar a Vazão Média
-    print(f"       🔄 FASE 2: Aplicando escala para Vazão Média...")
+    print(f"       Tempo ótimo encontrado: {float(melhor_tempo)} s")
+    print(f"       Leitura original: {float(leitura_medidor_original)} L")
+    print(f"       Leitura ajustada: {float(nova_leitura_medidor_final)} L")
+    print(f"       Média original: {float(media_leitura_medidor_original)} L")
+    print(f"       Diferença: {float(nova_leitura_medidor_final - media_leitura_medidor_original)} L")
     
-    # Recalcula com o melhor valor encontrado
-    pulsos_finais = [melhor_pulsos_c54 * f for f in fatores_proporcao_pulsos]
-    leituras_finais = [leituras_originais[0] * f for f in fatores_proporcao_leituras]
-    
-    # Calcula vazões finais
-    vazoes_finais = []
-    for i, leitura in enumerate(leituras_ponto):
-        volume = pulsos_finais[i] * constantes['pulso_padrao_lp']
-        vazao = (volume * Decimal('3600')) / leitura['tempo_coleta']
-        vazoes_finais.append(vazao)
-    
-    vazao_media_final = sum(vazoes_finais) / Decimal(str(len(vazoes_finais)))
-    
-    # Calcula fator de escala necessário
-    fator_escala = vazao_media_alvo / vazao_media_final
-    
-    # Aplica escala final
-    pulsos_escalados = [p * fator_escala for p in pulsos_finais]
-    leituras_escaladas = [l * fator_escala for l in leituras_finais]
-    
-    print(f"       ✅ FASE 2 CONCLUÍDA:")
-    print(f"         Fator de Escala: {float(fator_escala)}")
-    print(f"         Vazão Média Final: {float(vazao_media_alvo)} L/h")
-    
-    # Calcula tempos ótimos que preservam os valores do certificado
-    tempos_otimos = []
-    
-    # Para cada leitura, calcula o tempo que preserva a leitura original
-    for i, leitura in enumerate(leituras_ponto):
-        leitura_original = leitura['leitura_medidor']
-        leitura_ajustada = leituras_escaladas[i]
-        
-        # Para preservar a leitura original, o tempo deve ser ajustado
-        # de forma que: leitura_original = leitura_ajustada * (tempo_original / tempo_ajustado)
-        # Portanto: tempo_ajustado = leitura_ajustada * tempo_original / leitura_original
-        
-        tempo_original = leitura['tempo_coleta']
-        tempo_ajustado = leitura_ajustada * tempo_original / leitura_original
-        
-        # Garante que o tempo esteja próximo a 360 (entre 359.9 e 360.1)
-        if tempo_ajustado < Decimal('359.9'):
-            tempo_ajustado = Decimal('359.9')
-        elif tempo_ajustado > Decimal('360.1'):
-            tempo_ajustado = Decimal('360.1')
-        
-        tempos_otimos.append(tempo_ajustado)
-    
-    print(f"       ⏱️  TEMPOS ÓTIMOS CALCULADOS:")
-    for i, tempo in enumerate(tempos_otimos):
-        print(f"         Leitura {i+1}: {float(tempo)} s")
-    
-    # Prepara resultado final
-    resultado = {
-        'pulsos_ajustados': pulsos_escalados,
-        'leituras_ajustadas': leituras_escaladas,
-        'tempos_ajustados': tempos_otimos,
-        'fator_escala': fator_escala,
-        'erro_tendencia': menor_erro_tendencia
-    }
-    
-    return resultado
+    return melhor_tempo
 
 def harmonizar_tempos_coleta(dados_originais, constantes, valores_certificado_originais):
     """
@@ -498,32 +377,28 @@ def harmonizar_tempos_coleta(dados_originais, constantes, valores_certificado_or
         tempos_ajustados = []
         fatores_ajuste = []
         
-        # Executa busca global única para todo o ponto
-        resultado_ajuste = encontrar_ajuste_global(
-            ponto['leituras'],
-            constantes,
-            valores_certificado_originais,
-            ponto_key
-        )
-        
-        # Extrai resultados da busca global
-        tempos_ajustados = resultado_ajuste['tempos_ajustados']
-        pulsos_ajustados = resultado_ajuste['pulsos_ajustados']
-        leituras_ajustadas = resultado_ajuste['leituras_ajustadas']
-        
-        # Calcula fatores de ajuste
+        # Para cada leitura, calcula o tempo ajustado ótimo
         for i, leitura in enumerate(ponto['leituras']):
             tempo_original = leitura['tempo_coleta']
-            tempo_ajustado = tempos_ajustados[i]
+            vazao_referencia = leitura['vazao_referencia']
             
-            fator = tempo_ajustado / tempo_original
+            # Calcula o tempo ótimo que preserva os valores do certificado
+            tempo_ajustado_otimo = calcular_tempo_otimo(
+                leitura, 
+                vazao_media_original, 
+                constantes, 
+                valores_certificado_originais, 
+                ponto_key,
+                i
+            )
+            
+            tempos_ajustados.append(tempo_ajustado_otimo)
+            
+            fator = tempo_ajustado_otimo / tempo_original
             fatores_ajuste.append(fator)
-            
-            print(f"     Leitura {i+1}:")
-            print(f"       Tempo: {float(tempo_original)} → {float(tempo_ajustado)} s")
-            print(f"       Pulsos: {float(leitura['pulsos_padrao'])} → {int(pulsos_ajustados[i])}")
-            print(f"       Leitura: {float(leitura['leitura_medidor'])} → {float(leituras_ajustadas[i])} L")
-            print(f"       Fator: {float(fator)}")
+            print(f"     Tempo {i+1}: {float(tempo_original)} → {float(tempo_ajustado_otimo)} = fator {float(fator)}")
+            print(f"       Diferença: {float(tempo_ajustado_otimo - Decimal('360'))} s")
+            print(f"       Vazão preservada: {float(vazao_referencia)} L/h")
         
         dados_harmonizados[ponto_key] = {
             'ponto_numero': ponto['numero'],

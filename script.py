@@ -239,7 +239,7 @@ def main():
     print("=== SISTEMA DE CORREÇÃO DE TEMPOS DE COLETA ===")
     
     # 1. Lê a planilha
-    arquivo_excel = "SAN-038-25-09-1.xlsx"
+    arquivo_excel = "SAN-038-25-09.xlsx"
     df_excel = ler_planilha_calibracao(arquivo_excel)
     
     if df_excel is None:
