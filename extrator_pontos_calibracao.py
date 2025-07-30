@@ -188,7 +188,7 @@ def extrair_vazoes_referencia_tendencia_desvio(arquivo_excel):
 
 def main():
     """Função principal para extrair vazões de referência, tendências e desvios padrão"""
-    arquivo_excel = "SAN-038-25-09-1.xlsx"
+    arquivo_excel = "SAN-038-25-09.xlsx"
     
     print("=== EXTRATOR DE VAZÕES DE REFERÊNCIA, TENDÊNCIAS E DESVIOS PADRÃO ===")
     print("Extrai vazões de referência (coluna I), tendências (coluna U) e desvios padrão da aba 'Coleta de Dados'")

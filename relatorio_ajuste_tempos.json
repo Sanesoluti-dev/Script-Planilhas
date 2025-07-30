@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "data_geracao": "2025-07-29T16:36:27.681780",
+    "data_geracao": "2025-07-30T17:05:54.229115",
     "descricao": "Ajuste de tempos de coleta conforme documentação",
     "precisao": "Decimal com 28 dígitos",
     "verificacao_passed": true,
@@ -308,14 +308,14 @@
     "ponto_1": {
       "ponto_numero": 1,
       "tempos_unificados": [
-        "359.9",
-        "359.9",
-        "359.9"
+        "357.895",
+        "357.895",
+        "357.895"
       ],
       "fatores_ajuste": [
-        "2.129585798816568047337278107",
-        "1.571615720524017467248908297",
-        "1.245328719723183391003460208"
+        "2.117721893491124260355029586",
+        "1.562860262008733624454148472",
+        "1.238391003460207612456747405"
       ],
       "valores_sagrados": {
         "vazao_media": "33987.43663987228133333333333",
@@ -355,14 +355,14 @@
     "ponto_2": {
       "ponto_numero": 2,
       "tempos_unificados": [
-        "359.9",
-        "359.9",
-        "359.9"
+        "357.895",
+        "357.895",
+        "357.895"
       ],
       "fatores_ajuste": [
-        "2.235403726708074534161490683",
-        "1.628506787330316742081447964",
-        "1.280782918149466192170818505"
+        "2.222950310559006211180124224",
+        "1.619434389140271493212669683",
+        "1.273647686832740213523131673"
       ],
       "valores_sagrados": {
         "vazao_media": "57060.43799769960333333333333",
@@ -402,14 +402,14 @@
     "ponto_3": {
       "ponto_numero": 3,
       "tempos_unificados": [
-        "359.9",
-        "359.9",
-        "359.9"
+        "357.895",
+        "357.895",
+        "357.895"
       ],
       "fatores_ajuste": [
-        "2.552482269503546099290780142",
-        "1.790547263681592039800995025",
-        "1.378927203065134099616858238"
+        "2.538262411347517730496453901",
+        "1.780572139303482587064676617",
+        "1.371245210727969348659003831"
       ],
       "valores_sagrados": {
         "vazao_media": "113456.2058150246366666666667",
@@ -449,14 +449,14 @@
     "ponto_4": {
       "ponto_numero": 4,
       "tempos_unificados": [
-        "359.9",
-        "359.9",
-        "359.9"
+        "357.895",
+        "357.895",
+        "357.895"
       ],
       "fatores_ajuste": [
-        "2.249375",
-        "1.635909090909090909090909091",
-        "1.285357142857142857142857143"
+        "2.23684375",
+        "1.626795454545454545454545455",
+        "1.278196428571428571428571429"
       ],
       "valores_sagrados": {
         "vazao_media": "168143.0901596513366666666667",
@@ -496,14 +496,14 @@
     "ponto_5": {
       "ponto_numero": 5,
       "tempos_unificados": [
-        "359.9",
-        "359.9",
-        "359.9"
+        "357.895",
+        "357.895",
+        "357.895"
       ],
       "fatores_ajuste": [
-        "2.665925925925925925925925926",
-        "1.836224489795918367346938776",
-        "1.405859375"
+        "2.651074074074074074074074074",
+        "1.825994897959183673469387755",
+        "1.39802734375"
       ],
       "valores_sagrados": {
         "vazao_media": "224870.7035287540533333333333",
@@ -543,14 +543,14 @@
     "ponto_6": {
       "ponto_numero": 6,
       "tempos_unificados": [
-        "359.9",
-        "359.9",
-        "359.9"
+        "357.895",
+        "357.895",
+        "357.895"
       ],
       "fatores_ajuste": [
-        "1.904232804232804232804232804",
-        "1.4396",
-        "1.160967741935483870967741935"
+        "1.893624338624338624338624339",
+        "1.43158",
+        "1.1545"
       ],
       "valores_sagrados": {
         "vazao_media": "33873.241727620485",
@@ -590,14 +590,14 @@
     "ponto_7": {
       "ponto_numero": 7,
       "tempos_unificados": [
-        "359.9",
-        "359.9",
-        "360.1"
+        "357.895",
+        "357.895",
+        "357.895"
       ],
       "fatores_ajuste": [
-        "1.411372549019607843137254902",
-        "1.142539682539682539682539683",
-        "0.9602666666666666666666666667"
+        "1.403509803921568627450980392",
+        "1.136174603174603174603174603",
+        "0.9543866666666666666666666667"
       ],
       "valores_sagrados": {
         "vazao_media": "113060.71755781921",
@@ -637,14 +637,14 @@
     "ponto_8": {
       "ponto_numero": 8,
       "tempos_unificados": [
-        "359.9",
-        "359.9",
-        "359.9"
+        "357.895",
+        "357.895",
+        "357.895"
       ],
       "fatores_ajuste": [
-        "2.104678362573099415204678363",
-        "1.558008658008658008658008658",
-        "1.236769759450171821305841924"
+        "2.092953216374269005847953216",
+        "1.549329004329004329004329004",
+        "1.229879725085910652920962199"
       ],
       "valores_sagrados": {
         "vazao_media": "226146.4371003224933333333333",
@@ -688,28 +688,28 @@
       "leituras_ajustadas": [
         {
           "linha": 54,
-          "pulsos_padrao": "16924",
-          "tempo_coleta": "359.9",
+          "pulsos_padrao": "16830",
+          "tempo_coleta": "357.895",
           "vazao_referencia": "33858.49554066015",
-          "leitura_medidor": "3387.723792899408284023668640",
+          "leitura_medidor": "3368.850810946745562130177515",
           "temperatura": "25.5",
           "erro": "0.09737911623699219"
         },
         {
           "linha": 55,
-          "pulsos_padrao": "16999",
-          "tempo_coleta": "359.9",
+          "pulsos_padrao": "16904",
+          "tempo_coleta": "357.895",
           "vazao_referencia": "34007.187500797714",
-          "leitura_medidor": "3397.141676855895196506550218",
+          "leitura_medidor": "3378.216227947598253275109171",
           "temperatura": "25.5",
           "erro": "-0.06596844985024426"
         },
         {
           "linha": 56,
-          "pulsos_padrao": "17044",
-          "tempo_coleta": "359.9",
+          "pulsos_padrao": "16949",
+          "tempo_coleta": "357.895",
           "vazao_referencia": "34096.62687815898",
-          "leitura_medidor": "3398.468452249134948096885814",
+          "leitura_medidor": "3379.535611885813148788927336",
           "temperatura": "25.5",
           "erro": "-0.2907776414853507"
         }
@@ -739,28 +739,28 @@
       "leituras_ajustadas": [
         {
           "linha": 63,
-          "pulsos_padrao": "28470",
-          "tempo_coleta": "359.9",
+          "pulsos_padrao": "28311",
+          "tempo_coleta": "357.895",
           "vazao_referencia": "56964.3802352797",
-          "leitura_medidor": "5707.414911801242236024844720",
+          "leitura_medidor": "5675.618949316770186335403728",
           "temperatura": "25.5",
           "erro": "0.23530021899039066"
         },
         {
           "linha": 64,
-          "pulsos_padrao": "28525",
-          "tempo_coleta": "359.9",
+          "pulsos_padrao": "28366",
+          "tempo_coleta": "357.895",
           "vazao_referencia": "57072.39753146231",
-          "leitura_medidor": "5719.902099547511312217194571",
+          "leitura_medidor": "5688.036571040723981900452488",
           "temperatura": "25.5",
           "erro": "0.2614905835037495"
         },
         {
           "linha": 65,
-          "pulsos_padrao": "28561",
-          "tempo_coleta": "359.9",
+          "pulsos_padrao": "28402",
+          "tempo_coleta": "357.895",
           "vazao_referencia": "57144.5362263568",
-          "leitura_medidor": "5726.312545551601423487544482",
+          "leitura_medidor": "5694.411304501779359430604984",
           "temperatura": "25.5",
           "erro": "0.24543295231399745"
         }
@@ -790,28 +790,28 @@
       "leituras_ajustadas": [
         {
           "linha": 72,
-          "pulsos_padrao": "56578",
-          "tempo_coleta": "359.9",
+          "pulsos_padrao": "56263",
+          "tempo_coleta": "357.895",
           "vazao_referencia": "113233.60947840175",
-          "leitura_medidor": "11301.08972340425531914893617",
+          "leitura_medidor": "11238.13144361702127659574468",
           "temperatura": "25.5",
           "erro": "-0.15269130945381643"
         },
         {
           "linha": 73,
-          "pulsos_padrao": "56703",
-          "tempo_coleta": "359.9",
+          "pulsos_padrao": "56387",
+          "tempo_coleta": "357.895",
           "vazao_referencia": "113479.1076686725",
-          "leitura_medidor": "11338.40240447761194029850746",
+          "leitura_medidor": "11275.23625604477611940298508",
           "temperatura": "25.5",
           "erro": "-0.04348876210349063"
         },
         {
           "linha": 74,
-          "pulsos_padrao": "56792",
-          "tempo_coleta": "359.9",
+          "pulsos_padrao": "56476",
+          "tempo_coleta": "357.895",
           "vazao_referencia": "113655.90029799966",
-          "leitura_medidor": "11384.06033065134099616858238",
+          "leitura_medidor": "11320.63982227969348659003831",
           "temperatura": "25.5",
           "erro": "0.20088467228682214"
         }
@@ -841,28 +841,28 @@
       "leituras_ajustadas": [
         {
           "linha": 81,
-          "pulsos_padrao": "83760",
-          "tempo_coleta": "359.9",
+          "pulsos_padrao": "83293",
+          "tempo_coleta": "357.895",
           "vazao_referencia": "167670.2740285996",
-          "leitura_medidor": "16730.583574375",
+          "leitura_medidor": "16637.37762809375",
           "temperatura": "25.5",
           "erro": "-0.17485716973083512"
         },
         {
           "linha": 82,
-          "pulsos_padrao": "84033",
-          "tempo_coleta": "359.9",
+          "pulsos_padrao": "83565",
+          "tempo_coleta": "357.895",
           "vazao_referencia": "168212.88647352654",
-          "leitura_medidor": "16829.24954590909090909090909",
+          "leitura_medidor": "16735.49393229545454545454546",
           "temperatura": "25.5",
           "erro": "0.08691966871816274"
         },
         {
           "linha": 83,
-          "pulsos_padrao": "84201",
-          "tempo_coleta": "359.9",
+          "pulsos_padrao": "83732",
+          "tempo_coleta": "357.895",
           "vazao_referencia": "168546.10997682787",
-          "leitura_medidor": "16859.11318321428571428571429",
+          "leitura_medidor": "16765.19119951785714285714286",
           "temperatura": "25.5",
           "erro": "0.06457387591576566"
         }
@@ -892,28 +892,28 @@
       "leituras_ajustadas": [
         {
           "linha": 90,
-          "pulsos_padrao": "112430",
-          "tempo_coleta": "359.9",
+          "pulsos_padrao": "111804",
+          "tempo_coleta": "357.895",
           "vazao_referencia": "225121.612937236",
-          "leitura_medidor": "22475.56571925925925925925926",
+          "leitura_medidor": "22350.35452374074074074074074",
           "temperatura": "25.3",
           "erro": "-0.11799487340378591"
         },
         {
           "linha": 91,
-          "pulsos_padrao": "112127",
-          "tempo_coleta": "359.9",
+          "pulsos_padrao": "111503",
+          "tempo_coleta": "357.895",
           "vazao_referencia": "224505.40524729533",
-          "leitura_medidor": "22450.53262040816326530612245",
+          "leitura_medidor": "22325.46088408163265306122449",
           "temperatura": "25.3",
           "erro": "0.040523835369146985"
         },
         {
           "linha": 92,
-          "pulsos_padrao": "112369",
-          "tempo_coleta": "359.9",
+          "pulsos_padrao": "111743",
+          "tempo_coleta": "357.895",
           "vazao_referencia": "224985.09240173083",
-          "leitura_medidor": "22531.535282421875",
+          "leitura_medidor": "22406.01228091796875",
           "temperatura": "25.3",
           "erro": "0.1852926255287568"
         }
@@ -943,28 +943,28 @@
       "leituras_ajustadas": [
         {
           "linha": 99,
-          "pulsos_padrao": "16957",
-          "tempo_coleta": "359.9",
+          "pulsos_padrao": "16863",
+          "tempo_coleta": "357.895",
           "vazao_referencia": "33924.90054787937",
-          "leitura_medidor": "3391.391018518518518518518518",
+          "leitura_medidor": "3372.497606481481481481481482",
           "temperatura": "23.1",
           "erro": "0.008483886975030634"
         },
         {
           "linha": 100,
-          "pulsos_padrao": "16905",
-          "tempo_coleta": "359.9",
+          "pulsos_padrao": "16811",
+          "tempo_coleta": "357.895",
           "vazao_referencia": "33820.140610375405",
-          "leitura_medidor": "3379.158684",
+          "leitura_medidor": "3360.3334182",
           "temperatura": "23.1",
           "erro": "-0.045851029798022205"
         },
         {
           "linha": 101,
-          "pulsos_padrao": "16933",
-          "tempo_coleta": "359.9",
+          "pulsos_padrao": "16838",
+          "tempo_coleta": "357.895",
           "vazao_referencia": "33874.68402460668",
-          "leitura_medidor": "3386.143530322580645161290321",
+          "leitura_medidor": "3367.2793520",
           "temperatura": "23.1",
           "erro": "-0.0018849533850305573"
         }
@@ -994,28 +994,28 @@
       "leituras_ajustadas": [
         {
           "linha": 108,
-          "pulsos_padrao": "56424",
-          "tempo_coleta": "359.9",
+          "pulsos_padrao": "56110",
+          "tempo_coleta": "357.895",
           "vazao_referencia": "112917.97690311285",
-          "leitura_medidor": "11277.47779098039215686274510",
+          "leitura_medidor": "11214.65105307843137254901961",
           "temperatura": "23.1",
           "erro": "-0.08839446263853382"
         },
         {
           "linha": 109,
-          "pulsos_padrao": "56518",
-          "tempo_coleta": "359.9",
+          "pulsos_padrao": "56203",
+          "tempo_coleta": "357.895",
           "vazao_referencia": "113105.00804392164",
-          "leitura_medidor": "11296.10817746031746031746032",
+          "leitura_medidor": "11233.17764982539682539682540",
           "temperatura": "23.1",
           "erro": "-0.09014736913932232"
         },
         {
           "linha": 110,
-          "pulsos_padrao": "56577",
-          "tempo_coleta": "360.1",
+          "pulsos_padrao": "56231",
+          "tempo_coleta": "357.895",
           "vazao_referencia": "113159.16772642314",
-          "leitura_medidor": "11318.41641146666666666666667",
+          "leitura_medidor": "11249.11036262666666666666667",
           "temperatura": "23.1",
           "erro": "0.002776750474636409"
         }
@@ -1045,28 +1045,28 @@
       "leituras_ajustadas": [
         {
           "linha": 117,
-          "pulsos_padrao": "112811",
-          "tempo_coleta": "359.9",
+          "pulsos_padrao": "112182",
+          "tempo_coleta": "357.895",
           "vazao_referencia": "225878.32963112238",
-          "leitura_medidor": "22592.16749631578947368421053",
+          "leitura_medidor": "22466.30671323684210526315789",
           "temperatura": "23.2",
           "erro": "0.06107611906449712"
         },
         {
           "linha": 118,
-          "pulsos_padrao": "112954",
-          "tempo_coleta": "359.9",
+          "pulsos_padrao": "112325",
+          "tempo_coleta": "357.895",
           "vazao_referencia": "226159.471664401",
-          "leitura_medidor": "22599.90959393939393939393939",
+          "leitura_medidor": "22474.00567969696969696969696",
           "temperatura": "23.2",
           "erro": "-0.03174869016366877"
         },
         {
           "linha": 119,
-          "pulsos_padrao": "113077",
-          "tempo_coleta": "359.9",
+          "pulsos_padrao": "112447",
+          "tempo_coleta": "357.895",
           "vazao_referencia": "226401.5100054441",
-          "leitura_medidor": "22625.31385670103092783505154",
+          "leitura_medidor": "22499.26841551546391752577319",
           "temperatura": "23.2",
           "erro": "-0.02794619846844748"
         }
