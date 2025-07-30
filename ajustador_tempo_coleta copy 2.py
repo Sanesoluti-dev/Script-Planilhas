@@ -58,9 +58,6 @@ from openpyxl import load_workbook
 import shutil
 import os
 
-# Configurar precisão alta para evitar diferenças de arredondamento
-getcontext().prec = 15  # Fixado em 15 casas decimais conforme solicitado
-
 # Dicionário com as fórmulas críticas da planilha
 FORMULAS_CRITICAS = {
     'vazao_referencia': {
@@ -137,27 +134,25 @@ def listar_formulas_criticas():
         print(f"   Dependências: {', '.join(info['dependencias'])}")
         print()
 
+# Configurar precisão alta para evitar diferenças de arredondamento
+getcontext().prec = 28
+
 def converter_para_decimal_padrao(valor):
     """
-    Função padronizada para converter valores para Decimal com 15 casas decimais
+    Função padronizada para converter valores para Decimal
     Trata corretamente formato brasileiro (vírgula como separador decimal)
     Garante que valores inteiros permaneçam inteiros
-    Força precisão de 15 casas decimais conforme solicitado
     """
     if valor is None:
-        return Decimal('0.000000000000000')
+        return Decimal('0')
     
     if isinstance(valor, str):
         # Remove espaços e pontos de milhares, substitui vírgula por ponto
         valor_limpo = valor.replace(' ', '').replace('.', '').replace(',', '.')
-        decimal_valor = Decimal(valor_limpo)
-        # Força precisão de 15 casas decimais
-        return decimal_valor.quantize(Decimal('0.000000000000000'), rounding=ROUND_HALF_UP)
+        return Decimal(valor_limpo)
     
     # Para valores numéricos, converter para string primeiro para preservar precisão
-    decimal_valor = Decimal(str(valor))
-    # Força precisão de 15 casas decimais
-    return decimal_valor.quantize(Decimal('0.000000000000000'), rounding=ROUND_HALF_UP)
+    return Decimal(str(valor))
 
 def ler_valor_exato(sheet, linha, coluna):
     """
@@ -168,7 +163,7 @@ def ler_valor_exato(sheet, linha, coluna):
 
 def calcular_desvio_padrao_amostral(valores):
     """
-    Calcula o desvio padrão amostral (STDEV.S) usando precisão Decimal com 15 casas decimais
+    Calcula o desvio padrão amostral (STDEV.S) usando precisão Decimal
     Fórmula Excel: =STDEV.S(U54:U56)
     """
     if not valores or len(valores) < 2:
@@ -180,20 +175,16 @@ def calcular_desvio_padrao_amostral(valores):
     if len(valores_validos) < 2:
         return None
     
-    # Calcula a média com 15 casas decimais
+    # Calcula a média
     media = sum(valores_validos) / Decimal(str(len(valores_validos)))
-    media = media.quantize(Decimal('0.000000000000000'), rounding=ROUND_HALF_UP)
     
     # Calcula a soma dos quadrados das diferenças
     soma_quadrados = sum((v - media) ** 2 for v in valores_validos)
-    soma_quadrados = soma_quadrados.quantize(Decimal('0.000000000000000'), rounding=ROUND_HALF_UP)
     
     # Calcula o desvio padrão amostral: sqrt(soma_quadrados / (n-1))
     n = len(valores_validos)
     variancia = soma_quadrados / Decimal(str(n - 1))
-    variancia = variancia.quantize(Decimal('0.000000000000000'), rounding=ROUND_HALF_UP)
     desvio_padrao = variancia.sqrt()
-    desvio_padrao = desvio_padrao.quantize(Decimal('0.000000000000000'), rounding=ROUND_HALF_UP)
     
     return desvio_padrao
 
@@ -201,27 +192,22 @@ def calcular_totalizacao_padrao_corrigido(pulsos_padrao, pulso_padrao_lp, temper
     """
     Calcula a "Totalização no Padrão Corrigido • L" usando a fórmula:
     =SE(C54="";"";(C54*$I$51)-(($R$51+$U$51*(C54*$I$51/AA54*3600))/100*(C54*$I$51)))
-    Todos os cálculos com 15 casas decimais de precisão
     """
     if pulsos_padrao == 0:
-        return Decimal('0.000000000000000')
+        return Decimal('0')
     
     # C54*$I$51 = Pulsos * Pulso do padrão em L/P
     volume_pulsos = pulsos_padrao * pulso_padrao_lp
-    volume_pulsos = volume_pulsos.quantize(Decimal('0.000000000000000'), rounding=ROUND_HALF_UP)
     
     # (C54*$I$51/AA54*3600) = Volume / Tempo * 3600 = Vazão
-    vazao = volume_pulsos / tempo_coleta * Decimal('3600.000000000000000')
-    vazao = vazao.quantize(Decimal('0.000000000000000'), rounding=ROUND_HALF_UP)
+    vazao = volume_pulsos / tempo_coleta * Decimal('3600')
     
     # ($R$51+$U$51*(C54*$I$51/AA54*3600))/100 = (Temperatura + Fator_Correção * Vazão) / 100
-    fator_correcao = (temperatura + fator_correcao_temp * vazao) / Decimal('100.000000000000000')
-    fator_correcao = fator_correcao.quantize(Decimal('0.000000000000000'), rounding=ROUND_HALF_UP)
+    fator_correcao = (temperatura + fator_correcao_temp * vazao) / Decimal('100')
     
     # (C54*$I$51)-(($R$51+$U$51*(C54*$I$51/AA54*3600))/100*(C54*$I$51))
     # = Volume - (Fator_Correção * Volume)
     totalizacao = volume_pulsos - (fator_correcao * volume_pulsos)
-    totalizacao = totalizacao.quantize(Decimal('0.000000000000000'), rounding=ROUND_HALF_UP)
     
     return totalizacao
 
@@ -256,7 +242,6 @@ def extrair_constantes_calculo(arquivo_excel):
 def calcular_valores_certificado(dados_originais, constantes):
     """
     Calcula os valores do certificado usando as fórmulas críticas da documentação
-    Todos os cálculos com 15 casas decimais de precisão
     """
     valores_certificado = {}
     
@@ -280,12 +265,9 @@ def calcular_valores_certificado(dados_originais, constantes):
             
             print(f"     Leitura: Totalização = {float(totalizacao)} L, Leitura Medidor = {float(leitura['leitura_medidor'])} L")
         
-        # Calcula médias conforme fórmulas do certificado da documentação com 15 casas decimais
+        # Calcula médias conforme fórmulas do certificado da documentação
         media_totalizacao = sum(totalizacoes) / Decimal(str(len(totalizacoes)))
-        media_totalizacao = media_totalizacao.quantize(Decimal('0.000000000000000'), rounding=ROUND_HALF_UP)
-        
         media_leitura_medidor = sum(leituras_medidor) / Decimal(str(len(leituras_medidor)))
-        media_leitura_medidor = media_leitura_medidor.quantize(Decimal('0.000000000000000'), rounding=ROUND_HALF_UP)
         
         valores_certificado[ponto_key] = {
             'media_totalizacao': media_totalizacao,
@@ -326,8 +308,7 @@ def extrair_dados_originais(arquivo_excel):
             valores_nulos = 0
             for i in range(3): 
                 pulsos = get_numeric_value(coleta_df, linha_inicial + 3 + i, 2)
-                # Verifica se o valor é zero ou nulo usando tolerância
-                if abs(pulsos) < Decimal('0.000000000000001') or pd.isna(pulsos):
+                if pulsos == 0 or pd.isna(pulsos):
                     valores_nulos += 1
             
             if valores_nulos == 3:
@@ -389,14 +370,12 @@ def extrair_dados_originais(arquivo_excel):
             vazoes = [l['vazao_referencia'] for l in ponto['leituras']]
             erros = [l['erro'] for l in ponto['leituras']]
             
-            # Vazão Média (média das vazões de referência) com 15 casas decimais
+            # Vazão Média (média das vazões de referência)
             vazao_media = sum(vazoes) / Decimal(str(len(vazoes)))
-            vazao_media = vazao_media.quantize(Decimal('0.000000000000000'), rounding=ROUND_HALF_UP)
             
             # Tendência (média dos erros) - fórmula: =SE(U54="";"";MÉDIA(U54:U56))
             # Usa todos os erros, não filtra valores zero
             tendencia = sum(erros) / Decimal(str(len(erros)))
-            tendencia = tendencia.quantize(Decimal('0.000000000000000'), rounding=ROUND_HALF_UP)
             
             # Desvio Padrão Amostral
             desvio_padrao = calcular_desvio_padrao_amostral(erros)
@@ -424,18 +403,14 @@ def extrair_dados_originais(arquivo_excel):
         return None
 
 def get_numeric_value(df, row, col):
-    """Extrai valor numérico de uma célula específica usando conversão padronizada com 15 casas decimais"""
+    """Extrai valor numérico de uma célula específica usando conversão padronizada"""
     try:
         value = df.iloc[row, col]
         if pd.notna(value):
-            decimal_value = converter_para_decimal_padrao(value)
-            # Verifica se o valor é zero usando comparação com tolerância
-            if abs(decimal_value) < Decimal('0.000000000000001'):
-                return Decimal('0.000000000000000')
-            return decimal_value
-        return Decimal('0.000000000000000')
+            return converter_para_decimal_padrao(value)
+        return Decimal('0')
     except:
-        return Decimal('0.000000000000000')
+        return Decimal('0')
 
 def encontrar_ajuste_global(leituras_ponto, constantes, valores_certificado_originais, ponto_key):
     """
@@ -621,8 +596,8 @@ def encontrar_ajuste_global(leituras_ponto, constantes, valores_certificado_orig
         tempo_original = tempos_originais[i]
         
         # Aplica ajuste mínimo baseado na otimização
-        fator_ajuste_pulsos = Decimal(str(melhor_pulsos)) / Decimal(str(pulsos_mestre_original))
-        fator_ajuste_tempo = Decimal(str(melhor_tempo)) / Decimal(str(tempo_inicial))
+        fator_ajuste_pulsos = melhor_pulsos / pulsos_mestre_original
+        fator_ajuste_tempo = melhor_tempo / tempo_inicial
         
         # Calcula novos valores com ajustes mínimos
         novo_pulsos = pulsos_original * fator_ajuste_pulsos
@@ -1150,7 +1125,7 @@ def verificar_formula_media_medidor(dados_ajustados, valores_certificado_origina
 def gerar_planilha_corrigida(dados_ajustados, arquivo_original):
     """
     PASSO 5: Geração da Planilha Corrigida
-    Cria uma nova planilha Excel com os valores ajustados com 15 casas decimais
+    Cria uma nova planilha Excel com os valores ajustados
     """
     print(f"\n📄 PASSO 5: GERANDO PLANILHA CORRIGIDA")
     print("=" * 60)
@@ -1165,29 +1140,28 @@ def gerar_planilha_corrigida(dados_ajustados, arquivo_original):
     wb = load_workbook(arquivo_corrigido)
     coleta_sheet = wb["Coleta de Dados"]
     
-    # Aplica os valores ajustados com 15 casas decimais
+    # Aplica os valores ajustados
     for ponto_key, dados in dados_ajustados.items():
         leituras_ajustadas = dados['leituras_ajustadas']
         
         for leitura in leituras_ajustadas:
             linha = leitura['linha']            
-            # Usa valores Decimal com 15 casas decimais para máxima precisão
+            # Usa valores Decimal para máxima precisão, convertendo apenas no final
             # Pulsos devem ser inteiros
             coleta_sheet.cell(row=linha, column=3).value = int(leitura['pulsos_padrao'])  # Coluna C - Pulsos (inteiro)
-            coleta_sheet.cell(row=linha, column=6).value = float(leitura['tempo_coleta'].quantize(Decimal('0.000000000000000')))   # Coluna F - Tempo com 15 casas
-            coleta_sheet.cell(row=linha, column=15).value = float(leitura['leitura_medidor'].quantize(Decimal('0.000000000000000')))  # Coluna O - Leitura Medidor com 15 casas
-            coleta_sheet.cell(row=linha, column=18).value = float(leitura['temperatura'].quantize(Decimal('0.000000000000000')))     # Coluna R - Temperatura com 15 casas
+            coleta_sheet.cell(row=linha, column=6).value = float(leitura['tempo_coleta'])   # Coluna F - Tempo
+            coleta_sheet.cell(row=linha, column=15).value = float(leitura['leitura_medidor'])  # Coluna O - Leitura Medidor
+            coleta_sheet.cell(row=linha, column=18).value = float(leitura['temperatura'])     # Coluna R - Temperatura
             
             print(f"     Linha {linha}:")
             print(f"       Pulsos: {int(leitura['pulsos_padrao'])} (inteiro)")
-            print(f"       Tempo: {float(leitura['tempo_coleta'].quantize(Decimal('0.000000000000000')))} s")
-            print(f"       Leitura Medidor: {float(leitura['leitura_medidor'].quantize(Decimal('0.000000000000000')))} L")
-            print(f"       Temperatura: {float(leitura['temperatura'].quantize(Decimal('0.000000000000000')))} °C")
+            print(f"       Tempo: {float(leitura['tempo_coleta'])} s")
+            print(f"       Leitura Medidor: {float(leitura['leitura_medidor'])} L")
+            print(f"       Temperatura: {float(leitura['temperatura'])} °C")
     
     # Salva a planilha corrigida
     wb.save(arquivo_corrigido)
     print(f"   ✅ Planilha corrigida salva com sucesso")
-    print(f"   ✅ Todos os valores escritos com 15 casas decimais de precisão")
     
     return arquivo_corrigido
 
