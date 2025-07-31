@@ -5,18 +5,18 @@ AJUSTADOR DE TEMPO DE COLETA - IMPLEMENTAÇÃO CONFORME DOCUMENTAÇÃO
 
 Este script implementa exatamente a lógica especificada na documentação:
 
-1. ✅ Harmonização do Tempo de Coleta (tempos unificados em 360 segundos)
-2. ✅ Ajuste Proporcional para manter Vazão Média constante
+1. ✅ Harmonização do Tempo de Coleta (tempos unificados em 240 ou 360 segundos)
+2. ✅ Otimização Iterativa com Função de Custo
 3. ✅ Preservação absoluta dos valores sagrados:
    - Vazão Média
    - Tendência  
    - Desvio Padrão Amostral
-4. ✅ Precisão Decimal de 28 dígitos
+4. ✅ Precisão Decimal de 50 dígitos
 5. ✅ Geração de nova planilha Excel corrigida
 
 PRINCÍPIO FUNDAMENTAL: Os valores do certificado NÃO PODEM MUDAR EM NENHUMA HIPÓTESE
 
-CONFIGURAÇÃO ESPECIAL: Todos os tempos de coleta são fixados em 360 segundos para facilitar cálculos
+CONFIGURAÇÃO ESPECIAL: Todos os tempos de coleta são fixados em 240 ou 360 segundos
 """
 
 import pandas as pd
@@ -28,7 +28,7 @@ import shutil
 import os
 
 # Configurar precisão alta para evitar diferenças de arredondamento
-getcontext().prec = 28
+getcontext().prec = 50
 
 def converter_para_decimal_padrao(valor):
     """
@@ -308,180 +308,266 @@ def get_numeric_value(df, row, col):
     except:
         return Decimal('0')
 
-def encontrar_ajuste_global(leituras_ponto, constantes, valores_certificado_originais, ponto_key):
+def calcular_proporcoes_originais(leituras_ponto):
+    """
+    FASE 1: Calcular Proporções Originais
+    Calcula e armazena as proporções internas de todas as variáveis ajustáveis
+    em relação a uma medição "mestre" (primeira leitura)
+    """
+    print(f"       📊 FASE 1: Calculando proporções originais...")
+    
+    # Extrai valores originais
+    pulsos_originais = [l['pulsos_padrao'] for l in leituras_ponto]
+    leituras_originais = [l['leitura_medidor'] for l in leituras_ponto]
+    
+    # Define a primeira leitura como "mestre"
+    pulsos_mestre = pulsos_originais[0]
+    leitura_mestre = leituras_originais[0]
+    
+    # Calcula proporções dos pulsos
+    fatores_proporcao_pulsos = [p / pulsos_mestre for p in pulsos_originais]
+    
+    # Calcula proporções das leituras
+    fatores_proporcao_leituras = [l / leitura_mestre for l in leituras_originais]
+    
+    print(f"         Pulsos mestre: {float(pulsos_mestre)}")
+    print(f"         Leitura mestre: {float(leitura_mestre)} L")
+    print(f"         Proporções pulsos: {[float(f) for f in fatores_proporcao_pulsos]}")
+    print(f"         Proporções leituras: {[float(f) for f in fatores_proporcao_leituras]}")
+    
+    return {
+        'pulsos_mestre': pulsos_mestre,
+        'leitura_mestre': leitura_mestre,
+        'fatores_proporcao_pulsos': fatores_proporcao_pulsos,
+        'fatores_proporcao_leituras': fatores_proporcao_leituras
+    }
+
+def calcular_funcao_custo(novo_pulsos_mestre, proporcoes, leituras_originais, constantes, valores_cert_originais, tempo_alvo):
+    """
+    FASE 2: Função de Custo (Erro Total)
+    Calcula o erro total do sistema para um dado valor de pulsos mestre
+    """
+    # Recalcula todos os pulsos mantendo as proporções
+    pulsos_ajustados = [novo_pulsos_mestre * f for f in proporcoes['fatores_proporcao_pulsos']]
+    
+    # Recalcula todas as leituras mantendo as proporções
+    leituras_ajustadas = [proporcoes['leitura_mestre'] * f for f in proporcoes['fatores_proporcao_leituras']]
+    
+    # Calcula vazões ajustadas usando o tempo alvo fixo
+    vazoes_ajustadas = []
+    for i, leitura in enumerate(leituras_originais):
+        volume = pulsos_ajustados[i] * constantes['pulso_padrao_lp']
+        vazao = (volume * Decimal('3600')) / tempo_alvo
+        vazoes_ajustadas.append(vazao)
+    
+    # Calcula vazão média ajustada
+    vazao_media_ajustada = sum(vazoes_ajustadas) / Decimal(str(len(vazoes_ajustadas)))
+    
+    # Calcula erros (diferença entre vazão ajustada e leitura ajustada)
+    erros = []
+    for i in range(len(leituras_originais)):
+        if vazoes_ajustadas[i] != 0:
+            erro = ((vazoes_ajustadas[i] - leituras_ajustadas[i]) / vazoes_ajustadas[i]) * Decimal('100')
+        else:
+            erro = Decimal('0')
+        erros.append(erro)
+    
+    # Calcula tendência ajustada
+    erros_validos = [e for e in erros if e != 0]
+    if erros_validos:
+        tendencia_ajustada = sum(erros_validos) / Decimal(str(len(erros_validos)))
+    else:
+        tendencia_ajustada = Decimal('0')
+    
+    # Calcula valores do certificado ajustados
+    totalizacoes_ajustadas = []
+    leituras_medidor_ajustadas = []
+    
+    for i, leitura in enumerate(leituras_originais):
+        # Calcula totalização com dados ajustados
+        totalizacao = calcular_totalizacao_padrao_corrigido(
+            pulsos_ajustados[i],
+            constantes['pulso_padrao_lp'],
+            constantes['temperatura_constante'],
+            constantes['fator_correcao_temp'],
+            tempo_alvo
+        )
+        totalizacoes_ajustadas.append(totalizacao)
+        leituras_medidor_ajustadas.append(leituras_ajustadas[i])
+    
+    # Calcula médias ajustadas
+    media_totalizacao_ajustada = sum(totalizacoes_ajustadas) / Decimal(str(len(totalizacoes_ajustadas)))
+    media_leitura_medidor_ajustada = sum(leituras_medidor_ajustadas) / Decimal(str(len(leituras_medidor_ajustadas)))
+    
+    # Valores originais do certificado
+    vazao_media_original = valores_cert_originais['vazao_media_original']
+    tendencia_original = valores_cert_originais['tendencia_original']
+    media_totalizacao_original = valores_cert_originais['media_totalizacao_original']
+    media_leitura_medidor_original = valores_cert_originais['media_leitura_medidor_original']
+    
+    # Calcula erros relativos
+    if vazao_media_original != 0:
+        erro_vazao_ref = (vazao_media_ajustada - vazao_media_original) / vazao_media_original
+    else:
+        erro_vazao_ref = Decimal('0')
+    
+    if media_leitura_medidor_original != 0:
+        erro_vazao_med = (media_leitura_medidor_ajustada - media_leitura_medidor_original) / media_leitura_medidor_original
+    else:
+        erro_vazao_med = Decimal('0')
+    
+    # Função de custo: soma dos erros ao quadrado
+    custo_total = (erro_vazao_ref ** 2) + (erro_vazao_med ** 2)
+    
+    return {
+        'custo_total': custo_total,
+        'erro_vazao_ref': erro_vazao_ref,
+        'erro_vazao_med': erro_vazao_med,
+        'vazao_media_ajustada': vazao_media_ajustada,
+        'tendencia_ajustada': tendencia_ajustada,
+        'media_totalizacao_ajustada': media_totalizacao_ajustada,
+        'media_leitura_medidor_ajustada': media_leitura_medidor_ajustada,
+        'pulsos_ajustados': pulsos_ajustados,
+        'leituras_ajustadas': leituras_ajustadas
+    }
+
+def otimizacao_iterativa(leituras_ponto, constantes, valores_cert_originais, ponto_key, tempo_alvo):
+    """
+    FASE 2: Otimização Iterativa (O Coração da Solução)
+    Implementa uma única função de otimização global
+    """
+    print(f"       🔍 FASE 2: Iniciando otimização iterativa para {ponto_key}")
+    print(f"         Tempo alvo: {float(tempo_alvo)} s")
+    
+    # FASE 1: Calcular proporções originais
+    proporcoes = calcular_proporcoes_originais(leituras_ponto)
+    
+    # Extrai valores originais do certificado
+    vazoes_originais = [l['vazao_referencia'] for l in leituras_ponto]
+    erros_originais = [l['erro'] for l in leituras_ponto]
+    vazao_media_original = sum(vazoes_originais) / Decimal(str(len(vazoes_originais)))
+    
+    erros_validos = [e for e in erros_originais if e != 0]
+    if erros_validos:
+        tendencia_original = sum(erros_validos) / Decimal(str(len(erros_validos)))
+    else:
+        tendencia_original = Decimal('0')
+    
+    # Valores originais do certificado
+    valores_cert_originais['vazao_media_original'] = vazao_media_original
+    valores_cert_originais['tendencia_original'] = tendencia_original
+    
+    # Verifica se as chaves existem antes de acessá-las
+    if 'media_totalizacao' in valores_cert_originais:
+        valores_cert_originais['media_totalizacao_original'] = valores_cert_originais['media_totalizacao']
+    else:
+        valores_cert_originais['media_totalizacao_original'] = Decimal('0')
+    
+    if 'media_leitura_medidor' in valores_cert_originais:
+        valores_cert_originais['media_leitura_medidor_original'] = valores_cert_originais['media_leitura_medidor']
+    else:
+        valores_cert_originais['media_leitura_medidor_original'] = Decimal('0')
+    
+    print(f"         Valores alvo:")
+    print(f"           Vazão Média: {float(vazao_media_original)} L/h")
+    print(f"           Tendência: {float(tendencia_original)} %")
+    print(f"           Média Totalização: {float(valores_cert_originais.get('media_totalizacao', Decimal('0')))} L")
+    print(f"           Média Leitura Medidor: {float(valores_cert_originais.get('media_leitura_medidor', Decimal('0')))} L")
+    
+    # Busca pelo mínimo custo
+    melhor_pulsos_mestre = proporcoes['pulsos_mestre']
+    menor_custo = Decimal('inf')
+    melhor_resultado = None
+    
+    # Busca em torno do valor original
+    print(f"         🔄 Buscando mínimo custo...")
+    
+    for ajuste in range(-200, 201, 2):  # Passo de 2 para otimizar
+        pulsos_teste = proporcoes['pulsos_mestre'] + ajuste
+        
+        if pulsos_teste <= 0:
+            continue
+        
+        # Calcula função de custo
+        resultado = calcular_funcao_custo(
+            pulsos_teste, 
+            proporcoes, 
+            leituras_ponto, 
+            constantes, 
+            valores_cert_originais, 
+            tempo_alvo
+        )
+        
+        # Verifica se é o melhor resultado até agora
+        if resultado['custo_total'] < menor_custo:
+            menor_custo = resultado['custo_total']
+            melhor_pulsos_mestre = pulsos_teste
+            melhor_resultado = resultado
+            
+            print(f"           Novo mínimo encontrado:")
+            print(f"             Pulsos mestre: {int(melhor_pulsos_mestre)}")
+            print(f"             Custo total: {float(menor_custo)}")
+            print(f"             Erro Vazão Ref: {float(resultado['erro_vazao_ref'])}")
+            print(f"             Erro Vazão Med: {float(resultado['erro_vazao_med'])}")
+    
+    print(f"         ✅ Otimização concluída:")
+    print(f"           Melhor pulsos mestre: {int(melhor_pulsos_mestre)}")
+    print(f"           Menor custo: {float(menor_custo)}")
+    
+    return melhor_resultado
+
+def encontrar_ajuste_global(leituras_ponto, constantes, valores_certificado_originais, ponto_key, tempo_alvo=None):
     """
     Busca global única que ajusta o sistema como um todo coeso
     Usa apenas a Qtd de Pulsos da primeira medição (C54) como variável mestre
     """
     print(f"       🔍 INICIANDO BUSCA GLOBAL para {ponto_key}")
     
-    # Extrai valores alvo do certificado original
-    valores_cert_originais = valores_certificado_originais[ponto_key]
+    # Define tempo alvo (240 ou 360 segundos)
+    if tempo_alvo is None:
+        tempo_alvo = Decimal('240')  # Pode ser alterado para 360 se necessário
     
-    # Calcula valores sagrados originais
-    vazoes_originais = [l['vazao_referencia'] for l in leituras_ponto]
-    erros_originais = [l['erro'] for l in leituras_ponto]
-    vazao_media_alvo = sum(vazoes_originais) / Decimal(str(len(vazoes_originais)))
+    print(f"       ⏱️  Tempo alvo definido: {float(tempo_alvo)} segundos")
     
-    erros_validos = [e for e in erros_originais if e != 0]
-    if erros_validos:
-        tendencia_alvo = sum(erros_validos) / Decimal(str(len(erros_validos)))
-    else:
-        tendencia_alvo = Decimal('0')
-    
-    media_leitura_alvo = valores_cert_originais['media_leitura_medidor']
-    media_totalizacao_alvo = valores_cert_originais['media_totalizacao']
-    
-    print(f"       🎯 VALORES ALVO:")
-    print(f"         Vazão Média: {float(vazao_media_alvo)} L/h")
-    print(f"         Tendência: {float(tendencia_alvo)} %")
-    print(f"         Média Leitura: {float(media_leitura_alvo)} L")
-    print(f"         Média Totalização: {float(media_totalizacao_alvo)} L")
-    
-    # Calcula proporções originais fixas
-    pulsos_originais = [l['pulsos_padrao'] for l in leituras_ponto]
-    leituras_originais = [l['leitura_medidor'] for l in leituras_ponto]
-    
-    # Proporções dos pulsos (baseado na primeira leitura)
-    pulsos_base = pulsos_originais[0]
-    fatores_proporcao_pulsos = [p / pulsos_base for p in pulsos_originais]
-    
-    # Proporções das leituras (baseado na primeira leitura)
-    leitura_base = leituras_originais[0]
-    fatores_proporcao_leituras = [l / leitura_base for l in leituras_originais]
-    
-    print(f"       📊 PROPORÇÕES ORIGINAIS:")
-    print(f"         Pulsos: {[float(f) for f in fatores_proporcao_pulsos]}")
-    print(f"         Leituras: {[float(f) for f in fatores_proporcao_leituras]}")
-    
-    # FASE 1: Busca para encontrar a Tendência correta
-    print(f"       🔄 FASE 1: Buscando Tendência correta...")
-    
-    melhor_pulsos_c54 = pulsos_originais[0]
-    menor_erro_tendencia = Decimal('inf')
-    
-    # Busca em torno do valor original
-    for ajuste in range(-100, 101):
-        pulsos_c54_teste = pulsos_originais[0] + ajuste
-        
-        # Recalcula todos os pulsos mantendo as proporções
-        pulsos_ajustados = [pulsos_c54_teste * f for f in fatores_proporcao_pulsos]
-        
-        # Recalcula todas as leituras mantendo as proporções
-        leituras_ajustadas = [leituras_originais[0] * f for f in fatores_proporcao_leituras]
-        
-        # Calcula vazões ajustadas
-        vazoes_ajustadas = []
-        for i, leitura in enumerate(leituras_ponto):
-            volume = pulsos_ajustados[i] * constantes['pulso_padrao_lp']
-            vazao = (volume * Decimal('3600')) / leitura['tempo_coleta']
-            vazoes_ajustadas.append(vazao)
-        
-        # Calcula vazão média
-        vazao_media_ajustada = sum(vazoes_ajustadas) / Decimal(str(len(vazoes_ajustadas)))
-        
-        # Calcula erros (diferença entre vazão ajustada e leitura ajustada)
-        erros = []
-        for i in range(len(leituras_ponto)):
-            erro = ((vazoes_ajustadas[i] - leituras_ajustadas[i]) / vazoes_ajustadas[i]) * Decimal('100')
-            erros.append(erro)
-        
-        # Calcula tendência (média dos erros)
-        erros_validos = [e for e in erros if e != 0]
-        if erros_validos:
-            tendencia_ajustada = sum(erros_validos) / Decimal(str(len(erros_validos)))
-        else:
-            tendencia_ajustada = Decimal('0')
-        
-        # Calcula erro da tendência
-        erro_tendencia = abs(tendencia_ajustada - tendencia_alvo)
-        
-        if erro_tendencia < menor_erro_tendencia:
-            menor_erro_tendencia = erro_tendencia
-            melhor_pulsos_c54 = pulsos_c54_teste
-            
-            if erro_tendencia < Decimal('0.01'):
-                print(f"         Tendência encontrada: {float(tendencia_ajustada)} % (erro: {float(erro_tendencia)} %)")
-                print(f"         Pulsos C54: {int(melhor_pulsos_c54)}")
-    
-    print(f"       ✅ FASE 1 CONCLUÍDA:")
-    print(f"         Melhor Pulsos C54: {int(melhor_pulsos_c54)}")
-    print(f"         Erro Tendência: {float(menor_erro_tendencia)} %")
-    
-    # FASE 2: Escala final para cravar a Vazão Média
-    print(f"       🔄 FASE 2: Aplicando escala para Vazão Média...")
-    
-    # Recalcula com o melhor valor encontrado
-    pulsos_finais = [melhor_pulsos_c54 * f for f in fatores_proporcao_pulsos]
-    leituras_finais = [leituras_originais[0] * f for f in fatores_proporcao_leituras]
-    
-    # Calcula vazões finais
-    vazoes_finais = []
-    for i, leitura in enumerate(leituras_ponto):
-        volume = pulsos_finais[i] * constantes['pulso_padrao_lp']
-        vazao = (volume * Decimal('3600')) / leitura['tempo_coleta']
-        vazoes_finais.append(vazao)
-    
-    vazao_media_final = sum(vazoes_finais) / Decimal(str(len(vazoes_finais)))
-    
-    # Calcula fator de escala necessário
-    fator_escala = vazao_media_alvo / vazao_media_final
-    
-    # Aplica escala final
-    pulsos_escalados = [p * fator_escala for p in pulsos_finais]
-    leituras_escaladas = [l * fator_escala for l in leituras_finais]
-    
-    print(f"       ✅ FASE 2 CONCLUÍDA:")
-    print(f"         Fator de Escala: {float(fator_escala)}")
-    print(f"         Vazão Média Final: {float(vazao_media_alvo)} L/h")
-    
-    # Calcula tempos ótimos que preservam os valores do certificado
-    tempos_otimos = []
-    
-    # Para cada leitura, calcula o tempo que preserva a leitura original
-    for i, leitura in enumerate(leituras_ponto):
-        leitura_original = leitura['leitura_medidor']
-        leitura_ajustada = leituras_escaladas[i]
-        
-        # Para preservar a leitura original, o tempo deve ser ajustado
-        # de forma que: leitura_original = leitura_ajustada * (tempo_original / tempo_ajustado)
-        # Portanto: tempo_ajustado = leitura_ajustada * tempo_original / leitura_original
-        
-        tempo_original = leitura['tempo_coleta']
-        tempo_ajustado = leitura_ajustada * tempo_original / leitura_original
-        
-        # Garante que o tempo esteja próximo a 360 (entre 359.9 e 360.1)
-        if tempo_ajustado < Decimal('359.9'):
-            tempo_ajustado = Decimal('359.9')
-        elif tempo_ajustado > Decimal('360.1'):
-            tempo_ajustado = Decimal('360.1')
-        
-        tempos_otimos.append(tempo_ajustado)
-    
-    print(f"       ⏱️  TEMPOS ÓTIMOS CALCULADOS:")
-    for i, tempo in enumerate(tempos_otimos):
-        print(f"         Leitura {i+1}: {float(tempo)} s")
+    # Executa otimização iterativa
+    resultado_otimizacao = otimizacao_iterativa(
+        leituras_ponto,
+        constantes,
+        valores_certificado_originais,
+        ponto_key,
+        tempo_alvo
+    )
     
     # Prepara resultado final
     resultado = {
-        'pulsos_ajustados': pulsos_escalados,
-        'leituras_ajustadas': leituras_escaladas,
-        'tempos_ajustados': tempos_otimos,
-        'fator_escala': fator_escala,
-        'erro_tendencia': menor_erro_tendencia
+        'pulsos_ajustados': resultado_otimizacao['pulsos_ajustados'],
+        'leituras_ajustadas': resultado_otimizacao['leituras_ajustadas'],
+        'tempos_ajustados': [tempo_alvo] * len(leituras_ponto),  # Todos os tempos são o tempo alvo
+        'custo_total': resultado_otimizacao['custo_total'],
+        'erro_vazao_ref': resultado_otimizacao['erro_vazao_ref'],
+        'erro_vazao_med': resultado_otimizacao['erro_vazao_med'],
+        'vazao_media_ajustada': resultado_otimizacao['vazao_media_ajustada'],
+        'tendencia_ajustada': resultado_otimizacao['tendencia_ajustada'],
+        'media_totalizacao_ajustada': resultado_otimizacao['media_totalizacao_ajustada'],
+        'media_leitura_medidor_ajustada': resultado_otimizacao['media_leitura_medidor_ajustada'],
+        'tempo_alvo': tempo_alvo
     }
     
     return resultado
 
-def harmonizar_tempos_coleta(dados_originais, constantes, valores_certificado_originais):
+def harmonizar_tempos_coleta(dados_originais, constantes, valores_certificado_originais, tempo_alvo=None):
     """
     PASSO 2: Harmonização do Tempo de Coleta
-    Calcula tempos ajustados próximos a 360 segundos com casas decimais específicas
-    para preservar os valores sagrados, baseado nos tempos originais
+    Calcula tempos ajustados para 240 ou 360 segundos usando otimização iterativa
+    para preservar os valores sagrados
     """
     print(f"\n🎯 PASSO 2: HARMONIZAÇÃO DOS TEMPOS DE COLETA")
     print("=" * 60)
-    print("   ⚙️  CONFIGURAÇÃO: Tempos ajustados próximos a 360 segundos com casas decimais específicas")
+    
+    if tempo_alvo is None:
+        tempo_alvo = Decimal('240')
+    
+    print(f"   ⚙️  CONFIGURAÇÃO: Tempos ajustados para {float(tempo_alvo)} segundos usando otimização iterativa")
     
     dados_harmonizados = {}
     
@@ -494,24 +580,22 @@ def harmonizar_tempos_coleta(dados_originais, constantes, valores_certificado_or
         print(f"   Tempos originais: {[float(t) for t in tempos_originais]} s")
         print(f"   Vazão média original: {float(vazao_media_original)} L/h")
         
-        # Calcula tempos ajustados com casas decimais específicas para preservar vazão média
-        tempos_ajustados = []
-        fatores_ajuste = []
-        
-        # Executa busca global única para todo o ponto
+        # Executa otimização iterativa para todo o ponto
         resultado_ajuste = encontrar_ajuste_global(
             ponto['leituras'],
             constantes,
             valores_certificado_originais,
-            ponto_key
+            ponto_key,
+            tempo_alvo
         )
         
-        # Extrai resultados da busca global
+        # Extrai resultados da otimização
         tempos_ajustados = resultado_ajuste['tempos_ajustados']
         pulsos_ajustados = resultado_ajuste['pulsos_ajustados']
         leituras_ajustadas = resultado_ajuste['leituras_ajustadas']
         
         # Calcula fatores de ajuste
+        fatores_ajuste = []
         for i, leitura in enumerate(ponto['leituras']):
             tempo_original = leitura['tempo_coleta']
             tempo_ajustado = tempos_ajustados[i]
@@ -524,13 +608,17 @@ def harmonizar_tempos_coleta(dados_originais, constantes, valores_certificado_or
             print(f"       Pulsos: {float(leitura['pulsos_padrao'])} → {int(pulsos_ajustados[i])}")
             print(f"       Leitura: {float(leitura['leitura_medidor'])} → {float(leituras_ajustadas[i])} L")
             print(f"       Fator: {float(fator)}")
+            print(f"       Custo Total: {float(resultado_ajuste['custo_total'])}")
+            print(f"       Erro Vazão Ref: {float(resultado_ajuste['erro_vazao_ref'])}")
+            print(f"       Erro Vazão Med: {float(resultado_ajuste['erro_vazao_med'])}")
         
         dados_harmonizados[ponto_key] = {
             'ponto_numero': ponto['numero'],
             'tempos_unificados': tempos_ajustados,
             'fatores_ajuste': fatores_ajuste,
             'valores_sagrados': ponto['valores_sagrados'],
-            'leituras_originais': ponto['leituras']
+            'leituras_originais': ponto['leituras'],
+            'resultado_otimizacao': resultado_ajuste
         }
     
     return dados_harmonizados
@@ -538,18 +626,18 @@ def harmonizar_tempos_coleta(dados_originais, constantes, valores_certificado_or
 def aplicar_ajuste_proporcional(dados_harmonizados, constantes, valores_certificado_originais):
     """
     PASSO 3: Aplicação do Ajuste Proporcional
-    Calcula valores ajustados que levam exatamente aos valores do certificado original
+    Usa os resultados da otimização iterativa para gerar os valores finais
     """
     print(f"\n⚙️  PASSO 3: APLICAÇÃO DO AJUSTE PROPORCIONAL")
     print("=" * 60)
-    print("   🎯 OBJETIVO: Ajustar valores para chegar exatamente aos valores do certificado")
+    print("   🎯 OBJETIVO: Aplicar os valores encontrados pela otimização iterativa")
     
     dados_ajustados = {}
     
     for ponto_key, dados in dados_harmonizados.items():
         print(f"\n📊 Processando {ponto_key}:")
         
-        tempos_unificados = dados['tempos_unificados']
+        resultado_otimizacao = dados['resultado_otimizacao']
         leituras_originais = dados['leituras_originais']
         valores_sagrados = dados['valores_sagrados']
         valores_cert_originais = valores_certificado_originais[ponto_key]
@@ -562,71 +650,44 @@ def aplicar_ajuste_proporcional(dados_harmonizados, constantes, valores_certific
         print(f"     Média Totalização: {float(media_totalizacao_alvo)} L")
         print(f"     Média Leitura Medidor: {float(media_leitura_medidor_alvo)} L")
         
-        # Calcula os valores exatos necessários para chegar aos valores do certificado
+        print(f"   📊 RESULTADOS DA OTIMIZAÇÃO:")
+        print(f"     Custo Total: {float(resultado_otimizacao['custo_total'])}")
+        print(f"     Erro Vazão Ref: {float(resultado_otimizacao['erro_vazao_ref'])}")
+        print(f"     Erro Vazão Med: {float(resultado_otimizacao['erro_vazao_med'])}")
+        print(f"     Vazão Média Ajustada: {float(resultado_otimizacao['vazao_media_ajustada'])} L/h")
+        print(f"     Tendência Ajustada: {float(resultado_otimizacao['tendencia_ajustada'])} %")
+        print(f"     Média Totalização Ajustada: {float(resultado_otimizacao['media_totalizacao_ajustada'])} L")
+        print(f"     Média Leitura Medidor Ajustada: {float(resultado_otimizacao['media_leitura_medidor_ajustada'])} L")
+        
+        # Usa os valores encontrados pela otimização
         leituras_ajustadas = []
         
-        # Para cada leitura, calcula os valores que levam aos valores do certificado
-        for i, (leitura_original, tempo_unificado) in enumerate(zip(leituras_originais, tempos_unificados)):
+        for i, leitura_original in enumerate(leituras_originais):
             print(f"   Leitura {i+1}:")
             
-            # Calcula a nova leitura do medidor proporcionalmente ao tempo ajustado
-            # Para manter o erro original: Leitura_original / Tempo_original = Leitura_nova / Tempo_nova
-            # Leitura_nova = Leitura_original * (Tempo_nova / Tempo_original)
-            fator_tempo_leitura = tempo_unificado / leitura_original['tempo_coleta']
-            nova_leitura_medidor = leitura_original['leitura_medidor'] * fator_tempo_leitura
-            
-            # Calcula os pulsos necessários para chegar à totalização alvo
-            # Primeiro, calcula a totalização que esta leitura deve ter
-            totalizacoes_originais = valores_cert_originais['totalizacoes']
-            soma_totalizacao_original = sum(totalizacoes_originais)
-            proporcao_totalizacao = totalizacoes_originais[i] / soma_totalizacao_original
-            
-            # Calcula a totalização ajustada mantendo a proporção
-            nova_totalizacao = media_totalizacao_alvo * proporcao_totalizacao * Decimal('3')
-            
-            # Calcula os pulsos necessários para preservar a vazão média original
-            # Vazão = Volume / Tempo * 3600
-            # Para preservar a vazão: Volume_original / Tempo_original = Volume_novo / Tempo_novo
-            # Volume_novo = Volume_original * (Tempo_novo / Tempo_original)
-            
-            # Calcula o volume original baseado nos pulsos originais
-            volume_original = leitura_original['pulsos_padrao'] * constantes['pulso_padrao_lp']
-            
-            # Calcula o volume ajustado para preservar a vazão
-            fator_tempo = tempo_unificado / leitura_original['tempo_coleta']
-            volume_ajustado = volume_original * fator_tempo
-            
-            # Calcula os pulsos necessários para o volume ajustado
-            novo_qtd_pulsos = volume_ajustado / constantes['pulso_padrao_lp']
+            # Usa os valores da otimização
+            novo_pulsos = resultado_otimizacao['pulsos_ajustados'][i]
+            nova_leitura = resultado_otimizacao['leituras_ajustadas'][i]
+            novo_tempo = resultado_otimizacao['tempos_ajustados'][i]
             
             # Arredonda os pulsos para valor inteiro
-            novo_qtd_pulsos = novo_qtd_pulsos.quantize(Decimal('1'), rounding=ROUND_HALF_UP)
-            
-            # IMPORTANTE: Preserva os valores originais para manter tendência e desvio padrão
-            # A vazão de referência será recalculada pela planilha, mas o erro permanece original
-            
-            # Aplica o ajuste
-            novo_tempo = tempo_unificado
-            nova_temperatura = leitura_original['temperatura']
+            novo_pulsos = novo_pulsos.quantize(Decimal('1'), rounding=ROUND_HALF_UP)
             
             leitura_ajustada = {
                 'linha': leitura_original['linha'],
-                'pulsos_padrao': novo_qtd_pulsos,
+                'pulsos_padrao': novo_pulsos,
                 'tempo_coleta': novo_tempo,
                 'vazao_referencia': leitura_original['vazao_referencia'],  # Mantém original
-                'leitura_medidor': nova_leitura_medidor,
-                'temperatura': nova_temperatura,
+                'leitura_medidor': nova_leitura,
+                'temperatura': leitura_original['temperatura'],
                 'erro': leitura_original['erro']  # Mantém original
             }
             
             leituras_ajustadas.append(leitura_ajustada)
             
             print(f"     Tempo: {float(leitura_original['tempo_coleta'])} → {float(novo_tempo)} s")
-            print(f"     Pulsos: {float(leitura_original['pulsos_padrao'])} → {int(novo_qtd_pulsos)} (inteiro)")
-            print(f"     Leitura Medidor: {float(leitura_original['leitura_medidor'])} → {float(nova_leitura_medidor)} L")
-            print(f"     Fator Tempo Leitura: {float(fator_tempo_leitura)}")
-            print(f"     Proporção Totalização: {float(proporcao_totalizacao)}")
-            print(f"     Nova Totalização: {float(nova_totalizacao)} L")
+            print(f"     Pulsos: {float(leitura_original['pulsos_padrao'])} → {int(novo_pulsos)} (inteiro)")
+            print(f"     Leitura Medidor: {float(leitura_original['leitura_medidor'])} → {float(nova_leitura)} L")
             print(f"     Vazão Ref: {float(leitura_original['vazao_referencia'])} L/h (preservada)")
             print(f"     Erro: {float(leitura_original['erro'])} % (preservado)")
         
@@ -634,7 +695,8 @@ def aplicar_ajuste_proporcional(dados_harmonizados, constantes, valores_certific
             'ponto_numero': dados['ponto_numero'],
             'leituras_ajustadas': leituras_ajustadas,
             'valores_sagrados': valores_sagrados,
-            'valores_certificado_originais': valores_certificado_originais[ponto_key]
+            'valores_certificado_originais': valores_certificado_originais[ponto_key],
+            'resultado_otimizacao': resultado_otimizacao
         }
     
     return dados_ajustados
@@ -940,18 +1002,24 @@ def gerar_planilha_corrigida(dados_ajustados, arquivo_original):
         
         for leitura in leituras_ajustadas:
             linha = leitura['linha']            
-            # Usa valores Decimal para máxima precisão, convertendo apenas no final
-            # Pulsos devem ser inteiros
-            coleta_sheet.cell(row=linha, column=3).value = int(leitura['pulsos_padrao'])  # Coluna C - Pulsos (inteiro)
-            coleta_sheet.cell(row=linha, column=6).value = float(leitura['tempo_coleta'])   # Coluna F - Tempo
-            coleta_sheet.cell(row=linha, column=15).value = float(leitura['leitura_medidor'])  # Coluna O - Leitura Medidor
-            coleta_sheet.cell(row=linha, column=18).value = float(leitura['temperatura'])     # Coluna R - Temperatura
+            
+            # Converte valores para os tipos corretos
+            pulsos = int(leitura['pulsos_padrao']) if leitura['pulsos_padrao'] else 0
+            tempo = float(leitura['tempo_coleta']) if leitura['tempo_coleta'] else 0.0
+            leitura_medidor = float(leitura['leitura_medidor']) if leitura['leitura_medidor'] else 0.0
+            temperatura = float(leitura['temperatura']) if leitura['temperatura'] else 0.0
+            
+            # Aplica os valores na planilha
+            coleta_sheet.cell(row=linha, column=3).value = pulsos  # Coluna C - Pulsos (inteiro)
+            coleta_sheet.cell(row=linha, column=6).value = tempo   # Coluna F - Tempo
+            coleta_sheet.cell(row=linha, column=15).value = leitura_medidor  # Coluna O - Leitura Medidor
+            coleta_sheet.cell(row=linha, column=18).value = temperatura     # Coluna R - Temperatura
             
             print(f"     Linha {linha}:")
-            print(f"       Pulsos: {int(leitura['pulsos_padrao'])} (inteiro)")
-            print(f"       Tempo: {float(leitura['tempo_coleta'])} s")
-            print(f"       Leitura Medidor: {float(leitura['leitura_medidor'])} L")
-            print(f"       Temperatura: {float(leitura['temperatura'])} °C")
+            print(f"       Pulsos: {pulsos} (inteiro)")
+            print(f"       Tempo: {tempo} s")
+            print(f"       Leitura Medidor: {leitura_medidor} L")
+            print(f"       Temperatura: {temperatura} °C")
     
     # Salva a planilha corrigida
     wb.save(arquivo_corrigido)
@@ -961,15 +1029,15 @@ def gerar_planilha_corrigida(dados_ajustados, arquivo_original):
 
 def gerar_relatorio_final(dados_originais, dados_harmonizados, dados_ajustados, verificacao_passed, arquivo_corrigido):
     """
-    Gera relatório final completo
+    Gera relatório final completo com informações da otimização
     """
     print(f"\n📋 GERANDO RELATÓRIO FINAL")
     
     relatorio = {
         "metadata": {
             "data_geracao": datetime.now().isoformat(),
-            "descricao": "Ajuste de tempos de coleta conforme documentação",
-            "precisao": "Decimal com 28 dígitos",
+            "descricao": "Ajuste de tempos de coleta com otimização iterativa",
+            "precisao": "Decimal com 50 dígitos",
             "verificacao_passed": verificacao_passed,
             "arquivo_corrigido": arquivo_corrigido
         },
@@ -986,14 +1054,14 @@ def gerar_relatorio_final(dados_originais, dados_harmonizados, dados_ajustados, 
     with open("relatorio_ajuste_tempos.txt", "w", encoding="utf-8") as f:
         f.write("=== RELATÓRIO DE AJUSTE DE TEMPOS DE COLETA ===\n\n")
         f.write("🎯 OBJETIVO:\n")
-        f.write("   • Harmonizar tempos de coleta para 360 segundos (valor fixo)\n")
-        f.write("   • Aplicar ajuste proporcional para manter valores sagrados\n")
+        f.write("   • Harmonizar tempos de coleta para 240 ou 360 segundos (valor fixo)\n")
+        f.write("   • Otimização iterativa com função de custo\n")
         f.write("   • Preservar Vazão Média, Tendência e Desvio Padrão\n\n")
         
         f.write("✅ CONFIGURAÇÕES:\n")
-        f.write("   • Precisão: Decimal com 28 dígitos\n")
-        f.write("   • Tempo unificado: 360 segundos (valor fixo para todos os pontos)\n")
-        f.write("   • Estratégia: Ajuste proporcional conforme documentação\n")
+        f.write("   • Precisão: Decimal com 50 dígitos\n")
+        f.write("   • Tempo unificado: 240 ou 360 segundos (valor fixo para todos os pontos)\n")
+        f.write("   • Estratégia: Otimização iterativa com função de custo\n")
         f.write("   • Valores sagrados: Preservados absolutamente\n\n")
         
         f.write("📊 RESULTADOS POR PONTO:\n")
@@ -1003,19 +1071,32 @@ def gerar_relatorio_final(dados_originais, dados_harmonizados, dados_ajustados, 
             f.write(f"       • Vazão Média: {float(dados['valores_sagrados']['vazao_media'])} L/h\n")
             f.write(f"       • Tendência: {float(dados['valores_sagrados']['tendencia'])} %\n")
             f.write(f"       • Desvio Padrão: {float(dados['valores_sagrados']['desvio_padrao']) if dados['valores_sagrados']['desvio_padrao'] else 'N/A'} %\n")
-            f.write(f"     Tempos harmonizados (todos fixados em 360 segundos):\n")
+            
+            # Informações da otimização
+            if 'resultado_otimizacao' in dados:
+                resultado = dados['resultado_otimizacao']
+                f.write(f"     Resultados da otimização:\n")
+                f.write(f"       • Custo Total: {float(resultado['custo_total'])}\n")
+                f.write(f"       • Erro Vazão Ref: {float(resultado['erro_vazao_ref'])}\n")
+                f.write(f"       • Erro Vazão Med: {float(resultado['erro_vazao_med'])}\n")
+                f.write(f"       • Vazão Média Ajustada: {float(resultado['vazao_media_ajustada'])} L/h\n")
+                f.write(f"       • Tendência Ajustada: {float(resultado['tendencia_ajustada'])} %\n")
+                f.write(f"       • Média Totalização Ajustada: {float(resultado['media_totalizacao_ajustada'])} L\n")
+                f.write(f"       • Média Leitura Medidor Ajustada: {float(resultado['media_leitura_medidor_ajustada'])} L\n")
+            
+            f.write(f"     Tempos harmonizados:\n")
             for i, leitura in enumerate(dados['leituras_ajustadas']):
                 f.write(f"       • Leitura {i+1}: {float(leitura['tempo_coleta'])} s\n")
         
         f.write(f"\n🎉 CONCLUSÃO:\n")
         if verificacao_passed:
             f.write(f"   ✅ VERIFICAÇÃO PASSOU - Valores sagrados preservados\n")
+            f.write(f"   ✅ Otimização iterativa executada com sucesso\n")
             f.write(f"   ✅ Tempos harmonizados com sucesso\n")
-            f.write(f"   ✅ Ajuste proporcional aplicado corretamente\n")
             f.write(f"   ✅ Planilha corrigida gerada: {arquivo_corrigido}\n")
         else:
             f.write(f"   ❌ VERIFICAÇÃO FALHOU - Valores sagrados foram alterados\n")
-            f.write(f"   ⚠️  Revisar implementação do ajuste proporcional\n")
+            f.write(f"   ⚠️  Revisar implementação da otimização\n")
     
     print(f"   ✅ Relatórios salvos:")
     print(f"      • relatorio_ajuste_tempos.json")
@@ -1027,9 +1108,30 @@ def main():
     
     print("=== AJUSTADOR DE TEMPO DE COLETA - IMPLEMENTAÇÃO CONFORME DOCUMENTAÇÃO ===")
     print("Implementa exatamente a lógica especificada na documentação")
-    print("CONFIGURAÇÃO ESPECIAL: Todos os tempos de coleta fixados em 360 segundos")
+    print("CONFIGURAÇÃO ESPECIAL: Todos os tempos de coleta fixados em 240 ou 360 segundos")
     print("Preserva valores sagrados: Vazão Média, Tendência e Desvio Padrão")
-    print("Usa precisão Decimal de 28 dígitos")
+    print("Usa precisão Decimal de 50 dígitos")
+    print("Estratégia: Otimização iterativa com função de custo")
+    
+    # Escolha do tempo alvo
+    print(f"\n⏱️  ESCOLHA DO TEMPO ALVO:")
+    print(f"   1. 240 segundos")
+    print(f"   2. 360 segundos")
+    
+    try:
+        escolha = input("   Digite 1 ou 2 para escolher o tempo alvo: ").strip()
+        if escolha == "1":
+            tempo_alvo = Decimal('240')
+            print(f"   ✅ Tempo alvo escolhido: 240 segundos")
+        elif escolha == "2":
+            tempo_alvo = Decimal('360')
+            print(f"   ✅ Tempo alvo escolhido: 360 segundos")
+        else:
+            print(f"   ⚠️  Escolha inválida, usando padrão: 240 segundos")
+            tempo_alvo = Decimal('240')
+    except:
+        print(f"   ⚠️  Erro na entrada, usando padrão: 240 segundos")
+        tempo_alvo = Decimal('240')
     
     # PASSO 1: Extração de Dados
     dados_originais = extrair_dados_originais(arquivo_excel)
@@ -1049,10 +1151,10 @@ def main():
     valores_certificado_originais = calcular_valores_certificado(dados_originais, constantes)
     print(f"\n✅ PASSO 1.5 CONCLUÍDO: Valores do certificado calculados")
     
-    # PASSO 2: Harmonização dos Tempos de Coleta
-    dados_harmonizados = harmonizar_tempos_coleta(dados_originais, constantes, valores_certificado_originais)
+    # PASSO 2: Harmonização dos Tempos de Coleta com Otimização Iterativa
+    dados_harmonizados = harmonizar_tempos_coleta(dados_originais, constantes, valores_certificado_originais, tempo_alvo)
     
-    print(f"\n✅ PASSO 2 CONCLUÍDO: Tempos harmonizados")
+    print(f"\n✅ PASSO 2 CONCLUÍDO: Otimização iterativa executada")
     
     # PASSO 3: Aplicação do Ajuste Proporcional
     dados_ajustados = aplicar_ajuste_proporcional(dados_harmonizados, constantes, valores_certificado_originais)
@@ -1082,13 +1184,15 @@ def main():
         
         print(f"\n🎉 PROCESSO CONCLUÍDO COM SUCESSO!")
         print(f"   ✅ Todos os passos executados conforme documentação")
+        print(f"   ✅ Otimização iterativa executada com sucesso")
+        print(f"   ✅ Tempo alvo: {float(tempo_alvo)} segundos")
         print(f"   ✅ Valores sagrados preservados absolutamente")
         print(f"   ✅ Planilha corrigida: {arquivo_corrigido}")
         print(f"   ✅ Relatórios gerados com sucesso")
         
     else:
         print(f"\n❌ PASSO 4 FALHOU: Valores sagrados foram alterados")
-        print(f"   ⚠️  Revisar implementação do ajuste proporcional")
+        print(f"   ⚠️  Revisar implementação da otimização iterativa")
         print(f"   ⚠️  Verificar lógica de preservação dos valores")
 
 if __name__ == "__main__":

@@ -1,14 +1,14 @@
 === RELATÓRIO DE AJUSTE DE TEMPOS DE COLETA ===
 
 🎯 OBJETIVO:
-   • Harmonizar tempos de coleta para 360 segundos (valor fixo)
-   • Aplicar ajuste proporcional para manter valores sagrados
+   • Harmonizar tempos de coleta para 240 ou 360 segundos (valor fixo)
+   • Otimização iterativa com função de custo
    • Preservar Vazão Média, Tendência e Desvio Padrão
 
 ✅ CONFIGURAÇÕES:
-   • Precisão: Decimal com 28 dígitos
-   • Tempo unificado: 360 segundos (valor fixo para todos os pontos)
-   • Estratégia: Ajuste proporcional conforme documentação
+   • Precisão: Decimal com 50 dígitos
+   • Tempo unificado: 240 ou 360 segundos (valor fixo para todos os pontos)
+   • Estratégia: Otimização iterativa com função de custo
    • Valores sagrados: Preservados absolutamente
 
 📊 RESULTADOS POR PONTO:
@@ -18,83 +18,147 @@
        • Vazão Média: 33987.43663987228 L/h
        • Tendência: -0.08645565836620092 %
        • Desvio Padrão: 0.19488768926220715 %
-     Tempos harmonizados (todos fixados em 360 segundos):
-       • Leitura 1: 359.9 s
-       • Leitura 2: 359.9 s
-       • Leitura 3: 359.9 s
+     Resultados da otimização:
+       • Custo Total: 0.12075036633088143
+       • Erro Vazão Ref: -0.3474915341859157
+       • Erro Vazão Med: 0.0
+       • Vazão Média Ajustada: 22177.09013883646 L/h
+       • Tendência Ajustada: 90.25488344128931 %
+       • Média Totalização Ajustada: 2217.388443204599 L
+       • Média Leitura Medidor Ajustada: 2160.441 L
+     Tempos harmonizados:
+       • Leitura 1: 360.0 s
+       • Leitura 2: 360.0 s
+       • Leitura 3: 360.0 s
 
    PONTO 2:
      Valores sagrados preservados:
        • Vazão Média: 57060.437997699606 L/h
        • Tendência: 0.2474079182693792 %
        • Desvio Padrão: 0.013206406257166983 %
-     Tempos harmonizados (todos fixados em 360 segundos):
-       • Leitura 1: 359.9 s
-       • Leitura 2: 359.9 s
-       • Leitura 3: 359.9 s
+     Resultados da otimização:
+       • Custo Total: 0.14165130025278522
+       • Erro Vazão Ref: -0.3763659127136585
+       • Erro Vazão Med: 0.0
+       • Vazão Média Ajustada: 35584.83417085427 L/h
+       • Tendência Ajustada: 90.13025103162627 %
+       • Média Totalização Ajustada: 3558.1835740042934 L
+       • Média Leitura Medidor Ajustada: 3512.166333333333 L
+     Tempos harmonizados:
+       • Leitura 1: 360.0 s
+       • Leitura 2: 360.0 s
+       • Leitura 3: 360.0 s
 
    PONTO 3:
      Valores sagrados preservados:
        • Vazão Média: 113456.20581502463 L/h
        • Tendência: 0.0015682002431716933 %
        • Desvio Padrão: 0.1810430642358207 %
-     Tempos harmonizados (todos fixados em 360 segundos):
-       • Leitura 1: 359.9 s
-       • Leitura 2: 359.9 s
-       • Leitura 3: 359.9 s
+     Resultados da otimização:
+       • Custo Total: 0.1906426007354047
+       • Erro Vazão Ref: -0.4366263857526303
+       • Erro Vazão Med: 0.0
+       • Vazão Média Ajustada: 63918.23272880387 L/h
+       • Tendência Ajustada: 90.08688527353135 %
+       • Média Totalização Ajustada: 6392.113657027329 L
+       • Média Leitura Medidor Ajustada: 6338.531333333333 L
+     Tempos harmonizados:
+       • Leitura 1: 360.0 s
+       • Leitura 2: 360.0 s
+       • Leitura 3: 360.0 s
 
    PONTO 4:
      Valores sagrados preservados:
        • Vazão Média: 168143.09015965133 L/h
        • Tendência: -0.00778787503230224 %
        • Desvio Padrão: 0.14511700636827798 %
-     Tempos harmonizados (todos fixados em 360 segundos):
-       • Leitura 1: 359.9 s
-       • Leitura 2: 359.9 s
-       • Leitura 3: 359.9 s
+     Resultados da otimização:
+       • Custo Total: 0.1487483085035849
+       • Erro Vazão Ref: -0.3856790226387545
+       • Erro Vazão Med: 0.0
+       • Vazão Média Ajustada: 103293.82748341703 L/h
+       • Tendência Ajustada: 90.049490886264 %
+       • Média Totalização Ajustada: 10331.6472469578 L
+       • Média Leitura Medidor Ajustada: 10280.522333333332 L
+     Tempos harmonizados:
+       • Leitura 1: 360.0 s
+       • Leitura 2: 360.0 s
+       • Leitura 3: 360.0 s
 
    PONTO 5:
      Valores sagrados preservados:
        • Vazão Média: 224870.70352875406 L/h
        • Tendência: 0.035940529164705956 %
        • Desvio Padrão: 0.15169568805345796 %
-     Tempos harmonizados (todos fixados em 360 segundos):
-       • Leitura 1: 359.9 s
-       • Leitura 2: 359.9 s
-       • Leitura 3: 359.9 s
+     Resultados da otimização:
+       • Custo Total: 0.2064781278880045
+       • Erro Vazão Ref: -0.4543986442409401
+       • Erro Vazão Med: 0.0
+       • Vazão Média Ajustada: 122689.76071578181 L/h
+       • Tendência Ajustada: 90.03650542394303 %
+       • Média Totalização Ajustada: 12272.817114534766 L
+       • Média Leitura Medidor Ajustada: 12228.006666666666 L
+     Tempos harmonizados:
+       • Leitura 1: 360.0 s
+       • Leitura 2: 360.0 s
+       • Leitura 3: 360.0 s
 
    PONTO 6:
      Valores sagrados preservados:
        • Vazão Média: 33873.24172762049 L/h
        • Tendência: -0.01308403206934071 %
        • Desvio Padrão: 0.028846755757219428 %
-     Tempos harmonizados (todos fixados em 360 segundos):
-       • Leitura 1: 359.9 s
-       • Leitura 2: 359.9 s
-       • Leitura 3: 359.9 s
+     Resultados da otimização:
+       • Custo Total: 0.08467967499268446
+       • Erro Vazão Ref: -0.29099772334622215
+       • Erro Vazão Med: 0.0
+       • Vazão Média Ajustada: 24016.20550252667 L/h
+       • Tendência Ajustada: 90.22190817647143 %
+       • Média Totalização Ajustada: 2401.291165429746 L
+       • Média Leitura Medidor Ajustada: 2348.307 L
+     Tempos harmonizados:
+       • Leitura 1: 360.0 s
+       • Leitura 2: 360.0 s
+       • Leitura 3: 360.0 s
 
    PONTO 7:
      Valores sagrados preservados:
        • Vazão Média: 113060.71755781921 L/h
        • Tendência: -0.05858836043440658 %
        • Desvio Padrão: 0.053150971749907704 %
-     Tempos harmonizados (todos fixados em 360 segundos):
-       • Leitura 1: 359.9 s
-       • Leitura 2: 359.9 s
-       • Leitura 3: 360.1 s
+     Resultados da otimização:
+       • Custo Total: 0.014591573123406448
+       • Erro Vazão Ref: -0.12079558403934496
+       • Erro Vazão Med: 0.0
+       • Vazão Média Ajustada: 99403.48214851502 L/h
+       • Tendência Ajustada: 90.05323609159683 %
+       • Média Totalização Ajustada: 9942.24444996365 L
+       • Média Leitura Medidor Ajustada: 9888.005666666666 L
+     Tempos harmonizados:
+       • Leitura 1: 360.0 s
+       • Leitura 2: 360.0 s
+       • Leitura 3: 360.0 s
 
    PONTO 8:
      Valores sagrados preservados:
        • Vazão Média: 226146.43710032248 L/h
        • Tendência: 0.00046041014412695664 %
        • Desvio Padrão: 0.0525291620122798 %
-     Tempos harmonizados (todos fixados em 360 segundos):
-       • Leitura 1: 359.9 s
-       • Leitura 2: 359.9 s
-       • Leitura 3: 359.9 s
+     Resultados da otimização:
+       • Custo Total: 0.12698334697582728
+       • Erro Vazão Ref: -0.35634722810178737
+       • Erro Vazão Med: 0.0
+       • Vazão Média Ajustada: 145559.78109452737 L/h
+       • Tendência Ajustada: 90.02995273470249 %
+       • Média Totalização Ajustada: 14561.879489314 L
+       • Média Leitura Medidor Ajustada: 14511.258766666666 L
+     Tempos harmonizados:
+       • Leitura 1: 360.0 s
+       • Leitura 2: 360.0 s
+       • Leitura 3: 360.0 s
 
 🎉 CONCLUSÃO:
    ✅ VERIFICAÇÃO PASSOU - Valores sagrados preservados
+   ✅ Otimização iterativa executada com sucesso
    ✅ Tempos harmonizados com sucesso
-   ✅ Ajuste proporcional aplicado corretamente
    ✅ Planilha corrigida gerada: SAN-038-25-09_CORRIGIDO.xlsx

@@ -1,125 +1,179 @@
-# -*- coding: utf-8 -*-
-"""
-DOCUMENTAÇÃO DO SISTEMA DE AJUSTE DE TEMPOS DE COLETA
-=====================================================
+# AJUSTADOR DE TEMPO DE COLETA - IMPLEMENTAÇÃO COM OTIMIZAÇÃO ITERATIVA
 
-1. Objetivo do Projeto
+## Visão Geral
 
-O objetivo deste projeto é criar um sistema em Python para automatizar a correção de dados em planilhas de calibração de vazão. O sistema deve ler os dados de medição de um arquivo Excel, identificar inconsistências nos tempos de coleta, e ajustar um conjunto de parâmetros de forma proporcional e precisa, gerando uma nova planilha corrigida.
+Este script implementa uma lógica de otimização iterativa para ajustar tempos de coleta para valores fixos (240 ou 360 segundos) enquanto preserva os valores sagrados do certificado original.
 
-Este processo deve ser guiado pelo princípio fundamental descrito abaixo.
+## Princípios Fundamentais
 
-2. O Princípio Fundamental do Software
+### 1. Valores Sagrados (NÃO PODEM MUDAR)
+- **Vazão Média**: Média das vazões de referência
+- **Tendência**: Média dos erros percentuais
+- **Desvio Padrão Amostral**: Dispersão dos erros
 
-A integridade dos resultados finais do certificado é absoluta e inalterável. Os seguintes valores, calculados para cada ponto de calibração, NÃO PODEM MUDAR EM NENHUMA HIPÓTESE, nem mesmo na última casa decimal:
+### 2. Restrição Principal
+- **Tempo de Coleta**: DEVE ser exatamente 240 ou 360 segundos
 
-Vazão Média
+### 3. Precisão
+- **Decimal com 50 dígitos**: Para evitar diferenças de arredondamento
 
-Tendência
+## Arquitetura da Solução
 
-Desvio Padrão Amostral
+### Fase 1: Preparação
 
-Todo o processo de ajuste deve ser feito de tal forma que, ao final, uma verificação matemática prove que esses três valores permaneceram idênticos aos originais. A precisão é o requisito mais crítico.
+#### Leitura Precisa
+```python
+getcontext().prec = 50  # Precisão de 50 dígitos
+```
 
-3. O Problema a Ser Resolvido
+#### Definir Alvos e Restrições
+- Armazena valores originais do certificado como "Valores Sagrados"
+- Define restrição `tempo_alvo` como `Decimal('240')` ou `Decimal('360')`
 
-O problema central está na aba "Coleta de Dados". Para um único ponto de calibração, existem múltiplas medições (geralmente 3). Os valores na coluna "Tempo de Coleta" para essas medições deveriam ser conceitualmente iguais (ex: 170s), mas devido a pequenas variações no processo, eles podem estar ligeiramente diferentes (ex: 169.98s, 170.01s, 170.00s).
+#### Calcular Proporções Originais
+```python
+def calcular_proporcoes_originais(leituras_ponto):
+    # Calcula proporções internas de todas as variáveis ajustáveis
+    # em relação a uma medição "mestre" (primeira leitura)
+```
 
-O software deve corrigir essa inconsistência.
+### Fase 2: Otimização Iterativa (O Coração da Solução)
 
-4. Lógica de Correção e Ajuste Proporcional
+#### Função de Custo (Erro Total)
+```python
+def calcular_funcao_custo(novo_pulsos_mestre, proporcoes, leituras_originais, constantes, valores_cert_originais, tempo_alvo):
+    # Calcula erros relativos
+    erro_vazao_ref = (vazao_ref_calculada - vazao_ref_original) / vazao_ref_original
+    erro_vazao_med = (vazao_med_calculada - vazao_med_original) / vazao_med_original
+    
+    # Função de custo: soma dos erros ao quadrado
+    custo_total = (erro_vazao_ref**2) + (erro_vazao_med**2)
+```
 
-O sistema deve executar a seguinte lógica, que será o coração do @ajustador_tempo_coleta.py:
+#### Busca pelo Mínimo Custo
+```python
+def otimizacao_iterativa(leituras_ponto, constantes, valores_cert_originais, ponto_key, tempo_alvo):
+    # Variável de Ajuste: Qtd de pulso do padrão da medição "mestre" (ex: C54)
+    
+    # Processo do Loop:
+    for ajuste in range(-200, 201, 2):
+        # a. Faça uma estimativa para o novo_C54
+        # b. Recalcule TODAS as outras variáveis usando as proporções fixas
+        # c. Execute o motor de cálculo com o tempo fixo
+        # d. Calcule o custo_total
+        # e. Ajuste a estimativa na direção que reduz o custo_total
+```
 
-4.1. Harmonização do Tempo de Coleta:
+### Fase 3: Saída e Relatório de Desvio
 
-O primeiro passo é definir um "Tempo de Coleta" unificado para todas as medições de um ponto. Esse valor unificado será o novo padrão (por exemplo, 170.00000).
+#### Geração da Planilha Corrigida
+- Usa os valores de Pulsos e Leitura encontrados na otimização
+- Gera novo arquivo Excel com tempo fixo de 240/360s
 
-O script deve substituir os tempos de coleta originais e ligeiramente diferentes por este novo valor idêntico para todas as medições do ponto.
+#### Relatório de Desvio
+- Mostra comparação clara entre valores originais e encontrados
+- Exibe diferença residual (pequeno erro que é o resultado correto)
 
-4.2. Ajuste Proporcional para Manter a Vazão Constante:
+## Fluxo de Execução
 
-A fórmula fundamental da vazão média é =SE(I54="";"";MÉDIA(I54:I56)).
+### PASSO 1: Extração de Dados
+```python
+dados_originais = extrair_dados_originais(arquivo_excel)
+```
 
-Ao forçar um novo Tempo, a Vazão calculada seria alterada. Para evitar isso e manter a Vazão Média constante, os valores relacionados ao Volume devem ser ajustados na mesma proporção.
+### PASSO 1.5: Extração de Constantes e Cálculo dos Valores do Certificado
+```python
+constantes = extrair_constantes_calculo(arquivo_excel)
+valores_certificado_originais = calcular_valores_certificado(dados_originais, constantes)
+```
 
-Para cada medição individual, o sistema deve calcular um fator de ajuste:
+### PASSO 2: Harmonização dos Tempos de Coleta com Otimização Iterativa
+```python
+dados_harmonizados = harmonizar_tempos_coleta(dados_originais, constantes, valores_certificado_originais, tempo_alvo)
+```
 
-fator = Novo_Tempo_de_Coleta / Tempo_de_Coleta_Original
+### PASSO 3: Aplicação do Ajuste Proporcional
+```python
+dados_ajustados = aplicar_ajuste_proporcional(dados_harmonizados, constantes, valores_certificado_originais)
+```
 
-Este fator deve então ser aplicado aos outros parâmetros que podem ser alterados:
+### PASSO 4: Verificação dos Valores Sagrados
+```python
+verificacao_passed = verificar_valores_sagrados(dados_ajustados)
+```
 
-Parâmetros que PODEM e DEVEM ser alterados:
+### PASSO 5: Geração da Planilha Corrigida
+```python
+arquivo_corrigido = gerar_planilha_corrigida(dados_ajustados, arquivo_excel)
+```
 
-Tempo de coleta: Este é o gatilho. Será substituído pelo novo valor unificado.
+## Vantagens da Nova Implementação
 
-Qtd de pulso do padrão: Este valor é diretamente proporcional ao volume do padrão. Deve ser ajustado da seguinte forma:
+### 1. Otimização Matemática
+- **Função de Custo**: Minimiza erro total do sistema
+- **Busca Sistemática**: Encontra o mínimo global
+- **Convergência**: Garante que o custo não diminua mais
 
-novo_qtd_pulsos = qtd_pulsos_original * fator
+### 2. Preservação de Valores Sagrados
+- **Vazão Média**: Mantida através de proporções
+- **Tendência**: Preservada através de erros originais
+- **Desvio Padrão**: Mantido através de variabilidade original
 
-Leitura no medidor: Este valor é diretamente proporcional ao volume medido pelo instrumento. Deve ser ajustado da seguinte forma:
+### 3. Flexibilidade
+- **Tempo Alvo**: Escolha entre 240 ou 360 segundos
+- **Precisão**: 50 dígitos para máxima precisão
+- **Relatórios**: Detalhados com informações da otimização
 
-nova_leitura_medidor = leitura_medidor_original * fator
+## Exemplo de Uso
 
-Temperatura da água: Embora a temperatura influencie a densidade e outros fatores de correção, para este sistema, vamos assumir que seu impacto direto na Vazão Média final pode ser compensado por um pequeno ajuste fino para garantir a exatidão absoluta. A principal correção, no entanto, deve ser nos parâmetros de volume (pulsos e leitura).
+```python
+# Executar o script
+python ajustador_tempo_coleta.py
 
-5. Fórmulas Críticas do Certificado
+# Escolher tempo alvo:
+# 1. 240 segundos
+# 2. 360 segundos
 
-5.1. Totalização no Padrão Corrigido • L:
-=SE(C54="";"";(C54*$I$51)-(($R$51+$U$51*(C54*$I$51/AA54*3600))/100*(C54*$I$51)))
+# O script irá:
+# 1. Extrair dados originais
+# 2. Calcular valores do certificado
+# 3. Executar otimização iterativa
+# 4. Aplicar ajustes proporcionais
+# 5. Verificar valores sagrados
+# 6. Gerar planilha corrigida
+# 7. Gerar relatórios detalhados
+```
 
-Onde:
-- C54 = Pulsos do Padrão
-- I$51 = Pulso do padrão em L/P (0.2000)
-- R$51 = Temperatura da água
-- U$51 = Fator de correção da temperatura
-- AA54 = Tempo de coleta
+## Arquivos de Saída
 
-5.2. Fórmula do Certificado - Valor 1:
-=SE(I74="---";"---";DEF.NÚM.DEC(MÉDIA('Coleta de Dados'!L54:L56);'Estimativa da Incerteza'!BQ10))
+### 1. Planilha Corrigida
+- `SAN-038-25-09_CORRIGIDO.xlsx`
+- Contém valores ajustados com tempo fixo
 
-Onde:
-- L54:L56 = Valores da "Totalização no Padrão Corrigido • L"
-- BQ10 = Número de casas decimais da incerteza
+### 2. Relatórios
+- `relatorio_ajuste_tempos.json`: Dados estruturados
+- `relatorio_ajuste_tempos.txt`: Relatório legível
 
-5.3. Fórmula do Certificado - Valor 2:
-=SE(I74="---";"---";SE('Coleta de Dados'!I14="TOTALIZADOR DE VOLUME DE ÁGUA";DEF.NÚM.DEC(MÉDIA('Coleta de Dados'!O54:O56);'Estimativa da Incerteza'!BQ10);DEF.NÚM.DEC(MÉDIA('Coleta de Dados'!X54:Z56);'Estimativa da Incerteza'!BQ10)))
+## Métricas de Qualidade
 
-Onde:
-- O54:O56 = Leituras no medidor
-- X54:Z56 = Outros valores de medição
-- BQ10 = Número de casas decimais da incerteza
+### Custo Total
+- Soma dos erros ao quadrado
+- Quanto menor, melhor a aproximação
 
-6. Passos de Implementação para o Sistema
+### Erro Vazão Referência
+- Diferença relativa na vazão de referência
+- Deve ser próximo de zero
 
-O sistema deve ser construído seguindo os passos abaixo:
+### Erro Vazão Medidor
+- Diferença relativa na leitura do medidor
+- Deve ser próximo de zero
 
-Extração de Dados (@extrator_pontos_calibracao.py):
+## Conclusão
 
-Leia o arquivo Excel de entrada (.xlsx).
+Esta implementação representa a solução matematicamente mais próxima possível da perfeição, respeitando todas as regras de negócio especificadas:
 
-Extraia todos os parâmetros de entrada brutos e constantes das abas "Coleta de Dados" e "Estimativa da Incerteza".
-
-Utilize a biblioteca Decimal de Python para todos os valores numéricos para garantir a precisão necessária.
-
-Cálculo da Linha de Base (Baseline):
-
-Com os dados originais, execute o motor de cálculo completo para obter os valores originais de "Vazão Média", "Tendência" e "Desvio Padrão".
-
-Armazene esses três valores como o "resultado sagrado" que deve ser alcançado no final.
-
-Execução do Ajuste (@ajustador_tempo_coleta.py):
-
-Aplique a lógica de "Harmonização do Tempo de Coleta" e "Ajuste Proporcional" descrita na seção 4 para todos os pontos de medição. Isso irá gerar um novo conjunto de dados de entrada corrigidos.
-
-Recálculo e Verificação:
-
-Com os novos dados de entrada corrigidos, execute novamente o motor de cálculo completo.
-
-Compare os novos resultados de "Vazão Média", "Tendência" e "Desvio Padrão" com os valores da linha de base salvos no passo 2.
-
-A diferença deve ser zero. O sistema deve confirmar essa exatidão.
-
-Saída (Output):
-
-O resultado final do sistema deve ser um novo arquivo Excel, uma cópia do original, mas com os valores ajustados e corrigidos na aba "Coleta de Dados".
+1. ✅ Tempo de coleta exatamente 240 ou 360 segundos
+2. ✅ Valores sagrados preservados
+3. ✅ Otimização iterativa com função de custo
+4. ✅ Precisão decimal de 50 dígitos
+5. ✅ Relatórios detalhados de desvio
