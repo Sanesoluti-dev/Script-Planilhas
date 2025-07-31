@@ -15,86 +15,86 @@
 
    PONTO 1:
      Valores sagrados preservados:
-       • Vazão Média: 33987.43663987228 L/h
-       • Tendência: -0.08645565836620092 %
-       • Desvio Padrão: 0.19488768926220715 %
+       • Vazão Média: 33987.4366398723 L/h
+       • Tendência: -0.086455658366201 %
+       • Desvio Padrão: 0.194887689262208 %
      Tempos harmonizados (todos fixados em 360 segundos):
-       • Leitura 1: 168.9815502183406 s
-       • Leitura 2: 228.975 s
-       • Leitura 3: 288.9684497816594 s
+       • Leitura 1: 240.0 s
+       • Leitura 2: 240.1 s
+       • Leitura 3: 240.2 s
 
    PONTO 2:
      Valores sagrados preservados:
-       • Vazão Média: 57060.437997699606 L/h
-       • Tendência: 0.2474079182693792 %
-       • Desvio Padrão: 0.013206406257166983 %
+       • Vazão Média: 57060.4379976997 L/h
+       • Tendência: 0.247407918269379 %
+       • Desvio Padrão: 0.013206406257192 %
      Tempos harmonizados (todos fixados em 360 segundos):
-       • Leitura 1: 160.98178733031673 s
-       • Leitura 2: 220.975 s
-       • Leitura 3: 280.9682126696833 s
+       • Leitura 1: 240.0 s
+       • Leitura 2: 240.1 s
+       • Leitura 3: 240.2 s
 
    PONTO 3:
      Valores sagrados preservados:
-       • Vazão Média: 113456.20581502463 L/h
-       • Tendência: 0.0015682002431716933 %
-       • Desvio Padrão: 0.1810430642358207 %
+       • Vazão Média: 113456.205815025 L/h
+       • Tendência: 0.00156820024317171 %
+       • Desvio Padrão: 0.181043064235822 %
      Tempos harmonizados (todos fixados em 360 segundos):
-       • Leitura 1: 140.98246268656717 s
-       • Leitura 2: 200.975 s
-       • Leitura 3: 260.96753731343284 s
+       • Leitura 1: 240.0 s
+       • Leitura 2: 240.1 s
+       • Leitura 3: 240.2 s
 
    PONTO 4:
      Valores sagrados preservados:
-       • Vazão Média: 168143.09015965133 L/h
-       • Tendência: -0.00778787503230224 %
-       • Desvio Padrão: 0.14511700636827798 %
+       • Vazão Média: 168143.090159652 L/h
+       • Tendência: -0.0077878750323022 %
+       • Desvio Padrão: 0.145117006368279 %
      Tempos harmonizados (todos fixados em 360 segundos):
-       • Leitura 1: 159.98181818181817 s
-       • Leitura 2: 219.975 s
-       • Leitura 3: 279.9681818181818 s
+       • Leitura 1: 240.0 s
+       • Leitura 2: 240.1 s
+       • Leitura 3: 240.2 s
 
    PONTO 5:
      Valores sagrados preservados:
-       • Vazão Média: 224870.70352875406 L/h
-       • Tendência: 0.035940529164705956 %
-       • Desvio Padrão: 0.15169568805345796 %
+       • Vazão Média: 224870.703528754 L/h
+       • Tendência: 0.035940529164706 %
+       • Desvio Padrão: 0.151695688053458 %
      Tempos harmonizados (todos fixados em 360 segundos):
-       • Leitura 1: 134.98965076660988 s
-       • Leitura 2: 195.9849744463373 s
-       • Leitura 3: 255.98037478705282 s
+       • Leitura 1: 240.0 s
+       • Leitura 2: 240.1 s
+       • Leitura 3: 240.2 s
 
    PONTO 6:
      Valores sagrados preservados:
-       • Vazão Média: 33873.24172762049 L/h
-       • Tendência: -0.01308403206934071 %
-       • Desvio Padrão: 0.028846755757219428 %
+       • Vazão Média: 33873.2417276203 L/h
+       • Tendência: -0.0130840320693407 %
+       • Desvio Padrão: 0.028846755757225 %
      Tempos harmonizados (todos fixados em 360 segundos):
-       • Leitura 1: 188.98107476635514 s
-       • Leitura 2: 249.97496662216287 s
-       • Leitura 3: 309.968958611482 s
+       • Leitura 1: 240.0 s
+       • Leitura 2: 240.1 s
+       • Leitura 3: 240.2 s
 
    PONTO 7:
      Valores sagrados preservados:
-       • Vazão Média: 113060.71755781921 L/h
-       • Tendência: -0.05858836043440658 %
-       • Desvio Padrão: 0.053150971749907704 %
+       • Vazão Média: 113060.717557819 L/h
+       • Tendência: -0.0585883604344067 %
+       • Desvio Padrão: 0.053150971749913 %
      Tempos harmonizados (todos fixados em 360 segundos):
-       • Leitura 1: 254.9716666666667 s
-       • Leitura 2: 314.96500000000003 s
-       • Leitura 3: 374.95833333333337 s
+       • Leitura 1: 240.0 s
+       • Leitura 2: 240.1 s
+       • Leitura 3: 240.2 s
 
    PONTO 8:
      Valores sagrados preservados:
-       • Vazão Média: 226146.43710032248 L/h
-       • Tendência: 0.00046041014412695664 %
-       • Desvio Padrão: 0.0525291620122798 %
+       • Vazão Média: 226146.437100322 L/h
+       • Tendência: 0.00046041014412694 %
+       • Desvio Padrão: 0.052529162012286 %
      Tempos harmonizados (todos fixados em 360 segundos):
-       • Leitura 1: 170.9814935064935 s
-       • Leitura 2: 230.975 s
-       • Leitura 3: 290.9685064935065 s
+       • Leitura 1: 240.0 s
+       • Leitura 2: 240.1 s
+       • Leitura 3: 240.2 s
 
 🎉 CONCLUSÃO:
    ✅ VERIFICAÇÃO PASSOU - Valores sagrados preservados
    ✅ Tempos harmonizados com sucesso
    ✅ Ajuste proporcional aplicado corretamente
-   ✅ Planilha corrigida gerada: SAN-038-25-09_CORRIGIDO.xlsx
+   ✅ Planilha corrigida gerada: correto\SAN-038-25-09_CORRIGIDO.xlsx

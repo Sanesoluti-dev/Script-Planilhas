@@ -1,10 +1,10 @@
 {
   "metadata": {
-    "data_geracao": "2025-07-30T19:33:39.215056",
+    "data_geracao": "2025-07-31T15:22:40.504353",
     "descricao": "Ajuste de tempos de coleta conforme documentação",
     "precisao": "Decimal com 28 dígitos",
     "verificacao_passed": true,
-    "arquivo_corrigido": "SAN-038-25-09_CORRIGIDO.xlsx"
+    "arquivo_corrigido": "correto\\SAN-038-25-09_CORRIGIDO.xlsx"
   },
   "dados_originais": {
     "ponto_1": {
@@ -39,9 +39,9 @@
         }
       ],
       "valores_sagrados": {
-        "vazao_media": "33987.43663987228133333333333",
-        "tendencia": "-0.08645565836620092333333333333",
-        "desvio_padrao": "0.1948876892622071565141256911"
+        "vazao_media": "33987.4366398723",
+        "tendencia": "-0.086455658366201",
+        "desvio_padrao": "0.194887689262208"
       }
     },
     "ponto_2": {
@@ -76,9 +76,9 @@
         }
       ],
       "valores_sagrados": {
-        "vazao_media": "57060.43799769960333333333333",
-        "tendencia": "0.2474079182693792033333333333",
-        "desvio_padrao": "0.01320640625716698252847969010"
+        "vazao_media": "57060.4379976997",
+        "tendencia": "0.247407918269379",
+        "desvio_padrao": "0.013206406257192"
       }
     },
     "ponto_3": {
@@ -113,9 +113,9 @@
         }
       ],
       "valores_sagrados": {
-        "vazao_media": "113456.2058150246366666666667",
-        "tendencia": "0.001568200243171693333333333333",
-        "desvio_padrao": "0.1810430642358207122274570937"
+        "vazao_media": "113456.205815025",
+        "tendencia": "0.00156820024317171",
+        "desvio_padrao": "0.181043064235822"
       }
     },
     "ponto_4": {
@@ -150,9 +150,9 @@
         }
       ],
       "valores_sagrados": {
-        "vazao_media": "168143.0901596513366666666667",
-        "tendencia": "-0.00778787503230224",
-        "desvio_padrao": "0.1451170063682779920463508164"
+        "vazao_media": "168143.090159652",
+        "tendencia": "-0.0077878750323022",
+        "desvio_padrao": "0.145117006368279"
       }
     },
     "ponto_5": {
@@ -187,9 +187,9 @@
         }
       ],
       "valores_sagrados": {
-        "vazao_media": "224870.7035287540533333333333",
-        "tendencia": "0.03594052916470595833333333333",
-        "desvio_padrao": "0.1516956880534579485514754851"
+        "vazao_media": "224870.703528754",
+        "tendencia": "0.035940529164706",
+        "desvio_padrao": "0.151695688053458"
       }
     },
     "ponto_6": {
@@ -224,9 +224,9 @@
         }
       ],
       "valores_sagrados": {
-        "vazao_media": "33873.241727620485",
-        "tendencia": "-0.01308403206934070943333333333",
-        "desvio_padrao": "0.02884675575721942758283490288"
+        "vazao_media": "33873.2417276203",
+        "tendencia": "-0.0130840320693407",
+        "desvio_padrao": "0.028846755757225"
       }
     },
     "ponto_7": {
@@ -261,9 +261,9 @@
         }
       ],
       "valores_sagrados": {
-        "vazao_media": "113060.71755781921",
-        "tendencia": "-0.058588360434406577",
-        "desvio_padrao": "0.05315097174990770111446574550"
+        "vazao_media": "113060.717557819",
+        "tendencia": "-0.0585883604344067",
+        "desvio_padrao": "0.053150971749913"
       }
     },
     "ponto_8": {
@@ -298,9 +298,9 @@
         }
       ],
       "valores_sagrados": {
-        "vazao_media": "226146.4371003224933333333333",
-        "tendencia": "0.0004604101441269566666666666667",
-        "desvio_padrao": "0.05252916201227979768550705465"
+        "vazao_media": "226146.437100322",
+        "tendencia": "0.00046041014412694",
+        "desvio_padrao": "0.052529162012286"
       }
     }
   },
@@ -308,19 +308,19 @@
     "ponto_1": {
       "ponto_numero": 1,
       "tempos_unificados": [
-        "168.9815502183406113537117904",
-        "228.9750000000000000000000000",
-        "288.9684497816593886462882096"
+        "240.0",
+        "240.1",
+        "240.2"
       ],
       "fatores_ajuste": [
-        "0.9998908296943231441048034935",
-        "0.9998908296943231441048034934",
-        "0.9998908296943231441048034934"
+        "1.42011834319527",
+        "1.04847161572052",
+        "0.831141868512111"
       ],
       "valores_sagrados": {
-        "vazao_media": "33987.43663987228133333333333",
-        "tendencia": "-0.08645565836620092333333333333",
-        "desvio_padrao": "0.1948876892622071565141256911"
+        "vazao_media": "33987.4366398723",
+        "tendencia": "-0.086455658366201",
+        "desvio_padrao": "0.194887689262208"
       },
       "leituras_originais": [
         {
@@ -350,24 +350,27 @@
           "temperatura": "25.5",
           "erro": "-0.2907776414853507"
         }
-      ]
+      ],
+      "estrategia_usada": "goal_seek_otimizacao",
+      "iteracoes_realizadas": 1000,
+      "convergencia_atingida": false
     },
     "ponto_2": {
       "ponto_numero": 2,
       "tempos_unificados": [
-        "160.9817873303167420814479638",
-        "220.9750000000000000000000000",
-        "280.9682126696832579185520362"
+        "240.0",
+        "240.1",
+        "240.2"
       ],
       "fatores_ajuste": [
-        "0.9998868778280542986425339366",
-        "0.9998868778280542986425339367",
-        "0.9998868778280542986425339367"
+        "1.49068322981366",
+        "1.08642533936652",
+        "0.854804270462633"
       ],
       "valores_sagrados": {
-        "vazao_media": "57060.43799769960333333333333",
-        "tendencia": "0.2474079182693792033333333333",
-        "desvio_padrao": "0.01320640625716698252847969010"
+        "vazao_media": "57060.4379976997",
+        "tendencia": "0.247407918269379",
+        "desvio_padrao": "0.013206406257192"
       },
       "leituras_originais": [
         {
@@ -397,24 +400,27 @@
           "temperatura": "25.5",
           "erro": "0.24543295231399745"
         }
-      ]
+      ],
+      "estrategia_usada": "goal_seek_otimizacao",
+      "iteracoes_realizadas": 1000,
+      "convergencia_atingida": false
     },
     "ponto_3": {
       "ponto_numero": 3,
       "tempos_unificados": [
-        "140.9824626865671641791044776",
-        "200.9750000000000000000000000",
-        "260.9675373134328358208955224"
+        "240.0",
+        "240.1",
+        "240.2"
       ],
       "fatores_ajuste": [
-        "0.9998756218905472636815920397",
-        "0.9998756218905472636815920398",
-        "0.9998756218905472636815920398"
+        "1.70212765957447",
+        "1.19452736318408",
+        "0.920306513409962"
       ],
       "valores_sagrados": {
-        "vazao_media": "113456.2058150246366666666667",
-        "tendencia": "0.001568200243171693333333333333",
-        "desvio_padrao": "0.1810430642358207122274570937"
+        "vazao_media": "113456.205815025",
+        "tendencia": "0.00156820024317171",
+        "desvio_padrao": "0.181043064235822"
       },
       "leituras_originais": [
         {
@@ -444,24 +450,27 @@
           "temperatura": "25.5",
           "erro": "0.20088467228682214"
         }
-      ]
+      ],
+      "estrategia_usada": "goal_seek_otimizacao",
+      "iteracoes_realizadas": 1000,
+      "convergencia_atingida": false
     },
     "ponto_4": {
       "ponto_numero": 4,
       "tempos_unificados": [
-        "159.9818181818181818181818182",
-        "219.9750000000000000000000000",
-        "279.9681818181818181818181818"
+        "240.0",
+        "240.1",
+        "240.2"
       ],
       "fatores_ajuste": [
-        "0.9998863636363636363636363638",
-        "0.9998863636363636363636363636",
-        "0.9998863636363636363636363636"
+        "1.5",
+        "1.09136363636364",
+        "0.857857142857143"
       ],
       "valores_sagrados": {
-        "vazao_media": "168143.0901596513366666666667",
-        "tendencia": "-0.00778787503230224",
-        "desvio_padrao": "0.1451170063682779920463508164"
+        "vazao_media": "168143.090159652",
+        "tendencia": "-0.0077878750323022",
+        "desvio_padrao": "0.145117006368279"
       },
       "leituras_originais": [
         {
@@ -491,24 +500,27 @@
           "temperatura": "25.5",
           "erro": "0.06457387591576566"
         }
-      ]
+      ],
+      "estrategia_usada": "goal_seek_otimizacao",
+      "iteracoes_realizadas": 1000,
+      "convergencia_atingida": false
     },
     "ponto_5": {
       "ponto_numero": 5,
       "tempos_unificados": [
-        "134.9896507666098876487104179",
-        "195.9849744463373183640536438",
-        "255.9803747870528239857027185"
+        "240.0",
+        "240.1",
+        "240.2"
       ],
       "fatores_ajuste": [
-        "0.9999233390119250936941512437",
-        "0.9999233390119250936941512439",
-        "0.9999233390119250936941512441"
+        "1.77777777777778",
+        "1.225",
+        "0.93828125"
       ],
       "valores_sagrados": {
-        "vazao_media": "224870.7035287540533333333333",
-        "tendencia": "0.03594052916470595833333333333",
-        "desvio_padrao": "0.1516956880534579485514754851"
+        "vazao_media": "224870.703528754",
+        "tendencia": "0.035940529164706",
+        "desvio_padrao": "0.151695688053458"
       },
       "leituras_originais": [
         {
@@ -538,24 +550,27 @@
           "temperatura": "25.3",
           "erro": "0.1852926255287568"
         }
-      ]
+      ],
+      "estrategia_usada": "goal_seek_otimizacao",
+      "iteracoes_realizadas": 1000,
+      "convergencia_atingida": false
     },
     "ponto_6": {
       "ponto_numero": 6,
       "tempos_unificados": [
-        "188.9810747663551326163170832",
-        "249.9749666221628738311072529",
-        "309.9689586114819635505729936"
+        "240.0",
+        "240.1",
+        "240.2"
       ],
       "fatores_ajuste": [
-        "0.9998998664886514953244290116",
-        "0.9998998664886514953244290116",
-        "0.9998998664886514953244290116"
+        "1.26984126984127",
+        "0.9604",
+        "0.774838709677419"
       ],
       "valores_sagrados": {
-        "vazao_media": "33873.241727620485",
-        "tendencia": "-0.01308403206934070943333333333",
-        "desvio_padrao": "0.02884675575721942758283490288"
+        "vazao_media": "33873.2417276203",
+        "tendencia": "-0.0130840320693407",
+        "desvio_padrao": "0.028846755757225"
       },
       "leituras_originais": [
         {
@@ -585,24 +600,27 @@
           "temperatura": "23.1",
           "erro": "-0.0018849533850305573"
         }
-      ]
+      ],
+      "estrategia_usada": "goal_seek_otimizacao",
+      "iteracoes_realizadas": 1000,
+      "convergencia_atingida": false
     },
     "ponto_7": {
       "ponto_numero": 7,
       "tempos_unificados": [
-        "254.9716666666666909523809524",
-        "314.9650000000000300000000000",
-        "374.9583333333333690476190476"
+        "240.0",
+        "240.1",
+        "240.2"
       ],
       "fatores_ajuste": [
-        "0.9998888888888889841269841271",
-        "0.9998888888888889841269841270",
-        "0.9998888888888889841269841269"
+        "0.941176470588235",
+        "0.762222222222222",
+        "0.640533333333333"
       ],
       "valores_sagrados": {
-        "vazao_media": "113060.71755781921",
-        "tendencia": "-0.058588360434406577",
-        "desvio_padrao": "0.05315097174990770111446574550"
+        "vazao_media": "113060.717557819",
+        "tendencia": "-0.0585883604344067",
+        "desvio_padrao": "0.053150971749913"
       },
       "leituras_originais": [
         {
@@ -632,24 +650,27 @@
           "temperatura": "23.1",
           "erro": "0.002776750474636409"
         }
-      ]
+      ],
+      "estrategia_usada": "goal_seek_otimizacao",
+      "iteracoes_realizadas": 1000,
+      "convergencia_atingida": false
     },
     "ponto_8": {
       "ponto_numero": 8,
       "tempos_unificados": [
-        "170.9814935064935064935064935",
-        "230.9750000000000000000000000",
-        "290.9685064935064935064935065"
+        "240.0",
+        "240.1",
+        "240.2"
       ],
       "fatores_ajuste": [
-        "0.9998917748917748917748917749",
-        "0.9998917748917748917748917749",
-        "0.9998917748917748917748917749"
+        "1.40350877192982",
+        "1.03939393939394",
+        "0.825429553264605"
       ],
       "valores_sagrados": {
-        "vazao_media": "226146.4371003224933333333333",
-        "tendencia": "0.0004604101441269566666666666667",
-        "desvio_padrao": "0.05252916201227979768550705465"
+        "vazao_media": "226146.437100322",
+        "tendencia": "0.00046041014412694",
+        "desvio_padrao": "0.052529162012286"
       },
       "leituras_originais": [
         {
@@ -679,7 +700,10 @@
           "temperatura": "23.2",
           "erro": "-0.02794619846844748"
         }
-      ]
+      ],
+      "estrategia_usada": "goal_seek_otimizacao",
+      "iteracoes_realizadas": 1000,
+      "convergencia_atingida": false
     }
   },
   "dados_ajustados": {
@@ -688,44 +712,44 @@
       "leituras_ajustadas": [
         {
           "linha": 54,
-          "pulsos_padrao": "7946",
-          "tempo_coleta": "168.9815502183406113537117904",
+          "pulsos_padrao": "11286",
+          "tempo_coleta": "240.0",
           "vazao_referencia": "33858.49554066015",
-          "leitura_medidor": "1590.616332969432314410480349",
+          "leitura_medidor": "2259.11005917160",
           "temperatura": "25.5",
           "erro": "0.09737911623699219"
         },
         {
           "linha": 55,
-          "pulsos_padrao": "10815",
-          "tempo_coleta": "228.9750000000000000000000000",
+          "pulsos_padrao": "11340",
+          "tempo_coleta": "240.1",
           "vazao_referencia": "34007.187500797714",
-          "leitura_medidor": "2161.324021834061135371179039",
+          "leitura_medidor": "2266.33430567685",
           "temperatura": "25.5",
           "erro": "-0.06596844985024426"
         },
         {
           "linha": 56,
-          "pulsos_padrao": "13685",
-          "tempo_coleta": "288.9684497816593886462882096",
+          "pulsos_padrao": "11375",
+          "tempo_coleta": "240.2",
           "vazao_referencia": "34096.62687815898",
-          "leitura_medidor": "2728.675077183406113537117904",
+          "leitura_medidor": "2268.16371833910",
           "temperatura": "25.5",
           "erro": "-0.2907776414853507"
         }
       ],
       "valores_sagrados": {
-        "vazao_media": "33987.43663987228133333333333",
-        "tendencia": "-0.08645565836620092333333333333",
-        "desvio_padrao": "0.1948876892622071565141256911"
+        "vazao_media": "33987.4366398723",
+        "tendencia": "-0.086455658366201",
+        "desvio_padrao": "0.194887689262208"
       },
       "valores_certificado_originais": {
-        "media_totalizacao": "2163.053525117760971415555118",
+        "media_totalizacao": "2163.05352511776",
         "media_leitura_medidor": "2160.441",
         "totalizacoes": [
-          "1589.242377168506246237788863",
-          "2162.986852932788592739497161",
-          "2736.931345251988075269379331"
+          "1589.24237716851",
+          "2162.98685293279",
+          "2736.93134525199"
         ],
         "leituras_medidor": [
           "1590.79",
@@ -739,44 +763,44 @@
       "leituras_ajustadas": [
         {
           "linha": 63,
-          "pulsos_padrao": "12735",
-          "tempo_coleta": "160.9817873303167420814479638",
+          "pulsos_padrao": "18985",
+          "tempo_coleta": "240.0",
           "vazao_referencia": "56964.3802352797",
-          "leitura_medidor": "2552.903177375565610859728507",
+          "leitura_medidor": "3806.00049689440",
           "temperatura": "25.5",
           "erro": "0.23530021899039066"
         },
         {
           "linha": 64,
-          "pulsos_padrao": "17514",
-          "tempo_coleta": "220.9750000000000000000000000",
+          "pulsos_padrao": "19030",
+          "tempo_coleta": "240.1",
           "vazao_referencia": "57072.39753146231",
-          "leitura_medidor": "3511.962674208144796380090498",
+          "leitura_medidor": "3815.91690497739",
           "temperatura": "25.5",
           "erro": "0.2614905835037495"
         },
         {
           "linha": 65,
-          "pulsos_padrao": "22297",
-          "tempo_coleta": "280.9682126696832579185520362",
+          "pulsos_padrao": "19062",
+          "tempo_coleta": "240.2",
           "vazao_referencia": "57144.5362263568",
-          "leitura_medidor": "4470.441236764705882352941177",
+          "leitura_medidor": "3821.78458861210",
           "temperatura": "25.5",
           "erro": "0.24543295231399745"
         }
       ],
       "valores_sagrados": {
-        "vazao_media": "57060.43799769960333333333333",
-        "tendencia": "0.2474079182693792033333333333",
-        "desvio_padrao": "0.01320640625716698252847969010"
+        "vazao_media": "57060.4379976997",
+        "tendencia": "0.247407918269379",
+        "desvio_padrao": "0.013206406257192"
       },
       "valores_certificado_originais": {
-        "media_totalizacao": "3503.466095979938210480690647",
-        "media_leitura_medidor": "3512.166333333333333333333333",
+        "media_totalizacao": "3503.46609597993",
+        "media_leitura_medidor": "3512.16633333333",
         "totalizacoes": [
-          "2547.198345345397811627660116",
-          "3503.199363098397989504273746",
-          "4460.000579496018830310138078"
+          "2547.19834534540",
+          "3503.19936309840",
+          "4460.00057949602"
         ],
         "leituras_medidor": [
           "2553.192",
@@ -790,44 +814,44 @@
       "leituras_ajustadas": [
         {
           "linha": 72,
-          "pulsos_padrao": "22163",
-          "tempo_coleta": "140.9824626865671641791044776",
+          "pulsos_padrao": "37729",
+          "tempo_coleta": "240.0",
           "vazao_referencia": "113233.60947840175",
-          "leitura_medidor": "4426.939317164179104477611940",
+          "leitura_medidor": "7536.15319148937",
           "temperatura": "25.5",
           "erro": "-0.15269130945381643"
         },
         {
           "linha": 73,
-          "pulsos_padrao": "31664",
-          "tempo_coleta": "200.9750000000000000000000000",
+          "pulsos_padrao": "37828",
+          "tempo_coleta": "240.1",
           "vazao_referencia": "113479.1076686725",
-          "leitura_medidor": "6331.579392164179104477611940",
+          "leitura_medidor": "7564.18565522388",
           "temperatura": "25.5",
           "erro": "-0.04348876210349063"
         },
         {
           "linha": 74,
-          "pulsos_padrao": "41181",
-          "tempo_coleta": "260.9675373134328358208955224",
+          "pulsos_padrao": "37904",
+          "tempo_coleta": "240.2",
           "vazao_referencia": "113655.90029799966",
-          "leitura_medidor": "8254.710167039800995024875622",
+          "leitura_medidor": "7597.80853409962",
           "temperatura": "25.5",
           "erro": "0.20088467228682214"
         }
       ],
       "valores_sagrados": {
-        "vazao_media": "113456.2058150246366666666667",
-        "tendencia": "0.001568200243171693333333333333",
-        "desvio_padrao": "0.1810430642358207122274570937"
+        "vazao_media": "113456.205815025",
+        "tendencia": "0.00156820024317171",
+        "desvio_padrao": "0.181043064235822"
       },
       "valores_certificado_originais": {
-        "media_totalizacao": "6336.189127511911720485636493",
-        "media_leitura_medidor": "6338.531333333333333333333333",
+        "media_totalizacao": "6336.1891275119",
+        "media_leitura_medidor": "6338.53133333333",
         "totalizacoes": [
-          "4434.260382150109042068063929",
-          "6335.121681716082894845236098",
-          "8239.185318669543224543609451"
+          "4434.26038215011",
+          "6335.12168171608",
+          "8239.18531866954"
         ],
         "leituras_medidor": [
           "4427.49",
@@ -841,44 +865,44 @@
       "leituras_ajustadas": [
         {
           "linha": 81,
-          "pulsos_padrao": "37233",
-          "tempo_coleta": "159.9818181818181818181818182",
+          "pulsos_padrao": "55856",
+          "tempo_coleta": "240.0",
           "vazao_referencia": "167670.2740285996",
-          "leitura_medidor": "7437.035786250000000000000001",
+          "leitura_medidor": "11156.8215",
           "temperatura": "25.5",
           "erro": "-0.17485716973083512"
         },
         {
           "linha": 82,
-          "pulsos_padrao": "51362",
-          "tempo_coleta": "219.9750000000000000000000000",
+          "pulsos_padrao": "56061",
+          "tempo_coleta": "240.1",
           "vazao_referencia": "168212.88647352654",
-          "leitura_medidor": "10286.22997738636363636363636",
+          "leitura_medidor": "11227.2931813637",
           "temperatura": "25.5",
           "erro": "0.08691966871816274"
         },
         {
           "linha": 83,
-          "pulsos_padrao": "65501",
-          "tempo_coleta": "279.9681818181818181818181818",
+          "pulsos_padrao": "56197",
+          "tempo_coleta": "240.2",
           "vazao_referencia": "168546.10997682787",
-          "leitura_medidor": "13114.79651284090909090909091",
+          "leitura_medidor": "11251.9004907143",
           "temperatura": "25.5",
           "erro": "0.06457387591576566"
         }
       ],
       "valores_sagrados": {
-        "vazao_media": "168143.0901596513366666666667",
-        "tendencia": "-0.00778787503230224",
-        "desvio_padrao": "0.1451170063682779920463508164"
+        "vazao_media": "168143.090159652",
+        "tendencia": "-0.0077878750323022",
+        "desvio_padrao": "0.145117006368279"
       },
       "valores_certificado_originais": {
-        "media_totalizacao": "10279.06486973111325829763970",
-        "media_leitura_medidor": "10280.52233333333333333333333",
+        "media_totalizacao": "10279.0648697311",
+        "media_leitura_medidor": "10280.5223333333",
         "totalizacoes": [
-          "7450.908661628424008343470082",
-          "10278.46412406981379382197473",
-          "13107.82182349510197272747430"
+          "7450.90866162842",
+          "10278.4641240698",
+          "13107.8218234951"
         ],
         "leituras_medidor": [
           "7437.881",
@@ -892,44 +916,44 @@
       "leituras_ajustadas": [
         {
           "linha": 90,
-          "pulsos_padrao": "42170",
-          "tempo_coleta": "134.9896507666098876487104179",
+          "pulsos_padrao": "74974",
+          "tempo_coleta": "240.0",
           "vazao_referencia": "225121.612937236",
-          "leitura_medidor": "8430.032695817717636980313313",
+          "leitura_medidor": "14987.8737777778",
           "temperatura": "25.3",
           "erro": "-0.11799487340378591"
         },
         {
           "linha": 91,
-          "pulsos_padrao": "61059",
-          "tempo_coleta": "195.9849744463373183640536438",
+          "pulsos_padrao": "74803",
+          "tempo_coleta": "240.1",
           "vazao_referencia": "224505.40524729533",
-          "leitura_medidor": "12225.52670718909772874816719",
+          "leitura_medidor": "14977.418400",
           "temperatura": "25.3",
           "erro": "0.040523835369146985"
         },
         {
           "linha": 92,
-          "pulsos_padrao": "79923",
-          "tempo_coleta": "255.9803747870528239857027185",
+          "pulsos_padrao": "74996",
+          "tempo_coleta": "240.2",
           "vazao_referencia": "224985.09240173083",
-          "leitura_medidor": "16025.64836377342500984963761",
+          "leitura_medidor": "15037.7181851562",
           "temperatura": "25.3",
           "erro": "0.1852926255287568"
         }
       ],
       "valores_sagrados": {
-        "vazao_media": "224870.7035287540533333333333",
-        "tendencia": "0.03594052916470595833333333333",
-        "desvio_padrao": "0.1516956880534579485514754851"
+        "vazao_media": "224870.703528754",
+        "tendencia": "0.035940529164706",
+        "desvio_padrao": "0.151695688053458"
       },
       "valores_certificado_originais": {
-        "media_totalizacao": "12219.79356991610966420884390",
-        "media_leitura_medidor": "12228.00666666666666666666667",
+        "media_totalizacao": "12219.7935699161",
+        "media_leitura_medidor": "12228.0066666667",
         "totalizacoes": [
-          "8440.637157566791899882864861",
-          "12221.50988271893228753591167",
-          "15997.23366946260480520775517"
+          "8440.63715756679",
+          "12221.5098827189",
+          "15997.2336694626"
         ],
         "leituras_medidor": [
           "8430.679",
@@ -943,44 +967,44 @@
       "leituras_ajustadas": [
         {
           "linha": 99,
-          "pulsos_padrao": "8904",
-          "tempo_coleta": "188.9810747663551326163170832",
+          "pulsos_padrao": "11308",
+          "tempo_coleta": "240.0",
           "vazao_referencia": "33924.90054787937",
-          "leitura_medidor": "1780.796664719626096885424959",
+          "leitura_medidor": "2261.55555555556",
           "temperatura": "23.1",
           "erro": "0.008483886975030634"
         },
         {
           "linha": 100,
-          "pulsos_padrao": "11742",
-          "tempo_coleta": "249.9749666221628738311072529",
+          "pulsos_padrao": "11278",
+          "tempo_coleta": "240.1",
           "vazao_referencia": "33820.140610375405",
-          "leitura_medidor": "2347.054957610146768460078975",
+          "leitura_medidor": "2254.337316",
           "temperatura": "23.1",
           "erro": "-0.045851029798022205"
         },
         {
           "linha": 101,
-          "pulsos_padrao": "14584",
-          "tempo_coleta": "309.9689586114819635505729936",
+          "pulsos_padrao": "11301",
+          "tempo_coleta": "240.2",
           "vazao_referencia": "33874.68402460668",
-          "leitura_medidor": "2916.363944993324315746967823",
+          "leitura_medidor": "2259.93797161290",
           "temperatura": "23.1",
           "erro": "-0.0018849533850305573"
         }
       ],
       "valores_sagrados": {
-        "vazao_media": "33873.241727620485",
-        "tendencia": "-0.01308403206934070943333333333",
-        "desvio_padrao": "0.02884675575721942758283490288"
+        "vazao_media": "33873.2417276203",
+        "tendencia": "-0.0130840320693407",
+        "desvio_padrao": "0.028846755757225"
       },
       "valores_certificado_originais": {
-        "media_totalizacao": "2348.633845208259172598889597",
+        "media_totalizacao": "2348.63384520826",
         "media_leitura_medidor": "2348.307",
         "totalizacoes": [
-          "1780.823883142807115353890810",
-          "2348.366713677686669940832539",
-          "2916.710938804283732501945442"
+          "1780.82388314281",
+          "2348.36671367769",
+          "2916.71093880428"
         ],
         "leituras_medidor": [
           "1780.975",
@@ -994,44 +1018,44 @@
       "leituras_ajustadas": [
         {
           "linha": 108,
-          "pulsos_padrao": "39974",
-          "tempo_coleta": "254.9716666666666909523809524",
+          "pulsos_padrao": "37626",
+          "tempo_coleta": "240.0",
           "vazao_referencia": "112917.97690311285",
-          "leitura_medidor": "7989.545174111111872104730160",
+          "leitura_medidor": "7520.40752941176",
           "temperatura": "23.1",
           "erro": "-0.08839446263853382"
         },
         {
           "linha": 109,
-          "pulsos_padrao": "49462",
-          "tempo_coleta": "314.9650000000000300000000000",
+          "pulsos_padrao": "37705",
+          "tempo_coleta": "240.1",
           "vazao_referencia": "113105.00804392164",
-          "leitura_medidor": "9885.742462111112052715015873",
+          "leitura_medidor": "7535.96991777778",
           "temperatura": "23.1",
           "erro": "-0.09014736913932232"
         },
         {
           "linha": 110,
-          "pulsos_padrao": "58911",
-          "tempo_coleta": "374.9583333333333690476190476",
+          "pulsos_padrao": "37739",
+          "tempo_coleta": "240.2",
           "vazao_referencia": "113159.16772642314",
-          "leitura_medidor": "11785.43336188889001143584127",
+          "leitura_medidor": "7549.80178293333",
           "temperatura": "23.1",
           "erro": "0.002776750474636409"
         }
       ],
       "valores_sagrados": {
-        "vazao_media": "113060.71755781921",
-        "tendencia": "-0.058588360434406577",
-        "desvio_padrao": "0.05315097174990770111446574550"
+        "vazao_media": "113060.717557819",
+        "tendencia": "-0.0585883604344067",
+        "desvio_padrao": "0.053150971749913"
       },
       "valores_certificado_originais": {
-        "media_totalizacao": "9893.22616655107919791339745",
-        "media_leitura_medidor": "9888.005666666666666666666667",
+        "media_totalizacao": "9893.2261665511",
+        "media_leitura_medidor": "9888.00566666667",
         "totalizacoes": [
-          "7997.501937996983158026594505",
-          "9895.761322219973167254271135",
-          "11786.41523943628126845932671"
+          "7997.50193799698",
+          "9895.76132221997",
+          "11786.4152394363"
         ],
         "leituras_medidor": [
           "7990.433",
@@ -1045,44 +1069,44 @@
       "leituras_ajustadas": [
         {
           "linha": 117,
-          "pulsos_padrao": "53594",
-          "tempo_coleta": "170.9814935064935064935064935",
+          "pulsos_padrao": "75228",
+          "tempo_coleta": "240.0",
           "vazao_referencia": "225878.32963112238",
-          "leitura_medidor": "10733.09958340909090909090909",
+          "leitura_medidor": "15065.6298947368",
           "temperatura": "23.2",
           "erro": "0.06107611906449712"
         },
         {
           "linha": 118,
-          "pulsos_padrao": "72491",
-          "tempo_coleta": "230.9750000000000000000000000",
+          "pulsos_padrao": "75355",
+          "tempo_coleta": "240.1",
           "vazao_referencia": "226159.471664401",
-          "leitura_medidor": "14504.06812575757575757575758",
+          "leitura_medidor": "15077.0722242424",
           "temperatura": "23.2",
           "erro": "-0.03174869016366877"
         },
         {
           "linha": 119,
-          "pulsos_padrao": "91419",
-          "tempo_coleta": "290.9685064935064935064935065",
+          "pulsos_padrao": "75468",
+          "tempo_coleta": "240.2",
           "vazao_referencia": "226401.5100054441",
-          "leitura_medidor": "18291.89714318181818181818182",
+          "leitura_medidor": "15100.3067195876",
           "temperatura": "23.2",
           "erro": "-0.02794619846844748"
         }
       ],
       "valores_sagrados": {
-        "vazao_media": "226146.4371003224933333333333",
-        "tendencia": "0.0004604101441269566666666666667",
-        "desvio_padrao": "0.05252916201227979768550705465"
+        "vazao_media": "226146.437100322",
+        "tendencia": "0.00046041014412694",
+        "desvio_padrao": "0.052529162012286"
       },
       "valores_certificado_originais": {
-        "media_totalizacao": "14512.31337855601360816295729",
-        "media_leitura_medidor": "14511.25876666666666666666667",
+        "media_totalizacao": "14512.3133785560",
+        "media_leitura_medidor": "14511.2587666667",
         "totalizacoes": [
-          "10727.70777770295878584572632",
-          "14510.24321907682634923859208",
-          "18298.98913888825568940455348"
+          "10727.7077777030",
+          "14510.2432190768",
+          "18298.9891388883"
         ],
         "leituras_medidor": [
           "10734.2613",
