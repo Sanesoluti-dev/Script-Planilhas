@@ -1,0 +1,208 @@
+{
+  "metadata": {
+    "data_geracao": "2025-08-01T23:58:47.824862",
+    "descricao": "Refinamento ULTRA-PRECISO de tempos com tolerância de 0.00001",
+    "precisao": "Decimal com 28 dígitos",
+    "arquivo_resultado": "SAN-038-25-09_CERTIFICADO_FINAL.xlsx",
+    "tolerancia_objetivo": 1e-05,
+    "estrategia": "Ultra-preciso com incremento 0.00001",
+    "incremento": "0.00001",
+    "certificado_final": true
+  },
+  "estatisticas": {
+    "total_pontos": 8,
+    "pontos_processados": 8,
+    "objetivos_atingidos": 0,
+    "diferenca_inicial_media": 1986.611062424124,
+    "diferenca_media": 1986.5651499831215,
+    "melhoria_media": 0.045912441002250004,
+    "iteracoes_total": 42000,
+    "melhorias_total": 387
+  },
+  "resultados": [
+    {
+      "numero": 1,
+      "linha_inicial": 54,
+      "tempos_ultra_refinados": [
+        239.94819,
+        240.0,
+        240.0
+      ],
+      "tempos_refinados": [
+        239.947,
+        240.0,
+        240.0
+      ],
+      "vazao_atual": 33987.4366753923,
+      "vazao_desejada": 33987.436639872285,
+      "diferenca": 3.5520015e-05,
+      "diferenca_inicial": 0.056014755612,
+      "melhoria": 0.055979235597,
+      "objetivo_atingido": false,
+      "iteracoes": 3000,
+      "melhorias_encontradas": 119,
+      "estrategia": "ultra-preciso"
+    },
+    {
+      "numero": 2,
+      "linha_inicial": 63,
+      "tempos_ultra_refinados": [
+        239.89338,
+        240.0,
+        240.0
+      ],
+      "tempos_refinados": [
+        239.893,
+        240.0,
+        240.0
+      ],
+      "vazao_atual": 57060.43783475809,
+      "vazao_desejada": 57060.437997699606,
+      "diferenca": 0.000162941515,
+      "diferenca_inicial": 0.029923415224,
+      "melhoria": 0.029760473709,
+      "objetivo_atingido": false,
+      "iteracoes": 13000,
+      "melhorias_encontradas": 38,
+      "estrategia": "ultra-preciso"
+    },
+    {
+      "numero": 3,
+      "linha_inicial": 72,
+      "tempos_ultra_refinados": [
+        239.6,
+        239.6,
+        239.6
+      ],
+      "tempos_refinados": [
+        239.6,
+        239.6,
+        239.6
+      ],
+      "vazao_atual": 109114.85809682804,
+      "vazao_desejada": 113456.20581502463,
+      "diferenca": 4341.347718196583,
+      "diferenca_inicial": 4341.347718196583,
+      "melhoria": 0.0,
+      "objetivo_atingido": false,
+      "iteracoes": 0,
+      "melhorias_encontradas": 0,
+      "estrategia": "ultra-preciso"
+    },
+    {
+      "numero": 4,
+      "linha_inicial": 81,
+      "tempos_ultra_refinados": [
+        239.60013,
+        239.962,
+        240.0
+      ],
+      "tempos_refinados": [
+        239.6,
+        239.962,
+        240.0
+      ],
+      "vazao_atual": 168143.09065262583,
+      "vazao_desejada": 168143.09015965133,
+      "diferenca": 0.000492974513,
+      "diferenca_inicial": 0.0308488517,
+      "melhoria": 0.030355877187,
+      "objetivo_atingido": false,
+      "iteracoes": 3000,
+      "melhorias_encontradas": 13,
+      "estrategia": "ultra-preciso"
+    },
+    {
+      "numero": 5,
+      "linha_inicial": 90,
+      "tempos_ultra_refinados": [
+        239.6,
+        239.6,
+        239.6
+      ],
+      "tempos_refinados": [
+        239.6,
+        239.6,
+        239.6
+      ],
+      "vazao_atual": 213319.5325542571,
+      "vazao_desejada": 224870.70352875406,
+      "diferenca": 11551.170974496965,
+      "diferenca_inicial": 11551.170974496965,
+      "melhoria": 0.0,
+      "objetivo_atingido": false,
+      "iteracoes": 0,
+      "melhorias_encontradas": 0,
+      "estrategia": "ultra-preciso"
+    },
+    {
+      "numero": 6,
+      "linha_inicial": 99,
+      "tempos_ultra_refinados": [
+        239.95243,
+        240.0,
+        240.0
+      ],
+      "tempos_refinados": [
+        239.951,
+        240.0,
+        240.0
+      ],
+      "vazao_atual": 33873.24158592601,
+      "vazao_desejada": 33873.24172762049,
+      "diferenca": 0.00014169448,
+      "diferenca_inicial": 0.06725629706,
+      "melhoria": 0.06711460258,
+      "objetivo_atingido": false,
+      "iteracoes": 13000,
+      "melhorias_encontradas": 143,
+      "estrategia": "ultra-preciso"
+    },
+    {
+      "numero": 7,
+      "linha_inicial": 108,
+      "tempos_ultra_refinados": [
+        239.75329,
+        240.0,
+        240.0
+      ],
+      "tempos_refinados": [
+        239.753,
+        240.0,
+        240.0
+      ],
+      "vazao_atual": 113060.71776049455,
+      "vazao_desejada": 113060.71755781921,
+      "diferenca": 0.000202675338,
+      "diferenca_inicial": 0.045761096507,
+      "melhoria": 0.045558421169,
+      "objetivo_atingido": false,
+      "iteracoes": 3000,
+      "melhorias_encontradas": 29,
+      "estrategia": "ultra-preciso"
+    },
+    {
+      "numero": 8,
+      "linha_inicial": 117,
+      "tempos_ultra_refinados": [
+        239.6,
+        239.79355,
+        240.0
+      ],
+      "tempos_refinados": [
+        239.6,
+        239.794,
+        240.0
+      ],
+      "vazao_atual": 226146.4385716881,
+      "vazao_desejada": 226146.43710032254,
+      "diferenca": 0.001471365564,
+      "diferenca_inicial": 0.14000228334,
+      "melhoria": 0.138530917776,
+      "objetivo_atingido": false,
+      "iteracoes": 7000,
+      "melhorias_encontradas": 45,
+      "estrategia": "ultra-preciso"
+    }
+  ]
+}

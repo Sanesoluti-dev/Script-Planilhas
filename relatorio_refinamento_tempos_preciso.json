@@ -1,0 +1,218 @@
+{
+  "metadata": {
+    "data_geracao": "2025-08-01T23:26:03.253154",
+    "descricao": "Refinamento HÍBRIDO de tempos aproximados com tolerância de 0.07",
+    "precisao": "Decimal com 28 dígitos",
+    "arquivo_resultado": "SAN-038-25-09_REFINADO_HIBRIDO.xlsx",
+    "tolerancia_objetivo": 0.07,
+    "estrategia": "Híbrida (principais + fallback)",
+    "fase1": "Valores principais 239.800-240.200",
+    "fase2": "Valores fallback 239.600-239.800",
+    "incremento": "0.001000",
+    "total_valores": 600
+  },
+  "estatisticas": {
+    "total_pontos": 8,
+    "pontos_processados": 8,
+    "objetivos_atingidos": 5,
+    "diferenca_inicial_media": 2096.7838158455193,
+    "diferenca_media": 1986.611062424124,
+    "melhoria_media": 110.172753421395,
+    "iteracoes_total": 4911,
+    "melhorias_total": 302
+  },
+  "resultados": [
+    {
+      "numero": 1,
+      "linha_inicial": 54,
+      "tempos_refinados": [
+        239.947,
+        240.0,
+        240.0
+      ],
+      "tempos_aproximados": [
+        240.0,
+        240.0,
+        240.0
+      ],
+      "vazao_atual": 33987.492654627895,
+      "vazao_desejada": 33987.436639872285,
+      "diferenca": 0.056014755612,
+      "diferenca_inicial": 2.436639872285,
+      "melhoria": 2.380625116673,
+      "objetivo_atingido": true,
+      "iteracoes": 148,
+      "melhorias_encontradas": 51,
+      "estrategia_usada": "principal",
+      "direcao_refinamento": "INCREMENTAR"
+    },
+    {
+      "numero": 2,
+      "linha_inicial": 63,
+      "tempos_refinados": [
+        239.893,
+        240.0,
+        240.0
+      ],
+      "tempos_aproximados": [
+        240.0,
+        240.0,
+        240.0
+      ],
+      "vazao_atual": 57060.46792111483,
+      "vazao_desejada": 57060.437997699606,
+      "diferenca": 0.029923415224,
+      "diferenca_inicial": 8.437997699606,
+      "melhoria": 8.408074284382,
+      "objetivo_atingido": true,
+      "iteracoes": 94,
+      "melhorias_encontradas": 94,
+      "estrategia_usada": "principal",
+      "direcao_refinamento": "INCREMENTAR"
+    },
+    {
+      "numero": 3,
+      "linha_inicial": 72,
+      "tempos_refinados": [
+        239.6,
+        239.6,
+        239.6
+      ],
+      "tempos_aproximados": [
+        240.0,
+        240.0,
+        240.0
+      ],
+      "vazao_atual": 109114.85809682804,
+      "vazao_desejada": 113456.20581502463,
+      "diferenca": 4341.347718196583,
+      "diferenca_inicial": 4523.20581502463,
+      "melhoria": 181.858096828047,
+      "objetivo_atingido": false,
+      "iteracoes": 1200,
+      "melhorias_encontradas": 6,
+      "estrategia_usada": "híbrida",
+      "direcao_refinamento": "INCREMENTAR"
+    },
+    {
+      "numero": 4,
+      "linha_inicial": 81,
+      "tempos_refinados": [
+        239.6,
+        239.962,
+        240.0
+      ],
+      "tempos_aproximados": [
+        240.0,
+        240.0,
+        240.0
+      ],
+      "vazao_atual": 168143.12100850302,
+      "vazao_desejada": 168143.09015965133,
+      "diferenca": 0.0308488517,
+      "diferenca_inicial": 102.09015965133,
+      "melhoria": 102.05931079963,
+      "objetivo_atingido": true,
+      "iteracoes": 563,
+      "melhorias_encontradas": 40,
+      "estrategia_usada": "principal",
+      "direcao_refinamento": "INCREMENTAR"
+    },
+    {
+      "numero": 5,
+      "linha_inicial": 90,
+      "tempos_refinados": [
+        239.6,
+        239.6,
+        239.6
+      ],
+      "tempos_aproximados": [
+        240.0,
+        240.0,
+        240.0
+      ],
+      "vazao_atual": 213319.5325542571,
+      "vazao_desejada": 224870.70352875406,
+      "diferenca": 11551.170974496965,
+      "diferenca_inicial": 11906.70352875406,
+      "melhoria": 355.532554257095,
+      "objetivo_atingido": false,
+      "iteracoes": 1200,
+      "melhorias_encontradas": 6,
+      "estrategia_usada": "híbrida",
+      "direcao_refinamento": "INCREMENTAR"
+    },
+    {
+      "numero": 6,
+      "linha_inicial": 99,
+      "tempos_refinados": [
+        239.951,
+        240.0,
+        240.0
+      ],
+      "tempos_aproximados": [
+        240.0,
+        240.0,
+        240.0
+      ],
+      "vazao_atual": 33873.30898391755,
+      "vazao_desejada": 33873.24172762049,
+      "diferenca": 0.06725629706,
+      "diferenca_inicial": 2.24172762049,
+      "melhoria": 2.17447132343,
+      "objetivo_atingido": true,
+      "iteracoes": 152,
+      "melhorias_encontradas": 47,
+      "estrategia_usada": "principal",
+      "direcao_refinamento": "INCREMENTAR"
+    },
+    {
+      "numero": 7,
+      "linha_inicial": 108,
+      "tempos_refinados": [
+        239.753,
+        240.0,
+        240.0
+      ],
+      "tempos_aproximados": [
+        240.0,
+        240.0,
+        240.0
+      ],
+      "vazao_atual": 113060.76331891572,
+      "vazao_desejada": 113060.71755781921,
+      "diferenca": 0.045761096507,
+      "diferenca_inicial": 38.71755781921,
+      "melhoria": 38.671796722703,
+      "objetivo_atingido": true,
+      "iteracoes": 354,
+      "melhorias_encontradas": 48,
+      "estrategia_usada": "fallback",
+      "direcao_refinamento": "INCREMENTAR"
+    },
+    {
+      "numero": 8,
+      "linha_inicial": 117,
+      "tempos_refinados": [
+        239.6,
+        239.794,
+        240.0
+      ],
+      "tempos_aproximados": [
+        240.0,
+        240.0,
+        240.0
+      ],
+      "vazao_atual": 226146.2970980392,
+      "vazao_desejada": 226146.43710032254,
+      "diferenca": 0.14000228334,
+      "diferenca_inicial": 190.43710032254,
+      "melhoria": 190.2970980392,
+      "objetivo_atingido": false,
+      "iteracoes": 1200,
+      "melhorias_encontradas": 10,
+      "estrategia_usada": "híbrida",
+      "direcao_refinamento": "INCREMENTAR"
+    }
+  ]
+}

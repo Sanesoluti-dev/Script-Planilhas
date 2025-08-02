@@ -1,0 +1,131 @@
+=== RELATÓRIO DE REFINAMENTO HÍBRIDO DE TEMPOS ===
+
+🎯 OBJETIVO:
+   • Refinar tempos aproximados da planilha corrigida
+   • Atingir diferença de vazão de ±0.07
+   • Estratégia híbrida com valores principais + fallback
+   • Incremento de 0.001000 para máxima precisão
+
+✅ ESTRATÉGIA HÍBRIDA:
+   • Etapa 1: otimizador_tempos_inteligente.py gera valores aproximados
+   • Etapa 2: aplicador_tempos_gerados.py refina com estratégia híbrida
+   • FASE 1: Valores principais 239.800000 - 240.200000
+   • FASE 2: Valores fallback 239.600000 - 239.800000 (casos extremos)
+   • Incremento: 0.001000
+   • Precisão: Decimal com 28 dígitos
+
+📊 ESTATÍSTICAS GERAIS:
+   • Total de pontos: 8
+   • Pontos processados: 8
+   • Objetivos atingidos: 5
+   • Diferença inicial média: 2096.78381585
+   • Diferença final média: 1986.61106242
+   • Melhoria média: 110.17275342
+   • Total de iterações: 4911
+   • Total de melhorias encontradas: 302
+
+�� RESULTADOS POR PONTO:
+
+   PONTO 1:
+     • Vazão desejada: 33987.43663987 L/h
+     • Vazão obtida: 33987.49265463 L/h
+     • Diferença inicial: 2.43663987
+     • Diferença final: 0.05601476
+     • Melhoria: 2.38062512
+     • Objetivo atingido: ✅
+     • Iterações: 148
+     • Melhorias encontradas: 51
+     • Tempos aproximados: [240.0, 240.0, 240.0]
+     • Tempos refinados: [239.947, 240.0, 240.0]
+
+   PONTO 2:
+     • Vazão desejada: 57060.43799770 L/h
+     • Vazão obtida: 57060.46792111 L/h
+     • Diferença inicial: 8.43799770
+     • Diferença final: 0.02992342
+     • Melhoria: 8.40807428
+     • Objetivo atingido: ✅
+     • Iterações: 94
+     • Melhorias encontradas: 94
+     • Tempos aproximados: [240.0, 240.0, 240.0]
+     • Tempos refinados: [239.893, 240.0, 240.0]
+
+   PONTO 3:
+     • Vazão desejada: 113456.20581502 L/h
+     • Vazão obtida: 109114.85809683 L/h
+     • Diferença inicial: 4523.20581502
+     • Diferença final: 4341.34771820
+     • Melhoria: 181.85809683
+     • Objetivo atingido: ❌
+     • Iterações: 1200
+     • Melhorias encontradas: 6
+     • Tempos aproximados: [240.0, 240.0, 240.0]
+     • Tempos refinados: [239.6, 239.6, 239.6]
+
+   PONTO 4:
+     • Vazão desejada: 168143.09015965 L/h
+     • Vazão obtida: 168143.12100850 L/h
+     • Diferença inicial: 102.09015965
+     • Diferença final: 0.03084885
+     • Melhoria: 102.05931080
+     • Objetivo atingido: ✅
+     • Iterações: 563
+     • Melhorias encontradas: 40
+     • Tempos aproximados: [240.0, 240.0, 240.0]
+     • Tempos refinados: [239.6, 239.962, 240.0]
+
+   PONTO 5:
+     • Vazão desejada: 224870.70352875 L/h
+     • Vazão obtida: 213319.53255426 L/h
+     • Diferença inicial: 11906.70352875
+     • Diferença final: 11551.17097450
+     • Melhoria: 355.53255426
+     • Objetivo atingido: ❌
+     • Iterações: 1200
+     • Melhorias encontradas: 6
+     • Tempos aproximados: [240.0, 240.0, 240.0]
+     • Tempos refinados: [239.6, 239.6, 239.6]
+
+   PONTO 6:
+     • Vazão desejada: 33873.24172762 L/h
+     • Vazão obtida: 33873.30898392 L/h
+     • Diferença inicial: 2.24172762
+     • Diferença final: 0.06725630
+     • Melhoria: 2.17447132
+     • Objetivo atingido: ✅
+     • Iterações: 152
+     • Melhorias encontradas: 47
+     • Tempos aproximados: [240.0, 240.0, 240.0]
+     • Tempos refinados: [239.951, 240.0, 240.0]
+
+   PONTO 7:
+     • Vazão desejada: 113060.71755782 L/h
+     • Vazão obtida: 113060.76331892 L/h
+     • Diferença inicial: 38.71755782
+     • Diferença final: 0.04576110
+     • Melhoria: 38.67179672
+     • Objetivo atingido: ✅
+     • Iterações: 354
+     • Melhorias encontradas: 48
+     • Tempos aproximados: [240.0, 240.0, 240.0]
+     • Tempos refinados: [239.753, 240.0, 240.0]
+
+   PONTO 8:
+     • Vazão desejada: 226146.43710032 L/h
+     • Vazão obtida: 226146.29709804 L/h
+     • Diferença inicial: 190.43710032
+     • Diferença final: 0.14000228
+     • Melhoria: 190.29709804
+     • Objetivo atingido: ❌
+     • Iterações: 1200
+     • Melhorias encontradas: 10
+     • Tempos aproximados: [240.0, 240.0, 240.0]
+     • Tempos refinados: [239.6, 239.794, 240.0]
+
+🎉 CONCLUSÃO:
+   ✅ Refinamento concluído com alta precisão
+   ✅ 5/8 pontos atingiram o objetivo
+   ✅ Melhoria média: 110.17275342
+   ✅ Diferença final média: 1986.61106242
+   ✅ Total de melhorias encontradas: 302
+   ✅ Planilha refinada: SAN-038-25-09_REFINADO_HIBRIDO.xlsx

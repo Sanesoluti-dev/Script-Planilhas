@@ -1,0 +1,114 @@
+[
+  {
+    "numero": 1,
+    "linha_inicial": 54,
+    "tempos_otimizados": [
+      240.0,
+      240.0,
+      240.0
+    ],
+    "vazao_original": 33987.436639872285,
+    "vazao_otimizada": 33985.0,
+    "diferenca_vazao": -2.436639872285,
+    "direcao_refinamento": "INCREMENTAR",
+    "magnitude_diferenca": 2.436639872285
+  },
+  {
+    "numero": 2,
+    "linha_inicial": 63,
+    "tempos_otimizados": [
+      240.0,
+      240.0,
+      240.0
+    ],
+    "vazao_original": 57060.437997699606,
+    "vazao_otimizada": 57052.0,
+    "diferenca_vazao": -8.437997699606,
+    "direcao_refinamento": "INCREMENTAR",
+    "magnitude_diferenca": 8.437997699606
+  },
+  {
+    "numero": 3,
+    "linha_inicial": 72,
+    "tempos_otimizados": [
+      240.0,
+      240.0,
+      240.0
+    ],
+    "vazao_original": 113456.20581502463,
+    "vazao_otimizada": 108933.0,
+    "diferenca_vazao": -4523.20581502463,
+    "direcao_refinamento": "INCREMENTAR",
+    "magnitude_diferenca": 4523.20581502463
+  },
+  {
+    "numero": 4,
+    "linha_inicial": 81,
+    "tempos_otimizados": [
+      240.0,
+      240.0,
+      240.0
+    ],
+    "vazao_original": 168143.09015965133,
+    "vazao_otimizada": 168041.0,
+    "diferenca_vazao": -102.09015965133,
+    "direcao_refinamento": "INCREMENTAR",
+    "magnitude_diferenca": 102.09015965133
+  },
+  {
+    "numero": 5,
+    "linha_inicial": 90,
+    "tempos_otimizados": [
+      240.0,
+      240.0,
+      240.0
+    ],
+    "vazao_original": 224870.70352875406,
+    "vazao_otimizada": 212964.0,
+    "diferenca_vazao": -11906.70352875406,
+    "direcao_refinamento": "INCREMENTAR",
+    "magnitude_diferenca": 11906.70352875406
+  },
+  {
+    "numero": 6,
+    "linha_inicial": 99,
+    "tempos_otimizados": [
+      240.0,
+      240.0,
+      240.0
+    ],
+    "vazao_original": 33873.24172762049,
+    "vazao_otimizada": 33871.0,
+    "diferenca_vazao": -2.24172762049,
+    "direcao_refinamento": "INCREMENTAR",
+    "magnitude_diferenca": 2.24172762049
+  },
+  {
+    "numero": 7,
+    "linha_inicial": 108,
+    "tempos_otimizados": [
+      240.0,
+      240.0,
+      240.0
+    ],
+    "vazao_original": 113060.71755781921,
+    "vazao_otimizada": 113022.0,
+    "diferenca_vazao": -38.71755781921,
+    "direcao_refinamento": "INCREMENTAR",
+    "magnitude_diferenca": 38.71755781921
+  },
+  {
+    "numero": 8,
+    "linha_inicial": 117,
+    "tempos_otimizados": [
+      240.0,
+      240.0,
+      240.0
+    ],
+    "vazao_original": 226146.43710032254,
+    "vazao_otimizada": 225956.0,
+    "diferenca_vazao": -190.43710032254,
+    "direcao_refinamento": "INCREMENTAR",
+    "magnitude_diferenca": 190.43710032254
+  }
+]

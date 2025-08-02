@@ -1,0 +1,261 @@
+{
+  "constantes": {
+    "ponto_mlp": 200.0,
+    "pulso_equipamento_mlp": 1.0,
+    "constante_correcao_temp": 0.0,
+    "constante_correcao_inclinacao": 0.0,
+    "modo_calibracao": "Automática com início dinâmico",
+    "correcao_tempo_bu23": 0.0,
+    "correcao_tempo_bw23": 0.0,
+    "correcao_temp_bu26": 0.0,
+    "correcao_temp_bw26": 0.0
+  },
+  "pontos": [
+    {
+      "numero": 1,
+      "linha_inicial": 54,
+      "tempos_otimizados": [
+        240.0,
+        240.0,
+        240.0
+      ],
+      "agregados_otimizados": {
+        "vazao_media": 33985.0,
+        "tendencia": -0.091123242054,
+        "desvio_padrao": 0.195451961829
+      },
+      "valores_desejados": {
+        "vazao_media": 33987.436639872285,
+        "tendencia": -0.08645565836620091,
+        "desvio_padrao": 0.19488768926220715
+      },
+      "valores_corrigidos": {
+        "vazao_media": 0.0,
+        "tendencia": 0.0,
+        "desvio_padrao": 0.0
+      },
+      "iteracoes": 1,
+      "diferenca": -2.436639872285,
+      "diferencas": {
+        "vazao": 2.436639872285,
+        "tendencia": 0.00466758368779909
+      }
+    },
+    {
+      "numero": 2,
+      "linha_inicial": 63,
+      "tempos_otimizados": [
+        240.0,
+        240.0,
+        240.0
+      ],
+      "agregados_otimizados": {
+        "vazao_media": 57052.0,
+        "tendencia": 0.250032805452,
+        "desvio_padrao": 0.014850229931
+      },
+      "valores_desejados": {
+        "vazao_media": 57060.437997699606,
+        "tendencia": 0.24740791826937922,
+        "desvio_padrao": 0.013206406257166972
+      },
+      "valores_corrigidos": {
+        "vazao_media": 0.0,
+        "tendencia": 0.0,
+        "desvio_padrao": 0.0
+      },
+      "iteracoes": 1,
+      "diferenca": -8.437997699606,
+      "diferencas": {
+        "vazao": 8.437997699606,
+        "tendencia": 0.00262488718262078
+      }
+    },
+    {
+      "numero": 3,
+      "linha_inicial": 72,
+      "tempos_otimizados": [
+        240.0,
+        240.0,
+        240.0
+      ],
+      "agregados_otimizados": {
+        "vazao_media": 108933.0,
+        "tendencia": 0.026226342674,
+        "desvio_padrao": 0.181265286864
+      },
+      "valores_desejados": {
+        "vazao_media": 113456.20581502463,
+        "tendencia": 0.0015682002431716968,
+        "desvio_padrao": 0.18104306423582073
+      },
+      "valores_corrigidos": {
+        "vazao_media": 0.0,
+        "tendencia": 0.0,
+        "desvio_padrao": 0.0
+      },
+      "iteracoes": 1,
+      "diferenca": -4523.20581502463,
+      "diferencas": {
+        "vazao": 4523.20581502463,
+        "tendencia": 0.024658142430828305
+      }
+    },
+    {
+      "numero": 4,
+      "linha_inicial": 81,
+      "tempos_otimizados": [
+        240.0,
+        240.0,
+        240.0
+      ],
+      "agregados_otimizados": {
+        "vazao_media": 168041.0,
+        "tendencia": 0.040743049497,
+        "desvio_padrao": 0.145633944361
+      },
+      "valores_desejados": {
+        "vazao_media": 168143.09015965133,
+        "tendencia": -0.0077878750323022395,
+        "desvio_padrao": 0.14511700636827798
+      },
+      "valores_corrigidos": {
+        "vazao_media": 0.0,
+        "tendencia": 0.0,
+        "desvio_padrao": 0.0
+      },
+      "iteracoes": 1,
+      "diferenca": -102.09015965133,
+      "diferencas": {
+        "vazao": 102.09015965133,
+        "tendencia": 0.04853092452930224
+      }
+    },
+    {
+      "numero": 5,
+      "linha_inicial": 90,
+      "tempos_otimizados": [
+        240.0,
+        240.0,
+        240.0
+      ],
+      "agregados_otimizados": {
+        "vazao_media": 212964.0,
+        "tendencia": 0.108019369765,
+        "desvio_padrao": 0.151664294183
+      },
+      "valores_desejados": {
+        "vazao_media": 224870.70352875406,
+        "tendencia": 0.03594052916470596,
+        "desvio_padrao": 0.15169568805345796
+      },
+      "valores_corrigidos": {
+        "vazao_media": 0.0,
+        "tendencia": 0.0,
+        "desvio_padrao": 0.0
+      },
+      "iteracoes": 1,
+      "diferenca": -11906.70352875406,
+      "diferencas": {
+        "vazao": 11906.70352875406,
+        "tendencia": 0.07207884060029404
+      }
+    },
+    {
+      "numero": 6,
+      "linha_inicial": 99,
+      "tempos_otimizados": [
+        240.0,
+        240.0,
+        240.0
+      ],
+      "agregados_otimizados": {
+        "vazao_media": 33871.0,
+        "tendencia": -0.017594029709,
+        "desvio_padrao": 0.031619562062
+      },
+      "valores_desejados": {
+        "vazao_media": 33873.24172762049,
+        "tendencia": -0.01308403206934071,
+        "desvio_padrao": 0.028846755757219428
+      },
+      "valores_corrigidos": {
+        "vazao_media": 0.0,
+        "tendencia": 0.0,
+        "desvio_padrao": 0.0
+      },
+      "iteracoes": 1,
+      "diferenca": -2.24172762049,
+      "diferencas": {
+        "vazao": 2.24172762049,
+        "tendencia": 0.00450999763965929
+      }
+    },
+    {
+      "numero": 7,
+      "linha_inicial": 108,
+      "tempos_otimizados": [
+        240.0,
+        240.0,
+        240.0
+      ],
+      "agregados_otimizados": {
+        "vazao_media": 113022.0,
+        "tendencia": -0.033850490226,
+        "desvio_padrao": 0.053620821432
+      },
+      "valores_desejados": {
+        "vazao_media": 113060.71755781921,
+        "tendencia": -0.05858836043440658,
+        "desvio_padrao": 0.0531509717499077
+      },
+      "valores_corrigidos": {
+        "vazao_media": 0.0,
+        "tendencia": 0.0,
+        "desvio_padrao": 0.0
+      },
+      "iteracoes": 1,
+      "diferenca": -38.71755781921,
+      "diferencas": {
+        "vazao": 38.71755781921,
+        "tendencia": 0.02473787020840658
+      }
+    },
+    {
+      "numero": 8,
+      "linha_inicial": 117,
+      "tempos_otimizados": [
+        240.0,
+        240.0,
+        240.0
+      ],
+      "agregados_otimizados": {
+        "vazao_media": 225956.0,
+        "tendencia": 0.072961782425,
+        "desvio_padrao": 0.052135490963
+      },
+      "valores_desejados": {
+        "vazao_media": 226146.43710032254,
+        "tendencia": 0.00046041014412695713,
+        "desvio_padrao": 0.0525291620122798
+      },
+      "valores_corrigidos": {
+        "vazao_media": 0.0,
+        "tendencia": 0.0,
+        "desvio_padrao": 0.0
+      },
+      "iteracoes": 1,
+      "diferenca": -190.43710032254,
+      "diferencas": {
+        "vazao": 190.43710032254,
+        "tendencia": 0.07250137228087304
+      }
+    }
+  ],
+  "resumo": {
+    "total_pontos": 8,
+    "pontos_processados": 8,
+    "tempo_total": 0.011654376983642578,
+    "tempo_medio_por_ponto": 0.0014567971229553223
+  }
+}

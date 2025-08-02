@@ -1,0 +1,148 @@
+{
+  "arquivo_original": "SAN-038-25-09.xlsx",
+  "arquivo_resultado": "SAN-038-25-09_TEMPOS_OTIMIZADOS.xlsx",
+  "verificacoes": [
+    {
+      "ponto": 1,
+      "tempos_aplicados": [
+        169.0,
+        229.0,
+        289.0
+      ],
+      "tempos_esperados": [
+        169.0,
+        229.0,
+        289.0
+      ],
+      "tempos_corretos": true,
+      "vazao_aplicada": 33987.43663987229,
+      "vazao_esperada": 33987.43663987228,
+      "vazao_correta": true
+    },
+    {
+      "ponto": 2,
+      "tempos_aplicados": [
+        161.0,
+        221.0,
+        281.0
+      ],
+      "tempos_esperados": [
+        161.0,
+        221.0,
+        281.0
+      ],
+      "tempos_corretos": true,
+      "vazao_aplicada": 57060.43799769961,
+      "vazao_esperada": 57060.43799769959,
+      "vazao_correta": true
+    },
+    {
+      "ponto": 3,
+      "tempos_aplicados": [
+        141.0,
+        201.0,
+        261.0
+      ],
+      "tempos_esperados": [
+        141.0,
+        201.0,
+        261.0
+      ],
+      "tempos_corretos": true,
+      "vazao_aplicada": 113456.2058150246,
+      "vazao_esperada": 113456.20581502464,
+      "vazao_correta": true
+    },
+    {
+      "ponto": 4,
+      "tempos_aplicados": [
+        160.0,
+        220.0,
+        280.0
+      ],
+      "tempos_esperados": [
+        160.0,
+        220.0,
+        280.0
+      ],
+      "tempos_corretos": true,
+      "vazao_aplicada": 168143.0901596513,
+      "vazao_esperada": 168143.09015965133,
+      "vazao_correta": true
+    },
+    {
+      "ponto": 5,
+      "tempos_aplicados": [
+        135.0,
+        196.0,
+        256.0
+      ],
+      "tempos_esperados": [
+        135.0,
+        196.0,
+        256.0
+      ],
+      "tempos_corretos": true,
+      "vazao_aplicada": 224870.7035287541,
+      "vazao_esperada": 224870.70352875403,
+      "vazao_correta": true
+    },
+    {
+      "ponto": 6,
+      "tempos_aplicados": [
+        189.0,
+        250.0,
+        310.0
+      ],
+      "tempos_esperados": [
+        189.0,
+        250.0,
+        310.0
+      ],
+      "tempos_corretos": true,
+      "vazao_aplicada": 33873.24172762049,
+      "vazao_esperada": 33873.24172762049,
+      "vazao_correta": true
+    },
+    {
+      "ponto": 7,
+      "tempos_aplicados": [
+        255.0,
+        315.0,
+        375.0
+      ],
+      "tempos_esperados": [
+        255.0,
+        315.0,
+        375.0
+      ],
+      "tempos_corretos": true,
+      "vazao_aplicada": 113060.7175578192,
+      "vazao_esperada": 113060.7175578192,
+      "vazao_correta": true
+    },
+    {
+      "ponto": 8,
+      "tempos_aplicados": [
+        171.0,
+        231.0,
+        291.0
+      ],
+      "tempos_esperados": [
+        171.0,
+        231.0,
+        291.0
+      ],
+      "tempos_corretos": true,
+      "vazao_aplicada": 226146.4371003225,
+      "vazao_esperada": 226146.4371003225,
+      "vazao_correta": true
+    }
+  ],
+  "resumo": {
+    "total_pontos": 8,
+    "tempos_corretos": 8,
+    "vazoes_corretas": 8,
+    "tempo_processamento": 3.2090234756469727
+  }
+}

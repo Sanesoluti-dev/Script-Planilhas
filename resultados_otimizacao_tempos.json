@@ -1,0 +1,159 @@
+{
+  "constantes": {
+    "ponto_mlp": 200.0,
+    "pulso_equipamento_mlp": 1.0,
+    "constante_correcao_temp": 0.02435781827729949,
+    "constante_correcao_inclinacao": -4.2651955784152175e-07,
+    "modo_calibracao": "Automática com início dinâmico",
+    "correcao_tempo_bu23": 3.749e-05,
+    "correcao_tempo_bw23": 0.01767799,
+    "correcao_temp_bu26": -0.0024537924912,
+    "correcao_temp_bw26": 0.0156607234082
+  },
+  "pontos_otimizados": [
+    {
+      "numero": 1,
+      "tempos_otimizados": [
+        239.5999,
+        239.5999,
+        239.5999
+      ],
+      "agregados_otimizados": {
+        "vazao_media": 32503.603113704365,
+        "tendencia": -0.08581840665686535,
+        "desvio_padrao": 0.19849880086397
+      },
+      "valores_originais": {
+        "vazao_media": 33987.436639872285,
+        "tendencia": -0.08645565836620091,
+        "desvio_padrao": 0.19488768926220715
+      }
+    },
+    {
+      "numero": 2,
+      "tempos_otimizados": [
+        239.5999,
+        239.5999,
+        239.5999
+      ],
+      "agregados_otimizados": {
+        "vazao_media": 52645.1980219685,
+        "tendencia": 0.24929567144383322,
+        "desvio_padrao": 0.012246268363751
+      },
+      "valores_originais": {
+        "vazao_media": 57060.437997699606,
+        "tendencia": 0.24740791826937922,
+        "desvio_padrao": 0.013206406257166972
+      }
+    },
+    {
+      "numero": 3,
+      "tempos_otimizados": [
+        239.5999,
+        239.5999,
+        239.5999
+      ],
+      "agregados_otimizados": {
+        "vazao_media": 95207.04622103233,
+        "tendencia": 0.009333365233431047,
+        "desvio_padrao": 0.169253527248185
+      },
+      "valores_originais": {
+        "vazao_media": 113456.20581502463,
+        "tendencia": 0.0015682002431716968,
+        "desvio_padrao": 0.18104306423582073
+      }
+    },
+    {
+      "numero": 4,
+      "tempos_otimizados": [
+        239.5999,
+        239.5999,
+        239.5999
+      ],
+      "agregados_otimizados": {
+        "vazao_media": 154456.71647316767,
+        "tendencia": -0.001969783246805678,
+        "desvio_padrao": 0.130762613415739
+      },
+      "valores_originais": {
+        "vazao_media": 168143.09015965133,
+        "tendencia": -0.0077878750323022395,
+        "desvio_padrao": 0.14511700636827798
+      }
+    },
+    {
+      "numero": 5,
+      "tempos_otimizados": [
+        239.5999,
+        239.5999,
+        239.5999
+      ],
+      "agregados_otimizados": {
+        "vazao_media": 183600.34491610574,
+        "tendencia": 0.05349698359264008,
+        "desvio_padrao": 0.127501500172931
+      },
+      "valores_originais": {
+        "vazao_media": 224870.70352875406,
+        "tendencia": 0.03594052916470596,
+        "desvio_padrao": 0.15169568805345796
+      }
+    },
+    {
+      "numero": 6,
+      "tempos_otimizados": [
+        240.499,
+        240.499,
+        240.499
+      ],
+      "agregados_otimizados": {
+        "vazao_media": 35160.71408436083,
+        "tendencia": -0.013632810996721038,
+        "desvio_padrao": 0.029734192819732
+      },
+      "valores_originais": {
+        "vazao_media": 33873.24172762049,
+        "tendencia": -0.01308403206934071,
+        "desvio_padrao": 0.028846755757219428
+      }
+    },
+    {
+      "numero": 7,
+      "tempos_otimizados": [
+        240.499,
+        240.499,
+        240.499
+      ],
+      "agregados_otimizados": {
+        "vazao_media": 148131.33819410542,
+        "tendencia": -0.07352082867605955,
+        "desvio_padrao": 0.043266406953629
+      },
+      "valores_originais": {
+        "vazao_media": 113060.71755781921,
+        "tendencia": -0.05858836043440658,
+        "desvio_padrao": 0.0531509717499077
+      }
+    },
+    {
+      "numero": 8,
+      "tempos_otimizados": [
+        239.5999,
+        239.5999,
+        239.5999
+      ],
+      "agregados_otimizados": {
+        "vazao_media": 218074.14127156045,
+        "tendencia": 0.003910351256792054,
+        "desvio_padrao": 0.07408441722627
+      },
+      "valores_originais": {
+        "vazao_media": 226146.43710032254,
+        "tendencia": 0.00046041014412695713,
+        "desvio_padrao": 0.0525291620122798
+      }
+    }
+  ]
+}

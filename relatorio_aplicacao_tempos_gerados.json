@@ -1,0 +1,199 @@
+{
+  "arquivo_original": "SAN-038-25-09.xlsx",
+  "arquivo_resultado": "SAN-038-25-09_TEMPOS_GERADOS.xlsx",
+  "arquivo_corrigido": "SAN-038-25-09_CORRIGIDO.xlsx",
+  "verificacoes": [
+    {
+      "ponto": 1,
+      "tempos_aplicados": [
+        239.59,
+        239.59,
+        239.59
+      ],
+      "tempos_esperados": [
+        239.59,
+        239.59,
+        239.59
+      ],
+      "tempos_corretos": true,
+      "vazao_media_aplicada": 33987.43663987229,
+      "vazao_media_original": 33987.436639872285,
+      "vazao_preservada": true,
+      "tendencia_aplicada": -0.08645565836620091,
+      "tendencia_original": -0.08645565836620091,
+      "tendencia_preservada": true,
+      "desvio_padrao_aplicado": 0.1948876892622071,
+      "desvio_padrao_original": 0.19488768926220715,
+      "desvio_preservado": true
+    },
+    {
+      "ponto": 2,
+      "tempos_aplicados": [
+        239.66,
+        239.66,
+        239.59
+      ],
+      "tempos_esperados": [
+        239.66,
+        239.66,
+        239.59
+      ],
+      "tempos_corretos": true,
+      "vazao_media_aplicada": 57060.43799769961,
+      "vazao_media_original": 57060.437997699606,
+      "vazao_preservada": true,
+      "tendencia_aplicada": 0.2474079182693792,
+      "tendencia_original": 0.24740791826937922,
+      "tendencia_preservada": true,
+      "desvio_padrao_aplicado": 0.01320640625716697,
+      "desvio_padrao_original": 0.013206406257166972,
+      "desvio_preservado": true
+    },
+    {
+      "ponto": 3,
+      "tempos_aplicados": [
+        239.59,
+        239.59,
+        239.59
+      ],
+      "tempos_esperados": [
+        239.59,
+        239.59,
+        239.59
+      ],
+      "tempos_corretos": true,
+      "vazao_media_aplicada": 113456.2058150246,
+      "vazao_media_original": 113456.20581502463,
+      "vazao_preservada": true,
+      "tendencia_aplicada": 0.001568200243171697,
+      "tendencia_original": 0.0015682002431716968,
+      "tendencia_preservada": true,
+      "desvio_padrao_aplicado": 0.1810430642358207,
+      "desvio_padrao_original": 0.18104306423582073,
+      "desvio_preservado": true
+    },
+    {
+      "ponto": 4,
+      "tempos_aplicados": [
+        239.59,
+        239.59,
+        239.64
+      ],
+      "tempos_esperados": [
+        239.59,
+        239.59,
+        239.64
+      ],
+      "tempos_corretos": true,
+      "vazao_media_aplicada": 168143.0901596513,
+      "vazao_media_original": 168143.09015965133,
+      "vazao_preservada": true,
+      "tendencia_aplicada": -0.00778787503230224,
+      "tendencia_original": -0.0077878750323022395,
+      "tendencia_preservada": true,
+      "desvio_padrao_aplicado": 0.145117006368278,
+      "desvio_padrao_original": 0.14511700636827798,
+      "desvio_preservado": true
+    },
+    {
+      "ponto": 5,
+      "tempos_aplicados": [
+        239.59,
+        239.59,
+        239.59
+      ],
+      "tempos_esperados": [
+        239.59,
+        239.59,
+        239.59
+      ],
+      "tempos_corretos": true,
+      "vazao_media_aplicada": 224870.7035287541,
+      "vazao_media_original": 224870.70352875406,
+      "vazao_preservada": true,
+      "tendencia_aplicada": 0.03594052916470596,
+      "tendencia_original": 0.03594052916470596,
+      "tendencia_preservada": true,
+      "desvio_padrao_aplicado": 0.151695688053458,
+      "desvio_padrao_original": 0.15169568805345796,
+      "desvio_preservado": true
+    },
+    {
+      "ponto": 6,
+      "tempos_aplicados": [
+        239.59,
+        239.59,
+        239.59
+      ],
+      "tempos_esperados": [
+        239.59,
+        239.59,
+        239.59
+      ],
+      "tempos_corretos": true,
+      "vazao_media_aplicada": 33873.24172762049,
+      "vazao_media_original": 33873.24172762049,
+      "vazao_preservada": true,
+      "tendencia_aplicada": -0.01308403206934071,
+      "tendencia_original": -0.01308403206934071,
+      "tendencia_preservada": true,
+      "desvio_padrao_aplicado": 0.02884675575721943,
+      "desvio_padrao_original": 0.028846755757219428,
+      "desvio_preservado": true
+    },
+    {
+      "ponto": 7,
+      "tempos_aplicados": [
+        239.59,
+        239.88,
+        239.945
+      ],
+      "tempos_esperados": [
+        239.59,
+        239.88,
+        239.945
+      ],
+      "tempos_corretos": true,
+      "vazao_media_aplicada": 113060.7175578192,
+      "vazao_media_original": 113060.71755781921,
+      "vazao_preservada": true,
+      "tendencia_aplicada": -0.05858836043440658,
+      "tendencia_original": -0.05858836043440658,
+      "tendencia_preservada": true,
+      "desvio_padrao_aplicado": 0.0531509717499077,
+      "desvio_padrao_original": 0.0531509717499077,
+      "desvio_preservado": true
+    },
+    {
+      "ponto": 8,
+      "tempos_aplicados": [
+        239.59,
+        239.59,
+        239.59
+      ],
+      "tempos_esperados": [
+        239.59,
+        239.59,
+        239.59
+      ],
+      "tempos_corretos": true,
+      "vazao_media_aplicada": 226146.4371003225,
+      "vazao_media_original": 226146.43710032254,
+      "vazao_preservada": true,
+      "tendencia_aplicada": 0.0004604101441269571,
+      "tendencia_original": 0.00046041014412695713,
+      "tendencia_preservada": true,
+      "desvio_padrao_aplicado": 0.0525291620122798,
+      "desvio_padrao_original": 0.0525291620122798,
+      "desvio_preservado": true
+    }
+  ],
+  "resumo": {
+    "total_pontos": 8,
+    "tempos_corretos": 8,
+    "vazoes_preservadas": 8,
+    "tendencias_preservadas": 8,
+    "desvios_preservados": 8,
+    "tempo_processamento": 21.61858296394348
+  }
+}

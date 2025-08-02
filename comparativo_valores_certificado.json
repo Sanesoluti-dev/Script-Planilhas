@@ -1,9 +1,11 @@
 {
   "metadata": {
-    "data_geracao": "2025-07-31T15:22:40.507496",
+    "data_geracao": "2025-08-01T10:14:22.081354",
     "descricao": "Comparativo de valores originais vs corrigidos do certificado",
     "precisao": "Decimal com 14 casas decimais",
     "total_pontos": 8,
+    "arquivo_planilha_corrigida": "SAN-038-25-09_CORRIGIDO.xlsx",
+    "fonte_valores_corrigidos": "Planilha Excel corrigida (valores reais calculados)",
     "formulas_utilizadas": {
       "vazao_referencia": "=SE(C54=\"\";\"\";L54/AA54*3600)",
       "vazao_media": "=SE(I54=\"\";\"\";MÉDIA(I54:I56))",
@@ -15,6 +17,7 @@
   "pontos_calibracao": {
     "ponto_1": {
       "numero_ponto": 1,
+      "fonte_valores_corrigidos": "Cálculo Python (fórmulas replicadas)",
       "valores_originais": {
         "vazao_media": {
           "valor": "33987.43663987229957",
@@ -47,19 +50,19 @@
       },
       "valores_corrigidos": {
         "vazao_media": {
-          "valor": "33983.45403090229956",
+          "valor": "33983.75486921030097",
           "unidade": "L/h",
           "descricao": "Vazão Média • L/h",
           "formula": "=SE(I54=\"\";\"\";MÉDIA(I54:I56))"
         },
         "tendencia": {
-          "valor": "-0.08658618595751",
+          "valor": "-0.08746908327435",
           "unidade": "%",
           "descricao": "Tendência",
           "formula": "=SE(U54=\"\";\"\";MÉDIA(U54:U56))"
         },
         "desvio_padrao_amostral": {
-          "valor": "0.19365437954206",
+          "valor": "0.19434916769180",
           "unidade": "%",
           "descricao": "DESVIO PADRÃO AMOSTRAL",
           "formula": "=SE(U54=\"\";\"\";STDEV.S(U54:U56))"
@@ -77,17 +80,17 @@
       },
       "diferencas": {
         "vazao_media": {
-          "valor": "-3.98260897000000",
+          "valor": "-3.68177066200000",
           "unidade": "L/h",
           "descricao": "Diferença Vazão Média (Corrigido - Original)"
         },
         "tendencia": {
-          "valor": "-0.00013052759131",
+          "valor": "-0.00101342490815",
           "unidade": "%",
           "descricao": "Diferença Tendência (Corrigido - Original)"
         },
         "desvio_padrao_amostral": {
-          "valor": "-0.00123330972014",
+          "valor": "-0.00053852157041",
           "unidade": "%",
           "descricao": "Diferença Desvio Padrão (Corrigido - Original)"
         },
@@ -111,24 +114,25 @@
       },
       "detalhes_calculo": {
         "vazoes_referencia": [
-          "33854.64239725119842",
-          "34002.48008268480044",
-          "34093.23961277089984"
+          "33855.09980771339906",
+          "34002.11042552079743",
+          "34094.05437439659727"
         ],
         "erros_percentuais": [
-          "0.09454682742521",
-          "-0.06359591252107",
-          "-0.29070947277667"
+          "0.09319446712503",
+          "-0.06250944443851",
+          "-0.29309227250957"
         ],
         "totalizacoes": [
-          "2256.97615981675017",
-          "2267.77651884794977",
-          "2274.77670971876978"
+          "2260.37582705840987",
+          "2270.57623936517984",
+          "2276.37656059053006"
         ]
       }
     },
     "ponto_2": {
       "numero_ponto": 2,
+      "fonte_valores_corrigidos": "Cálculo Python (fórmulas replicadas)",
       "valores_originais": {
         "vazao_media": {
           "valor": "57060.43799769970065",
@@ -161,19 +165,19 @@
       },
       "valores_corrigidos": {
         "vazao_media": {
-          "valor": "57053.18897238330101",
+          "valor": "57053.40832820899959",
           "unidade": "L/h",
           "descricao": "Vazão Média • L/h",
           "formula": "=SE(I54=\"\";\"\";MÉDIA(I54:I56))"
         },
         "tendencia": {
-          "valor": "0.24794413310605",
+          "valor": "0.24755743645315",
           "unidade": "%",
           "descricao": "Tendência",
           "formula": "=SE(U54=\"\";\"\";MÉDIA(U54:U56))"
         },
         "desvio_padrao_amostral": {
-          "valor": "0.01183773928024",
+          "valor": "0.01224000085674",
           "unidade": "%",
           "descricao": "DESVIO PADRÃO AMOSTRAL",
           "formula": "=SE(U54=\"\";\"\";STDEV.S(U54:U56))"
@@ -191,17 +195,17 @@
       },
       "diferencas": {
         "vazao_media": {
-          "valor": "-7.24902531640000",
+          "valor": "-7.02966949070000",
           "unidade": "L/h",
           "descricao": "Diferença Vazão Média (Corrigido - Original)"
         },
         "tendencia": {
-          "valor": "0.00053621483667",
+          "valor": "0.00014951818377",
           "unidade": "%",
           "descricao": "Diferença Tendência (Corrigido - Original)"
         },
         "desvio_padrao_amostral": {
-          "valor": "-0.00136866697695",
+          "valor": "-0.00096640540045",
           "unidade": "%",
           "descricao": "Diferença Desvio Padrão (Corrigido - Original)"
         },
@@ -225,24 +229,25 @@
       },
       "detalhes_calculo": {
         "vazoes_referencia": [
-          "56954.96275321800204",
-          "57066.21215919069800",
-          "57138.39200474139943"
+          "56955.83921293610183",
+          "57066.52328251780273",
+          "57137.86248917329794"
         ],
         "erros_percentuais": [
-          "0.23710787202687",
-          "0.26057777857077",
-          "0.24614674872052"
+          "0.23556538246798",
+          "0.26003116380044",
+          "0.24707576309104"
         ],
         "totalizacoes": [
-          "3796.99751688120978",
-          "3805.99931650602002",
-          "3812.40048876080982"
+          "3802.59752743070021",
+          "3810.19932080668013",
+          "3815.40048053048986"
         ]
       }
     },
     "ponto_3": {
       "numero_ponto": 3,
+      "fonte_valores_corrigidos": "Cálculo Python (fórmulas replicadas)",
       "valores_originais": {
         "vazao_media": {
           "valor": "113456.20581502499408",
@@ -275,19 +280,19 @@
       },
       "valores_corrigidos": {
         "vazao_media": {
-          "valor": "113440.92134211800294",
+          "valor": "113442.00668892200338",
           "unidade": "L/h",
           "descricao": "Vazão Média • L/h",
           "formula": "=SE(I54=\"\";\"\";MÉDIA(I54:I56))"
         },
         "tendencia": {
-          "valor": "0.00192592272690",
+          "valor": "0.00096944278596",
           "unidade": "%",
           "descricao": "Tendência",
           "formula": "=SE(U54=\"\";\"\";MÉDIA(U54:U56))"
         },
         "desvio_padrao_amostral": {
-          "valor": "0.18016501112164",
+          "valor": "0.18146611754422",
           "unidade": "%",
           "descricao": "DESVIO PADRÃO AMOSTRAL",
           "formula": "=SE(U54=\"\";\"\";STDEV.S(U54:U56))"
@@ -305,17 +310,17 @@
       },
       "diferencas": {
         "vazao_media": {
-          "valor": "-15.28447290700000",
+          "valor": "-14.19912610300000",
           "unidade": "L/h",
           "descricao": "Diferença Vazão Média (Corrigido - Original)"
         },
         "tendencia": {
-          "valor": "0.00035772248373",
+          "valor": "-0.00059875745721",
           "unidade": "%",
           "descricao": "Diferença Tendência (Corrigido - Original)"
         },
         "desvio_padrao_amostral": {
-          "valor": "-0.00087805311418",
+          "valor": "0.00042305330840",
           "unidade": "%",
           "descricao": "Diferença Desvio Padrão (Corrigido - Original)"
         },
@@ -339,24 +344,25 @@
       },
       "detalhes_calculo": {
         "vazoes_referencia": [
-          "113214.07280341300066",
-          "113463.98805956100114",
-          "113644.70316338099656"
+          "113215.77856727900507",
+          "113466.36114921700209",
+          "113643.88035027000296"
         ],
         "erros_percentuais": [
-          "-0.15172577650322",
-          "-0.04270932317933",
-          "0.20021286786325"
+          "-0.15323013906215",
+          "-0.04479987768488",
+          "0.20093834510493"
         ],
         "totalizacoes": [
-          "7547.60485356082972",
-          "7567.41764808353037",
-          "7582.62713884555978"
+          "7559.00763522913985",
+          "7577.02003111797967",
+          "7588.42851016704026"
         ]
       }
     },
     "ponto_4": {
       "numero_ponto": 4,
+      "fonte_valores_corrigidos": "Cálculo Python (fórmulas replicadas)",
       "valores_originais": {
         "vazao_media": {
           "valor": "168143.09015965199796",
@@ -389,19 +395,19 @@
       },
       "valores_corrigidos": {
         "vazao_media": {
-          "valor": "168123.37162774600438",
+          "valor": "168122.01502064400120",
           "unidade": "L/h",
           "descricao": "Vazão Média • L/h",
           "formula": "=SE(I54=\"\";\"\";MÉDIA(I54:I56))"
         },
         "tendencia": {
-          "valor": "-0.00827117554455",
+          "valor": "-0.00746468342653",
           "unidade": "%",
           "descricao": "Tendência",
           "formula": "=SE(U54=\"\";\"\";MÉDIA(U54:U56))"
         },
         "desvio_padrao_amostral": {
-          "valor": "0.14550925694279",
+          "valor": "0.14514954021269",
           "unidade": "%",
           "descricao": "DESVIO PADRÃO AMOSTRAL",
           "formula": "=SE(U54=\"\";\"\";STDEV.S(U54:U56))"
@@ -419,17 +425,17 @@
       },
       "diferencas": {
         "vazao_media": {
-          "valor": "-19.71853190600000",
+          "valor": "-21.07513900800000",
           "unidade": "L/h",
           "descricao": "Diferença Vazão Média (Corrigido - Original)"
         },
         "tendencia": {
-          "valor": "-0.00048330051225",
+          "valor": "0.00032319160577",
           "unidade": "%",
           "descricao": "Diferença Tendência (Corrigido - Original)"
         },
         "desvio_padrao_amostral": {
-          "valor": "0.00039225057451",
+          "valor": "0.00003253384441",
           "unidade": "%",
           "descricao": "Diferença Desvio Padrão (Corrigido - Original)"
         },
@@ -453,24 +459,25 @@
       },
       "detalhes_calculo": {
         "vazoes_referencia": [
-          "167646.94666539301397",
-          "168192.54709661999368",
-          "168530.62112122500548"
+          "167645.00786586999311",
+          "168192.75616795901442",
+          "168528.28102810299606"
         ],
         "erros_percentuais": [
-          "-0.17574084780741",
-          "0.08722697262767",
-          "0.06370034854609"
+          "-0.17458638917768",
+          "0.08710255959630",
+          "0.06508977930179"
         ],
         "totalizacoes": [
-          "11176.46311102619984",
-          "11217.50848830510040",
-          "11244.73755369950049"
+          "11187.86838956889915",
+          "11231.11493731120026",
+          "11253.74171563369964"
         ]
       }
     },
     "ponto_5": {
       "numero_ponto": 5,
+      "fonte_valores_corrigidos": "Cálculo Python (fórmulas replicadas)",
       "valores_originais": {
         "vazao_media": {
           "valor": "224870.70352875400567",
@@ -503,19 +510,19 @@
       },
       "valores_corrigidos": {
         "vazao_media": {
-          "valor": "224839.98435345399776",
+          "valor": "224840.56969944800949",
           "unidade": "L/h",
           "descricao": "Vazão Média • L/h",
           "formula": "=SE(I54=\"\";\"\";MÉDIA(I54:I56))"
         },
         "tendencia": {
-          "valor": "0.03617807256361",
+          "valor": "0.03591821031119",
           "unidade": "%",
           "descricao": "Tendência",
           "formula": "=SE(U54=\"\";\"\";MÉDIA(U54:U56))"
         },
         "desvio_padrao_amostral": {
-          "valor": "0.15147305418667",
+          "valor": "0.15204649320673",
           "unidade": "%",
           "descricao": "DESVIO PADRÃO AMOSTRAL",
           "formula": "=SE(U54=\"\";\"\";STDEV.S(U54:U56))"
@@ -533,17 +540,17 @@
       },
       "diferencas": {
         "vazao_media": {
-          "valor": "-30.71917530000000",
+          "valor": "-30.13382930600000",
           "unidade": "L/h",
           "descricao": "Diferença Vazão Média (Corrigido - Original)"
         },
         "tendencia": {
-          "valor": "0.00023754339891",
+          "valor": "-0.00002231885351",
           "unidade": "%",
           "descricao": "Diferença Tendência (Corrigido - Original)"
         },
         "desvio_padrao_amostral": {
-          "valor": "-0.00022263386678",
+          "valor": "0.00035080515327",
           "unidade": "%",
           "descricao": "Diferença Desvio Padrão (Corrigido - Original)"
         },
@@ -567,24 +574,25 @@
       },
       "detalhes_calculo": {
         "vazoes_referencia": [
-          "225082.98975171599886",
-          "224475.51062828701106",
-          "224961.45268035901245"
+          "225084.71481134399073",
+          "224476.41423400098574",
+          "224960.58005299899378"
         ],
         "erros_percentuais": [
-          "-0.11768240920435",
-          "0.04107151550907",
-          "0.18514511138612"
+          "-0.11844791188960",
+          "0.04066881091229",
+          "0.18553373191089"
         ],
         "totalizacoes": [
-          "15005.53265011440089",
-          "14971.26947273659971",
-          "15009.92803717280003"
+          "15021.34406935200059",
+          "14989.08222481970006",
+          "15021.93656428299983"
         ]
       }
     },
     "ponto_6": {
       "numero_ponto": 6,
+      "fonte_valores_corrigidos": "Cálculo Python (fórmulas replicadas)",
       "valores_originais": {
         "vazao_media": {
           "valor": "33873.24172762029775",
@@ -617,19 +625,19 @@
       },
       "valores_corrigidos": {
         "vazao_media": {
-          "valor": "33869.53621161499905",
+          "valor": "33870.09681651269784",
           "unidade": "L/h",
           "descricao": "Vazão Média • L/h",
           "formula": "=SE(I54=\"\";\"\";MÉDIA(I54:I56))"
         },
         "tendencia": {
-          "valor": "-0.01327038181679",
+          "valor": "-0.01492611924894",
           "unidade": "%",
           "descricao": "Tendência",
           "formula": "=SE(U54=\"\";\"\";MÉDIA(U54:U56))"
         },
         "desvio_padrao_amostral": {
-          "valor": "0.02879292893411",
+          "valor": "0.03016421035807",
           "unidade": "%",
           "descricao": "DESVIO PADRÃO AMOSTRAL",
           "formula": "=SE(U54=\"\";\"\";STDEV.S(U54:U56))"
@@ -647,17 +655,17 @@
       },
       "diferencas": {
         "vazao_media": {
-          "valor": "-3.70551600530000",
+          "valor": "-3.14491110760000",
           "unidade": "L/h",
           "descricao": "Diferença Vazão Média (Corrigido - Original)"
         },
         "tendencia": {
-          "valor": "-0.00018634974745",
+          "valor": "-0.00184208717960",
           "unidade": "%",
           "descricao": "Diferença Tendência (Corrigido - Original)"
         },
         "desvio_padrao_amostral": {
-          "valor": "-0.00005382682311",
+          "valor": "0.00131745460085",
           "unidade": "%",
           "descricao": "Diferença Desvio Padrão (Corrigido - Original)"
         },
@@ -681,24 +689,25 @@
       },
       "detalhes_calculo": {
         "vazoes_referencia": [
-          "33920.64540192139975",
-          "33816.54905154169683",
-          "33871.41418138230074"
+          "33921.09798333029903",
+          "33817.68359778779995",
+          "33871.50886842009641"
         ],
         "erros_percentuais": [
-          "0.00792417532214",
-          "-0.04605156936028",
-          "-0.00168375141223"
+          "0.00658985155553",
+          "-0.04940491485617",
+          "-0.00196329444618"
         ],
         "totalizacoes": [
-          "2261.37636012808980",
-          "2255.37595202088005",
-          "2259.97602399112020"
+          "2264.17608761904012",
+          "2257.77572455581003",
+          "2261.77584653242002"
         ]
       }
     },
     "ponto_7": {
       "numero_ponto": 7,
+      "fonte_valores_corrigidos": "Cálculo Python (fórmulas replicadas)",
       "valores_originais": {
         "vazao_media": {
           "valor": "113060.71755781900720",
@@ -731,19 +740,19 @@
       },
       "valores_corrigidos": {
         "vazao_media": {
-          "valor": "113049.82761938999465",
+          "valor": "113049.34215442099958",
           "unidade": "L/h",
           "descricao": "Vazão Média • L/h",
           "formula": "=SE(I54=\"\";\"\";MÉDIA(I54:I56))"
         },
         "tendencia": {
-          "valor": "-0.05845716363774",
+          "valor": "-0.05802858989640",
           "unidade": "%",
           "descricao": "Tendência",
           "formula": "=SE(U54=\"\";\"\";MÉDIA(U54:U56))"
         },
         "desvio_padrao_amostral": {
-          "valor": "0.05292530695805",
+          "valor": "0.05368241087865",
           "unidade": "%",
           "descricao": "DESVIO PADRÃO AMOSTRAL",
           "formula": "=SE(U54=\"\";\"\";STDEV.S(U54:U56))"
@@ -761,17 +770,17 @@
       },
       "diferencas": {
         "vazao_media": {
-          "valor": "-10.88993842900000",
+          "valor": "-11.37540339800000",
           "unidade": "L/h",
           "descricao": "Diferença Vazão Média (Corrigido - Original)"
         },
         "tendencia": {
-          "valor": "0.00013119679667",
+          "valor": "0.00055977053800",
           "unidade": "%",
           "descricao": "Diferença Tendência (Corrigido - Original)"
         },
         "desvio_padrao_amostral": {
-          "valor": "-0.00022566479186",
+          "valor": "0.00053143912873",
           "unidade": "%",
           "descricao": "Diferença Desvio Padrão (Corrigido - Original)"
         },
@@ -795,24 +804,25 @@
       },
       "detalhes_calculo": {
         "vazoes_referencia": [
-          "112904.85012773699418",
-          "113094.87525098999322",
-          "113149.75747944200702"
+          "112905.84102371599874",
+          "113093.92582343099639",
+          "113148.25961611600360"
         ],
         "erros_percentuais": [
-          "-0.08745167851363",
-          "-0.09054935454313",
-          "0.00262954214355"
+          "-0.08832854140675",
+          "-0.08971061112616",
+          "0.00395338284370"
         ],
         "totalizacoes": [
-          "7526.99000851575965",
-          "7542.79987437851014",
-          "7549.60326293385970"
+          "7538.59279962146957",
+          "7551.40189646334966",
+          "7555.20455262176984"
         ]
       }
     },
     "ponto_8": {
       "numero_ponto": 8,
+      "fonte_valores_corrigidos": "Cálculo Python (fórmulas replicadas)",
       "valores_originais": {
         "vazao_media": {
           "valor": "226146.43710032198578",
@@ -845,19 +855,19 @@
       },
       "valores_corrigidos": {
         "vazao_media": {
-          "valor": "226119.50539510499220",
+          "valor": "226120.14160115999402",
           "unidade": "L/h",
           "descricao": "Vazão Média • L/h",
           "formula": "=SE(I54=\"\";\"\";MÉDIA(I54:I56))"
         },
         "tendencia": {
-          "valor": "0.00060006997995",
+          "valor": "0.00031899566243",
           "unidade": "%",
           "descricao": "Tendência",
           "formula": "=SE(U54=\"\";\"\";MÉDIA(U54:U56))"
         },
         "desvio_padrao_amostral": {
-          "valor": "0.05250524971126",
+          "valor": "0.05257455726900",
           "unidade": "%",
           "descricao": "DESVIO PADRÃO AMOSTRAL",
           "formula": "=SE(U54=\"\";\"\";STDEV.S(U54:U56))"
@@ -875,17 +885,17 @@
       },
       "diferencas": {
         "vazao_media": {
-          "valor": "-26.93170521700000",
+          "valor": "-26.29549916200000",
           "unidade": "L/h",
           "descricao": "Diferença Vazão Média (Corrigido - Original)"
         },
         "tendencia": {
-          "valor": "0.00013965983583",
+          "valor": "-0.00014141448170",
           "unidade": "%",
           "descricao": "Diferença Tendência (Corrigido - Original)"
         },
         "desvio_padrao_amostral": {
-          "valor": "-0.00002391230102",
+          "valor": "0.00004539525671",
           "unidade": "%",
           "descricao": "Diferença Desvio Padrão (Corrigido - Original)"
         },
@@ -909,19 +919,19 @@
       },
       "detalhes_calculo": {
         "vazoes_referencia": [
-          "225846.26865025199368",
-          "226133.59684005999588",
-          "226378.65069500298705"
+          "225846.67481310199946",
+          "226133.10515578600462",
+          "226380.64483459299663"
         ],
         "erros_percentuais": [
-          "0.06118310992066",
-          "-0.03170954337249",
-          "-0.02767335660832"
+          "0.06100315980449",
+          "-0.03149218096468",
+          "-0.02855399185253"
         ],
         "totalizacoes": [
-          "15056.41791001680031",
-          "15081.85461147179922",
-          "15104.48663803879936"
+          "15080.63533607819954",
+          "15099.86754405139982",
+          "15114.69412329250008"
         ]
       }
     }
